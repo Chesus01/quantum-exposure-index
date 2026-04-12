@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Exposure Index</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --g:#00dc82;--gd:rgba(0,220,130,0.1);--gb:rgba(0,220,130,0.25);
+  --bg:#070a0f;--bg2:#0d1117;--bg3:#131b24;
+  --t:#e8edf5;--td:rgba(232,237,245,0.55);--tf:rgba(232,237,245,0.22);
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.14);
+  --amber:#fab400;--red:#ff4444;--orange:#ff6432;--purple:#b400ff;--blue:#4d9fff;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--t);font-family:'Syne',sans-serif;}
+.gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,220,130,0.025)1px,transparent 1px),linear-gradient(90deg,rgba(0,220,130,0.025)1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
+.scanline{position:fixed;left:0;right:0;height:1px;background:rgba(0,220,130,0.3);animation:sc 9s linear infinite;z-index:1;pointer-events:none;}
+@keyframes sc{0%{top:-2px;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100vh;opacity:0;}}
+#app{position:relative;z-index:2;}
+
+/* ── NAV ── */
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--bd);flex-wrap:wrap;gap:8px;background:rgba(7,10,15,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+.logo{display:flex;align-items:center;gap:9px;}
+.lm{width:28px;height:28px;border:1.5px solid var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;}
+.lm::before{content:'';width:10px;height:10px;border:1.5px solid var(--g);border-radius:50%;}
+.lm::after{content:'';position:absolute;width:18px;height:1px;background:var(--g);transform:rotate(45deg);}
+.lt{font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--g);text-transform:uppercase;}
+.nav-tabs{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1px solid var(--bd);border-radius:8px;padding:3px;}
+.ntab{padding:6px 14px;border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;color:var(--td);cursor:pointer;transition:all 0.15s;border:none;background:transparent;}
+.ntab.active{background:var(--gd);color:var(--g);border:1px solid var(--gb);}
+.ntab:hover:not(.active){color:var(--t);background:rgba(255,255,255,0.04);}
+.nav-r{display:flex;align-items:center;gap:10px;}
+.live-pill{display:flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:10px;color:var(--g);padding:3px 9px;border:1px solid var(--gb);border-radius:999px;background:var(--gd);}
+.ld{width:5px;height:5px;border-radius:50%;background:var(--g);animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.clk{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
+
+/* ── TICKER ── */
+.ticker{border-bottom:1px solid var(--bd);padding:7px 0;overflow:hidden;background:var(--bg2);}
+.ticker-inner{display:flex;gap:36px;animation:tick 50s linear infinite;width:max-content;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ti{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;}
+.ti-name{color:var(--td);}
+.ti-price{color:var(--t);}
+.ti-chg{font-size:9px;}
+.pos{color:var(--g);}
+.neg{color:var(--red);}
+
+/* ── VIEWS ── */
+.view{display:none;padding:2rem;}
+.view.active{display:block;}
+
+/* ── SHARED ── */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;}
+.sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--g);text-transform:uppercase;margin-bottom:1rem;}
+.btn-g{background:var(--g);color:#000;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;cursor:pointer;letter-spacing:0.08em;transition:opacity 0.15s;}
+.btn-g:hover{opacity:0.85;}
+.btn-g:disabled{opacity:0.45;cursor:not-allowed;}
+.btn-o{background:transparent;color:var(--td);border:1px solid var(--bd2);border-radius:8px;padding:10px 18px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all 0.15s;}
+.btn-o:hover{color:var(--t);border-color:var(--gb);}
+.mini-band{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border-radius:3px;}
+.bL{background:rgba(0,200,100,0.1);color:#00c864;}
+.bM{background:rgba(250,180,0,0.1);color:#fab400;}
+.bH{background:rgba(255,100,50,0.1);color:#ff6432;}
+.bC{background:rgba(220,50,50,0.1);color:#dc3232;}
+.bS{background:rgba(180,0,255,0.1);color:#b400ff;}
+.bQ{background:rgba(0,220,130,0.1);color:#00dc82;}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:1.5rem;}
+.mc{background:var(--bg2);padding:1rem 1.125rem;}
+.mc-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.13em;text-transform:uppercase;color:var(--tf);margin-bottom:5px;}
+.mc-v{font-size:1.15rem;font-weight:800;}
+.mc-s{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);margin-top:2px;}
+.spinner{width:14px;height:14px;border:1.5px solid rgba(100,150,255,0.3);border-top-color:rgba(100,150,255,0.8);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── HOME ── */
+.hero{text-align:center;padding:3rem 1rem 2rem;max-width:700px;margin:0 auto;}
+.hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin-bottom:0.75rem;}
+.hero h1 em{font-style:normal;color:var(--g);}
+.hero-sub{font-size:14px;color:var(--td);margin-bottom:2rem;line-height:1.75;}
+.search-wrap{max-width:640px;margin:0 auto 1rem;position:relative;}
+.search-box{display:flex;align-items:center;background:var(--bg2);border:1px solid var(--gb);border-radius:10px;overflow:hidden;transition:border-color 0.2s;}
+.search-box:focus-within{border-color:rgba(0,220,130,0.6);}
+.search-box input{flex:1;background:transparent;border:none;padding:14px 16px;font-family:'Syne',sans-serif;font-size:15px;color:var(--t);outline:none;}
+.search-box input::placeholder{color:var(--tf);}
+.ai-btn{background:var(--g);border:none;padding:10px 18px;margin:6px;border-radius:7px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#000;cursor:pointer;letter-spacing:0.06em;transition:opacity 0.15s;white-space:nowrap;}
+.ai-btn:hover{opacity:0.85;}
+.ai-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.dd{position:absolute;top:calc(100%+6px);left:0;right:0;background:var(--bg2);border:1px solid var(--gb);border-radius:10px;z-index:200;overflow:hidden;display:none;}
+.dd.open{display:block;}
+.ddi{padding:11px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background 0.12s;border-bottom:1px solid var(--bd);}
+.ddi:last-child{border-bottom:none;}
+.ddi:hover{background:var(--gd);}
+.ddi-name{font-size:13px;font-weight:600;}
+.ddi-cat{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
+.ddi-score{font-weight:800;font-size:14px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:2.5rem;}
+.chip{padding:5px 13px;border:1px solid var(--bd2);border-radius:999px;font-size:12px;font-weight:500;color:var(--td);cursor:pointer;transition:all 0.15s;}
+.chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
+
+/* ── ENTITY GRID ── */
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;}
+.fb{padding:4px 11px;border:1px solid var(--bd);border-radius:999px;font-family:'DM Mono',monospace;font-size:10px;color:var(--td);cursor:pointer;background:transparent;transition:all 0.15s;letter-spacing:0.05em;}
+.fb:hover,.fb.active{border-color:var(--gb);color:var(--g);background:var(--gd);}
+.egrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:12px;overflow:hidden;}
+.ecard{background:var(--bg2);padding:1.125rem;cursor:pointer;transition:background 0.12s;position:relative;}
+.ecard:hover{background:rgba(0,220,130,0.04);}
+.ecard.diam{border:1px solid rgba(0,220,130,0.3);}
+.qn-tag{position:absolute;top:8px;right:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--g);background:rgba(0,220,130,0.1);border:1px solid rgba(0,220,130,0.25);padding:2px 6px;border-radius:3px;}
+.ec-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;}
+.ec-name{font-size:14px;font-weight:700;}
+.ec-cat{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
+.ec-score{font-size:1.5rem;font-weight:800;}
+.ec-var{font-size:12px;color:var(--td);margin-bottom:5px;}
+.ec-mcap{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);margin-bottom:5px;}
+.live-dot{font-family:'DM Mono',monospace;font-size:8px;color:var(--g);margin-left:4px;}
+
+/* ── ENTITY DETAIL ── */
+.detail{display:none;max-width:900px;margin:0 auto;animation:fadeUp 0.3s ease;}
+.detail.show{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(0,220,130,0.6);cursor:pointer;margin-bottom:1.75rem;background:none;border:none;padding:0;transition:color 0.15s;letter-spacing:0.05em;}
+.back-btn:hover{color:var(--g);}
+.d-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.75rem;flex-wrap:wrap;}
+.d-name{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.02em;line-height:1.1;}
+.d-cat-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g);background:var(--gd);border:1px solid var(--gb);border-radius:4px;padding:3px 9px;display:inline-block;margin-top:6px;}
+.d-score-big{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;letter-spacing:-0.03em;line-height:1;}
+.d-band-lbl{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
+.meter-track{height:7px;border-radius:999px;background:rgba(255,255,255,0.05);overflow:hidden;margin-bottom:5px;}
+.meter-fill{height:100%;border-radius:999px;transition:width 0.8s cubic-bezier(0.23,1,0.32,1);}
+.meter-labels{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.06em;margin-bottom:1.75rem;}
+.var-box{background:var(--gd);border:1px solid var(--gb);border-radius:10px;padding:1.5rem;margin-bottom:1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.vb-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,220,130,0.7);margin-bottom:5px;}
+.vb-amt{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-0.02em;color:var(--g);}
+.vb-conf{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);display:flex;align-items:center;gap:5px;}
+.conf-dot{width:5px;height:5px;border-radius:50%;}
+.br-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.br-lbl{font-size:11px;color:var(--td);width:145px;flex-shrink:0;}
+.br-track{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;}
+.br-fill{height:100%;border-radius:999px;background:rgba(0,220,130,0.5);transition:width 0.7s ease;}
+.br-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);width:28px;text-align:right;}
+.ai-box{background:rgba(68,136,255,0.04);border:1px solid rgba(68,136,255,0.15);border-radius:10px;padding:1.25rem;margin-bottom:1.75rem;}
+.ai-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+.ai-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(100,150,255,0.7);}
+.ai-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;padding:2px 7px;border-radius:3px;background:rgba(100,150,255,0.1);border:1px solid rgba(100,150,255,0.2);color:rgba(100,150,255,0.8);}
+.ai-text{font-size:13px;color:rgba(232,237,245,0.7);line-height:1.75;}
+.ai-loading{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,150,255,0.6);}
+.disc{background:rgba(250,180,0,0.03);border:1px solid rgba(250,180,0,0.12);border-radius:7px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(250,180,0,0.5);line-height:1.65;letter-spacing:0.02em;}
+
+/* ── GLOBAL STATS ── */
+.gstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--bd);border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin:0 2rem 2rem;max-width:calc(100% - 4rem);}
+.gs{background:var(--bg2);padding:1rem 1.25rem;}
+.gs-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);margin-bottom:5px;}
+.gs-v{font-size:1.2rem;font-weight:800;}
+.gs-s{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);margin-top:2px;}
+
+/* ── WALLET SCANNER ── */
+.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:1.5rem;}
+.cc{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:9px 11px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px;}
+.cc:hover{border-color:var(--bd2);}
+.cc.on{border-color:var(--g);background:var(--gd);}
+.cc.on .ccn{color:var(--g);}
+.ccdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.ccn{font-size:11px;font-weight:600;transition:color 0.15s;color:var(--td);}
+.ccs{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);margin-top:1px;}
+.addr-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.ainp{flex:1;min-width:200px;background:rgba(255,255,255,0.04);border:1px solid var(--gb);border-radius:9px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--t);outline:none;transition:border-color 0.2s;letter-spacing:0.02em;}
+.ainp:focus{border-color:rgba(0,220,130,0.6);}
+.ainp::placeholder{color:var(--tf);}
+.demos{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center;}
+.dlbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
+.dbtn{font-family:'DM Mono',monospace;font-size:10px;padding:4px 11px;border:1px solid var(--bd2);border-radius:5px;color:var(--td);cursor:pointer;background:transparent;transition:all 0.15s;}
+.dbtn:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
+.api-note{background:rgba(68,136,255,0.06);border:1px solid rgba(68,136,255,0.2);border-radius:8px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,160,255,0.8);line-height:1.7;margin-bottom:1.5rem;letter-spacing:0.02em;}
+.api-note strong{color:rgba(100,160,255,1);}
+.api-key-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.key-inp{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid rgba(68,136,255,0.25);border-radius:6px;padding:7px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;}
+.key-inp::placeholder{color:var(--tf);}
+.key-btn{font-family:'DM Mono',monospace;font-size:10px;padding:7px 14px;border:1px solid rgba(68,136,255,0.3);border-radius:6px;color:rgba(100,160,255,0.8);background:rgba(68,136,255,0.08);cursor:pointer;transition:all 0.15s;}
+.key-btn:hover{background:rgba(68,136,255,0.15);}
+.prog-wrap{margin-bottom:1.5rem;display:none;}
+.pstep{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;background:rgba(255,255,255,0.02);border:1px solid var(--bd);margin-bottom:5px;font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);transition:all 0.25s;}
+.pstep.act{color:var(--t);background:var(--gd);border-color:var(--gb);}
+.pstep.done{color:var(--g);background:var(--gd);border-color:var(--gb);}
+.pstep.err{color:var(--red);background:rgba(255,68,68,0.04);border-color:rgba(255,68,68,0.2);}
+.picon{width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:8px;}
+.picon.spin{animation:spin 0.7s linear infinite;}
+.w-results{display:none;}
+.varbox{background:var(--gd);border:1px solid var(--gb);border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.vbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,220,130,0.6);margin-bottom:5px;}
+.vba{font-size:2rem;font-weight:800;letter-spacing:-0.02em;color:var(--g);}
+.vbr{font-family:'DM Mono',monospace;font-size:11px;color:var(--td);text-align:right;line-height:1.9;}
+.chain-block{border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin-bottom:1.25rem;}
+.cb-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--bd);}
+.cbhl{display:flex;align-items:center;gap:8px;}
+.cbdot{width:8px;height:8px;border-radius:50%;}
+.cbname{font-size:13px;font-weight:700;}
+.cbaddr{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);}
+.cbtotal{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:var(--g);}
+.tok-hdr{display:grid;grid-template-columns:70px 1fr 90px 85px 65px 70px;gap:6px;padding:7px 14px;background:rgba(255,255,255,0.02);border-bottom:1px solid var(--bd);}
+.tok-hdr span{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--tf);}
+.tok-row{display:grid;grid-template-columns:70px 1fr 90px 85px 65px 70px;gap:6px;padding:9px 14px;border-bottom:1px solid var(--bd);background:var(--bg2);transition:background 0.12s;}
+.tok-row:last-child{border-bottom:none;}
+.tok-row:hover{background:rgba(0,220,130,0.03);}
+.tsym{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--t);}
+.tname{font-size:11px;color:var(--td);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tbal{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);text-align:right;}
+.tusd{font-size:11px;font-weight:600;text-align:right;}
+.trisk{text-align:right;}
+.trs{font-size:11px;font-weight:700;}
+.tband{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;text-transform:uppercase;padding:1px 5px;border-radius:2px;display:inline-block;margin-top:2px;}
+.tvar{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);text-align:right;}
+.chain-msg{padding:1.25rem 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);line-height:1.6;}
+.bkbox{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem;}
+.bklbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tf);margin-bottom:1rem;}
+.bkrow{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.bkname{font-size:12px;color:var(--td);flex:1;display:flex;align-items:center;gap:7px;}
+.bkdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.bktrack{width:110px;height:4px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;flex-shrink:0;}
+.bkfill{height:100%;border-radius:999px;}
+.bkpct{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);width:32px;text-align:right;}
+.bkusd{font-size:12px;font-weight:600;width:70px;text-align:right;}
+
+/* ── COMPARE ── */
+.cs-chip{padding:6px 13px;border:1px solid var(--bd2);border-radius:999px;font-size:12px;font-weight:500;color:var(--td);cursor:pointer;transition:all 0.15s;}
+.cs-chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
+.cs-chip.selected{border-color:var(--g);color:var(--g);background:var(--gd);}
+.cmp-card{background:var(--bg2);padding:1.125rem;}
+.cmp-card.winner{border:1px solid rgba(0,220,130,0.35);}
+.cmp-score{font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+.cmp-lowest{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);padding:3px 8px;border:1px solid var(--gb);border-radius:3px;display:inline-block;margin-top:8px;}
+.cf-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.cf-lbl{font-size:10px;color:var(--tf);width:90px;flex-shrink:0;}
+.cf-bar{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;}
+.cf-fill{height:100%;border-radius:999px;}
+.cf-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);width:24px;text-align:right;}
+.verdict-box{background:var(--gd);border:1px solid var(--gb);border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem;}
+.verdict-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px;}
+.verdict-text{font-size:13px;color:var(--td);line-height:1.7;}
+
+/* ── SHARE ── */
+.report-card{background:var(--bg2);border:1px solid var(--gb);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden;max-width:680px;}
+.rc-gbg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,220,130,0.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,220,130,0.04)1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
+.rc-c{position:relative;z-index:1;}
+.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.rc-logo{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);letter-spacing:0.12em;text-transform:uppercase;opacity:0.7;}
+.rc-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.06em;}
+.rc-name{font-size:1.8rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:3px;}
+.rc-cat{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1.25rem;}
+.rc-sr{display:flex;align-items:flex-end;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.rc-sb{display:flex;flex-direction:column;}
+.rc-sl{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px;}
+.rc-sv{font-size:2.5rem;font-weight:800;letter-spacing:-0.03em;line-height:1;}
+.rc-vv{font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--g);line-height:1;}
+.rc-meter{height:6px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-bottom:1rem;}
+.rc-mf{height:100%;border-radius:999px;}
+.rc-factors{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.25rem;}
+.rcf{text-align:center;}
+.rcfl{font-family:'DM Mono',monospace;font-size:8px;color:var(--tf);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;}
+.rcfv{font-size:1rem;font-weight:700;}
+.rc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--bd);}
+.rc-scheme{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
+.rc-qei{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);opacity:0.6;letter-spacing:0.1em;}
+.copy-toast{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);opacity:0;transition:opacity 0.3s;margin-left:8px;}
+</style>
+</head>
+<body>
+<div class="gbg"></div>
+<div class="scanline"></div>
+<div id="app">
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><div class="lm"></div><span class="lt">Quantum Exposure Index</span></div>
+  <div class="nav-tabs">
+    <button class="ntab active" onclick="showTab('home')">Index</button>
+    <button class="ntab" onclick="showTab('wallet')">Wallet Scanner</button>
+    <button class="ntab" onclick="showTab('compare')">Compare</button>
+    <button class="ntab" onclick="showTab('share')">Report Cards</button>
+  </div>
+  <div class="nav-r">
+    <div class="live-pill"><div class="ld"></div>LIVE DATA</div>
+    <div class="clk" id="clk"></div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker"><div class="ticker-inner" id="ticker"></div></div>
+
+<!-- GLOBAL STATS -->
+<div class="gstats" id="gstats">
+  <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-var">Loading...</div><div class="gs-s">all indexed entities</div></div>
+  <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top">—</div><div class="gs-s">systemic exposure</div></div>
+  <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-live">Loading...</div><div class="gs-s">CoinGecko API</div></div>
+  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">12</div><div class="gs-s">+ AI-scored on demand</div></div>
+</div>
+
+<!-- HOME TAB -->
+<div class="view active" id="tab-home">
+  <div class="hero">
+    <div class="eyebrow">Quantum Threat Intelligence</div>
+    <h1>How exposed is your<br>stack to <em>quantum</em>?</h1>
+    <p class="hero-sub">Real-time market data. AI-generated risk narratives. Multi-chain wallet scanning. Search any entity or paste your wallet address.</p>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="si" placeholder="Search any company, blockchain, or protocol..." autocomplete="off"/>
+        <button class="ai-btn" id="ai-btn" onclick="aiSearch()">AI Score ↗</button>
+      </div>
+      <div class="dd" id="dd"></div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 2rem 4rem;">
+    <div class="sh">
+      <div class="sl">All entities — sorted by risk</div>
+      <div class="filter-row" id="filters">
+        <button class="fb active" data-cat="all">All</button>
+        <button class="fb" data-cat="Blockchain">Blockchain</button>
+        <button class="fb" data-cat="Exchange">Exchange</button>
+        <button class="fb" data-cat="Company">Company</button>
+        <button class="fb" data-cat="Wallet">Wallet</button>
+        <button class="fb" data-cat="Protocol">Protocol</button>
+      </div>
+    </div>
+    <div class="egrid" id="egrid"></div>
+  </div>
+
+  <!-- ENTITY DETAIL -->
+  <div class="detail" id="detail" style="padding:0 2rem 4rem;">
+    <button class="back-btn" onclick="closeDetail()">← Back to index</button>
+    <div id="ai-banner" style="display:none;background:rgba(100,150,255,0.05);border:1px solid rgba(100,150,255,0.2);border-radius:7px;padding:0.625rem 1rem;margin-bottom:1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.7);display:flex;align-items:center;gap:7px;">
+      <div class="spinner"></div>AI-generated score · Powered by Claude
+    </div>
+    <div class="d-hdr">
+      <div><div class="d-name" id="d-name"></div><div class="d-cat-tag" id="d-cat"></div></div>
+      <div style="text-align:right;"><div class="d-score-big" id="d-score"></div><div class="d-band-lbl" id="d-band"></div></div>
+    </div>
+    <div class="meter-track"><div class="meter-fill" id="d-meter" style="width:0%"></div></div>
+    <div class="meter-labels"><span>Low</span><span>Moderate</span><span>High</span><span>Critical</span><span>Systemic</span></div>
+    <div class="var-box">
+      <div><div class="vb-lbl">Estimated Value at Risk</div><div class="vb-amt" id="d-var"></div></div>
+      <div class="vb-conf" id="d-conf"></div>
+    </div>
+    <div class="metric-grid" id="d-metrics"></div>
+    <div style="margin-bottom:1.75rem;">
+      <div class="sl" style="margin-bottom:.875rem;">Risk factor breakdown</div>
+      <div id="d-breakdown"></div>
+    </div>
+    <div class="ai-box">
+      <div class="ai-hdr"><div class="ai-lbl">AI Threat Analysis</div><div class="ai-badge">Claude · Generated</div></div>
+      <div id="ai-narrative"><div class="ai-loading"><div class="spinner"></div>&nbsp;Generating quantum threat analysis…</div></div>
+    </div>
+    <div class="disc">DISCLAIMER — Scores and values are modeled estimates, not financial or security advice. Live data from CoinGecko. AI narratives generated by Claude (Anthropic). Quantum timelines are speculative.</div>
+  </div>
+</div>
+
+<!-- WALLET SCANNER TAB -->
+<div class="view" id="tab-wallet">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="eyebrow">On-Chain Quantum Risk</div>
+    <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.75rem;">Scan any wallet. Any chain.</h2>
+    <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
+
+    <div class="api-note">
+      <strong>API Keys (optional but recommended):</strong> Without keys, requests use public rate-limited endpoints. With your free Etherscan key (etherscan.io → API Keys) you get 5 req/sec and far better results.<br>
+      <div class="api-key-row">
+        <input class="key-inp" id="etherscan-key" placeholder="Etherscan API key (free at etherscan.io/myapikey)" />
+        <button class="key-btn" onclick="saveKey()">Save Key</button>
+        <span id="key-saved" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--g);opacity:0;transition:opacity 0.3s;align-self:center;"></span>
+      </div>
+    </div>
+
+    <div class="sl" style="margin-bottom:10px;">Select chains to scan</div>
+    <div class="chain-grid" id="w-chains"></div>
+
+    <div class="addr-row">
+      <input class="ainp" id="w-addr" placeholder="0x... for EVM chains · base58 for Solana · bc1... for Bitcoin" spellcheck="false" autocomplete="off"/>
+      <button class="btn-g" id="w-scan-btn" onclick="startWalletScan()">Scan Wallet</button>
+    </div>
+    <div class="demos">
+      <span class="dlbl">Try:</span>
+      <div class="dbtn" onclick="wDemo('vitalik')">Vitalik.eth</div>
+      <div class="dbtn" onclick="wDemo('eth2')">ETH Whale</div>
+      <div class="dbtn" onclick="wDemo('sol')">Solana wallet</div>
+      <div class="dbtn" onclick="wDemo('btc')">Bitcoin address</div>
+    </div>
+
+    <div class="prog-wrap" id="prog-wrap"><div id="prog-steps"></div></div>
+
+    <div class="w-results" id="w-results">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+        <div><div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div></div>
+        <button class="btn-o" onclick="resetWallet()">← New Scan</button>
+      </div>
+      <div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div></div>
+      <div class="metric-grid" id="w-sum"></div>
+      <div id="w-chains-out"></div>
+      <div class="bkbox"><div class="bklbl">Exposure by chain</div><div id="w-bk"></div></div>
+      <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections — not financial advice.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE TAB -->
+<div class="view" id="tab-compare">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="eyebrow">Side-by-Side Analysis</div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
+    <div class="sl" style="margin-bottom:10px;">Select 2–4 entities</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;" id="cmp-chips"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);margin-bottom:1.5rem;" id="cmp-count">0 selected</div>
+    <div id="cmp-results" style="display:none;">
+      <div class="egrid" id="cmp-grid" style="margin-bottom:1.5rem;"></div>
+      <div class="verdict-box"><div class="verdict-lbl">QEI Verdict</div><div class="verdict-text" id="cmp-verdict"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE TAB -->
+<div class="view" id="tab-share">
+  <div style="max-width:700px;margin:0 auto;">
+    <div class="eyebrow">Shareable Report Cards</div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Generate & Share</h2>
+    <div class="sl" style="margin-bottom:10px;">Select entity</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.5rem;" id="share-chips"></div>
+    <div id="rc-wrap" style="display:none;">
+      <div class="report-card" id="report-card">
+        <div class="rc-gbg"></div>
+        <div class="rc-c">
+          <div class="rc-top"><div class="rc-logo">Quantum Exposure Index</div><div class="rc-date" id="rc-date"></div></div>
+          <div class="rc-name" id="rc-name"></div>
+          <div class="rc-cat" id="rc-cat"></div>
+          <div class="rc-sr">
+            <div class="rc-sb"><div class="rc-sl">Risk Score</div><div class="rc-sv" id="rc-score"></div></div>
+            <div class="rc-sb"><div class="rc-sl">Value at Risk</div><div class="rc-vv" id="rc-var"></div></div>
+            <div class="rc-sb"><div class="rc-sl">Band</div><div style="margin-top:3px;"><span class="mini-band" id="rc-band"></span></div></div>
+          </div>
+          <div class="rc-meter"><div class="rc-mf" id="rc-mf"></div></div>
+          <div class="rc-factors" id="rc-factors"></div>
+          <div class="rc-foot"><div class="rc-scheme" id="rc-scheme"></div><div class="rc-qei">quantumexposureindex.io</div></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:1.25rem;flex-wrap:wrap;align-items:center;">
+        <button class="btn-g" onclick="copyPost()">Copy X Post</button>
+        <button class="btn-o" onclick="showTab('compare')">Compare it</button>
+        <span class="copy-toast" id="copy-toast">Copied!</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end #app -->
+
+<script>
+/* ─── DATASET ─── */
+const DS=[
+  {id:'bitcoin',  name:'Bitcoin',    cat:'Blockchain', scheme:'ECDSA/SHA-256',         cgId:'bitcoin',      pub:true,  f:{mc:85,u:70,v:90,m:95,t:85}, fbMc:1300e9},
+  {id:'ethereum', name:'Ethereum',   cat:'Blockchain', scheme:'ECDSA/Keccak-256',       cgId:'ethereum',     pub:true,  f:{mc:78,u:82,v:85,m:80,t:70}, fbMc:380e9, dlId:'ethereum'},
+  {id:'diamante', name:'Diamante',   cat:'Blockchain', scheme:'NIST PQC Quantum-Native',cgId:null,           pub:false, f:{mc:10,u:10,v:5, m:8, t:5 }, fbMc:0, diam:true},
+  {id:'solana',   name:'Solana',     cat:'Blockchain', scheme:'Ed25519',                cgId:'solana',       pub:true,  f:{mc:60,u:50,v:80,m:75,t:70}, fbMc:88e9,  dlId:'solana'},
+  {id:'ripple',   name:'Ripple/XRP', cat:'Blockchain', scheme:'ECDSA/Ed25519',          cgId:'ripple',       pub:false, f:{mc:68,u:38,v:82,m:65,t:72}, fbMc:135e9},
+  {id:'binance',  name:'Binance',    cat:'Exchange',   scheme:'Custodial ECDSA',        cgId:null,           pub:false, f:{mc:55,u:90,v:75,m:60,t:55}, fbMc:50e9},
+  {id:'coinbase', name:'Coinbase',   cat:'Exchange',   scheme:'MPC+ECDSA',              cgId:'coinbase',     pub:true,  f:{mc:48,u:72,v:68,m:52,t:48}, fbMc:52e9},
+  {id:'metamask', name:'MetaMask',   cat:'Wallet',     scheme:'ECDSA user-held keys',   cgId:null,           pub:false, f:{mc:20,u:65,v:90,m:98,t:90}, fbMc:2e9},
+  {id:'google',   name:'Google',     cat:'Company',    scheme:'TLS/RSA/ECDSA (partial)',cgId:null,           pub:true,  f:{mc:90,u:95,v:35,m:55,t:30}, fbMc:2100e9},
+  {id:'swift',    name:'SWIFT',      cat:'Protocol',   scheme:'RSA/AES inter-bank',     cgId:null,           pub:false, f:{mc:30,u:40,v:78,m:90,t:88}, fbMc:10e9},
+  {id:'uniswap',  name:'Uniswap',    cat:'Protocol',   scheme:'ECDSA Ethereum-native',  cgId:'uniswap',      pub:true,  f:{mc:40,u:35,v:85,m:78,t:80}, fbMc:8.5e9, dlId:'uniswap'},
+  {id:'ledger',   name:'Ledger',     cat:'Wallet',     scheme:'ECDSA hardware isolated',cgId:null,           pub:false, f:{mc:15,u:40,v:72,m:85,t:80}, fbMc:1.5e9},
+];
+
+const W_CHAINS=[
+  {id:'ethereum', name:'Ethereum',  sym:'ETH',  col:'#627eea', type:'etherscan', cgId:'ethereum',     dec:18, risk:82, band:'Critical'},
+  {id:'solana',   name:'Solana',    sym:'SOL',  col:'#9945ff', type:'solana',    cgId:'solana',       dec:9,  risk:75, band:'High'},
+  {id:'bitcoin',  name:'Bitcoin',   sym:'BTC',  col:'#f7931a', type:'bitcoin',   cgId:'bitcoin',      dec:8,  risk:88, band:'Systemic'},
+  {id:'polygon',  name:'Polygon',   sym:'POL',  col:'#8247e5', type:'polygonscan',cgId:'matic-network',dec:18, risk:78, band:'High'},
+  {id:'bsc',      name:'BNB Chain', sym:'BNB',  col:'#f3ba2f', type:'bscscan',   cgId:'binancecoin',  dec:18, risk:78, band:'High'},
+  {id:'arbitrum', name:'Arbitrum',  sym:'ETH',  col:'#28a0f0', type:'arbiscan',  cgId:'ethereum',     dec:18, risk:80, band:'Critical'},
+  {id:'optimism', name:'Optimism',  sym:'ETH',  col:'#ff0420', type:'optimism',  cgId:'ethereum',     dec:18, risk:80, band:'Critical'},
+  {id:'base',     name:'Base',      sym:'ETH',  col:'#0052ff', type:'basescan',  cgId:'ethereum',     dec:18, risk:80, band:'Critical'},
+  {id:'avalanche',name:'Avalanche', sym:'AVAX', col:'#e84142', type:'snowtrace', cgId:'avalanche-2',  dec:18, risk:76, band:'High'},
+  {id:'diamante', name:'Diamante',  sym:'DIAM', col:'#00dc82', type:'quantum',   cgId:null,           dec:7,  risk:4,  band:'Quantum-Native', qn:true},
+];
+
+const SCAN_URLS={
+  etherscan: 'https://api.etherscan.io/api',
+  polygonscan:'https://api.polygonscan.com/api',
+  bscscan:   'https://api.bscscan.com/api',
+  arbiscan:  'https://api.arbiscan.io/api',
+  optimism:  'https://api-optimistic.etherscan.io/api',
+  basescan:  'https://api.basescan.org/api',
+  snowtrace: 'https://api.snowtrace.io/api',
+};
+
+const ERC20_TOKENS=[
+  {contract:'0xdAC17F958D2ee523a2206206994597C13D831ec7',sym:'USDT',name:'Tether USD',dec:6,cg:'tether'},
+  {contract:'0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',sym:'USDC',name:'USD Coin',dec:6,cg:'usd-coin'},
+  {contract:'0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',sym:'WETH',name:'Wrapped Ether',dec:18,cg:'weth'},
+  {contract:'0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',sym:'WBTC',name:'Wrapped Bitcoin',dec:8,cg:'wrapped-bitcoin'},
+  {contract:'0x6B175474E89094C44Da98b954EedeAC495271d0F',sym:'DAI',name:'Dai',dec:18,cg:'dai'},
+  {contract:'0x514910771AF9Ca656af840dff83E8264EcF986CA',sym:'LINK',name:'Chainlink',dec:18,cg:'chainlink'},
+  {contract:'0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',sym:'UNI',name:'Uniswap',dec:18,cg:'uniswap'},
+  {contract:'0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',sym:'AAVE',name:'Aave',dec:18,cg:'aave'},
+  {contract:'0xD533a949740bb3306d119CC777fa900bA034cd52',sym:'CRV',name:'Curve DAO',dec:18,cg:'curve-dao-token'},
+  {contract:'0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32',sym:'LDO',name:'Lido DAO',dec:18,cg:'lido-dao'},
+];
+
+/* ─── STATE ─── */
+let prices={};
+let liveData={};
+let selChains=new Set(['ethereum','solana','bitcoin']);
+let cmpSel=[];
+let shareEnt=null;
+let scanData={};
+let activeFilter='all';
+let detailEnt=null;
+let ethKey=localStorage.getItem('qei_ethkey')||'';
+if(ethKey) document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('etherscan-key');if(el)el.value=ethKey;});
+
+/* ─── UTILS ─── */
+function bcolor(b){return{Low:'#00c864',Moderate:'#fab400',High:'#ff6432',Critical:'#dc3232',Systemic:'#b400ff','Quantum-Native':'#00dc82'}[b]||'#888';}
+function bcls(b){return{Low:'bL',Moderate:'bM',High:'bH',Critical:'bC',Systemic:'bS','Quantum-Native':'bQ'}[b]||'bL';}
+function fmt(n){if(!n||isNaN(n)||n===0)return'$0';if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(1)+'K';return'$'+n.toFixed(2);}
+function fbal(raw,dec){const v=raw/Math.pow(10,dec);if(v>=1e6)return(v/1e6).toFixed(2)+'M';if(v>=1e3)return(v/1e3).toFixed(2)+'K';if(v>=1)return v.toFixed(4);return v.toFixed(6);}
+function short(a){if(!a||a.length<=16)return a||'';return a.slice(0,8)+'…'+a.slice(-6);}
+function saveKey(){ethKey=document.getElementById('etherscan-key').value.trim();localStorage.setItem('qei_ethkey',ethKey);const s=document.getElementById('key-saved');s.textContent='Saved ✓';s.style.opacity='1';setTimeout(()=>s.style.opacity='0',2000);}
+
+function calcRisk(e,mcapOverride){
+  if(e.diam)return{s:4,band:'Quantum-Native',var:'$0 — Quantum-Native',varRaw:0,pct:4,cls:'bQ'};
+  const f=e.f;
+  const raw=(f.mc*0.25)+(f.u*0.2)+(f.v*0.3)+(f.m*0.15)+(f.t*0.1);
+  const s=Math.round(raw);
+  let band,pct,cls;
+  if(s<30){band='Low';pct=s/30*20;cls='bL';}
+  else if(s<50){band='Moderate';pct=20+(s-30)/20*20;cls='bM';}
+  else if(s<65){band='High';pct=40+(s-50)/15*20;cls='bH';}
+  else if(s<80){band='Critical';pct=60+(s-65)/15*20;cls='bC';}
+  else{band='Systemic';pct=80+(s-80)/20*20;cls='bS';}
+  pct=Math.min(99,pct);
+  const ld=liveData[e.id]||{};
+  const base=mcapOverride||(ld.mcap||e.fbMc||5e9);
+  const tvl=ld.tvl||0;
+  const varRaw=(base+tvl*0.5)*(s/100)*0.65;
+  return{s,band,var:fmt(varRaw),varRaw,pct,cls};
+}
+
+/* ─── NAV ─── */
+function showTab(t){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  const tabs=['home','wallet','compare','share'];
+  document.querySelectorAll('.ntab')[tabs.indexOf(t)].classList.add('active');
+  if(t==='compare')renderCmpChips();
+  if(t==='share')renderShareChips();
+}
+
+/* ─── CLOCK ─── */
+function tick(){document.getElementById('clk').textContent=new Date().toUTCString().replace(' GMT',' UTC');}
+tick();setInterval(tick,1000);
+
+/* ─── LIVE DATA ─── */
+async function fetchPrices(){
+  const cgIds=[...new Set(DS.filter(e=>e.cgId).map(e=>e.cgId)),...ERC20_TOKENS.map(t=>t.cg),...W_CHAINS.filter(c=>c.cgId).map(c=>c.cgId)].join(',');
+  try{
+    const r=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cgIds}&vs_currencies=usd&include_market_cap=true&include_24hr_change=true`);
+    const d=await r.json();
+    DS.forEach(e=>{
+      if(e.cgId&&d[e.cgId]){
+        if(!liveData[e.id])liveData[e.id]={};
+        liveData[e.id].mcap=d[e.cgId].usd_market_cap;
+        liveData[e.id].price=d[e.cgId].usd;
+        liveData[e.id].change24h=d[e.cgId].usd_24h_change;
+      }
+    });
+    ERC20_TOKENS.forEach(t=>{if(d[t.cg])prices[t.cg]=d[t.cg].usd;});
+    W_CHAINS.forEach(c=>{if(c.cgId&&d[c.cgId])prices[c.cgId]=d[c.cgId].usd;});
+    Object.entries(d).forEach(([k,v])=>{prices[k]=v.usd;});
+    buildTicker();
+    updateGStats();
+    renderGrid(activeFilter);
+  }catch(e){console.warn('CoinGecko error',e);}
+}
+
+async function fetchTVL(){
+  try{
+    const r=await fetch('https://api.llama.fi/protocols');
+    const d=await r.json();
+    const map={};
+    d.forEach(p=>{map[p.slug]=p.tvl;map[p.name.toLowerCase()]=p.tvl;});
+    DS.forEach(e=>{if(e.dlId){const tvl=map[e.dlId];if(tvl){if(!liveData[e.id])liveData[e.id]={};liveData[e.id].tvl=tvl;}}});
+  }catch(e){}
+}
+
+function buildTicker(){
+  const items=DS.filter(e=>liveData[e.id]&&liveData[e.id].price);
+  if(!items.length)return;
+  const mk=()=>items.map(e=>{
+    const ld=liveData[e.id];
+    const chg=ld.change24h?ld.change24h.toFixed(2):null;
+    const pos=chg&&parseFloat(chg)>=0;
+    return`<div class="ti"><span class="ti-name">${e.name}</span><span style="color:var(--tf)">·</span><span class="ti-price">$${ld.price>=1?ld.price.toLocaleString('en',{maximumFractionDigits:2}):ld.price.toFixed(4)}</span>${chg?`<span class="ti-chg ${pos?'pos':'neg'}">${pos?'+':''}${chg}%</span>`:''}</div>`;
+  }).join('');
+  document.getElementById('ticker').innerHTML=mk()+mk();
+}
+
+function updateGStats(){
+  const allR=DS.map(e=>calcRisk(e));
+  const tv=allR.reduce((s,r)=>s+r.varRaw,0);
+  const mx=Math.max(...allR.map(r=>r.s));
+  const lv=Object.values(liveData).filter(d=>d.price).length;
+  document.getElementById('gs-var').textContent=fmt(tv);
+  document.getElementById('gs-top').textContent=mx+'/100';
+  document.getElementById('gs-live').textContent=lv+' assets';
+}
+
+/* ─── ENTITY GRID ─── */
+function renderGrid(cat){
+  activeFilter=cat;
+  const list=DS.filter(e=>cat==='all'||e.cat===cat).sort((a,b)=>calcRisk(b).s-calcRisk(a).s);
+  document.getElementById('egrid').innerHTML=list.map(e=>{
+    const r=calcRisk(e);
+    const ld=liveData[e.id]||{};
+    return`<div class="ecard${e.diam?' diam':''}" onclick="showDetail('${e.id}')">
+      ${e.diam?'<div class="qn-tag">QUANTUM-NATIVE</div>':''}
+      <div class="ec-top">
+        <div><div class="ec-name">${e.name}</div><div class="ec-cat">${e.cat}</div></div>
+        <div class="ec-score" style="color:${bcolor(r.band)}">${r.s}</div>
+      </div>
+      <div class="ec-var">At risk: <span style="color:${bcolor(r.band)};font-weight:600;">${r.var}</span></div>
+      ${ld.mcap?`<div class="ec-mcap">Mkt Cap: ${fmt(ld.mcap)}<span class="live-dot">● live</span></div>`:''}
+      ${ld.tvl?`<div class="ec-mcap">TVL: ${fmt(ld.tvl)}</div>`:''}
+      <div class="mini-band ${r.cls}">${r.band}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('filters').addEventListener('click',ev=>{
+  if(!ev.target.classList.contains('fb'))return;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  ev.target.classList.add('active');
+  renderGrid(ev.target.dataset.cat);
+});
+
+function renderChips(){
+  document.getElementById('chips').innerHTML=['bitcoin','ethereum','diamante','solana','google','swift'].map(id=>{
+    const e=DS.find(x=>x.id===id);
+    return`<div class="chip" onclick="showDetail('${id}')">${e.name}</div>`;
+  }).join('');
+}
+
+/* ─── SEARCH ─── */
+const si=document.getElementById('si');
+const dd=document.getElementById('dd');
+si.addEventListener('input',()=>{
+  const q=si.value.toLowerCase().trim();
+  if(!q){dd.classList.remove('open');return;}
+  const res=DS.filter(e=>e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q));
+  if(!res.length){dd.classList.remove('open');return;}
+  dd.innerHTML=res.slice(0,7).map(e=>{
+    const r=calcRisk(e);
+    return`<div class="ddi" onclick="showDetail('${e.id}');dd.classList.remove('open');si.value='';">
+      <div><div class="ddi-name">${e.name}</div><div class="ddi-cat">${e.cat}</div></div>
+      <div class="ddi-score" style="color:${bcolor(r.band)}">${r.s}</div>
+    </div>`;
+  }).join('');
+  dd.classList.add('open');
+});
+si.addEventListener('keydown',ev=>{if(ev.key==='Enter')document.getElementById('ai-btn').click();});
+document.addEventListener('click',ev=>{if(!ev.target.closest('.search-wrap'))dd.classList.remove('open');});
+
+async function aiSearch(){
+  const q=si.value.trim();
+  if(!q)return;
+  const ex=DS.find(e=>e.name.toLowerCase()===q.toLowerCase());
+  if(ex){showDetail(ex.id);dd.classList.remove('open');return;}
+  dd.classList.remove('open');
+  const btn=document.getElementById('ai-btn');
+  btn.disabled=true;btn.textContent='Scoring…';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
+        system:'You are the Quantum Exposure Index scoring engine. Return ONLY valid JSON (no markdown) with: name, cat (Blockchain/Exchange/Company/Wallet/Protocol/Government/Bank), scheme, pub (bool), f:{mc:0-100,u:0-100,v:0-100,m:0-100,t:0-100}, fbMc (USD estimate), desc (2-sentence plain text risk summary).',
+        messages:[{role:'user',content:`Score for quantum exposure: "${q}"`}]})
+    });
+    const d=await resp.json();
+    const txt=d.content&&d.content[0]&&d.content[0].text;
+    if(!txt)throw new Error('no response');
+    const parsed=JSON.parse(txt.replace(/```json|```/g,'').trim());
+    const ent={id:'ai_'+Date.now(),name:parsed.name||q,cat:parsed.cat||'Company',scheme:parsed.scheme||'Unknown',pub:parsed.pub||false,f:parsed.f||{mc:50,u:50,v:60,m:60,t:60},fbMc:parsed.fbMc||1e9,aiDesc:parsed.desc||'',aiScored:true};
+    showDetailFromEnt(ent);
+  }catch(e){alert('AI scoring unavailable. Check that the Anthropic API is accessible.');}
+  finally{btn.disabled=false;btn.textContent='AI Score ↗';}
+}
+
+/* ─── DETAIL ─── */
+function showDetail(id){const e=DS.find(x=>x.id===id);if(e)showDetailFromEnt(e);}
+function closeDetail(){
+  document.getElementById('detail').classList.remove('show');
+  document.getElementById('detail').style.display='none';
+  document.getElementById('egrid').style.display='';
+}
+
+function showDetailFromEnt(e){
+  detailEnt=e;
+  const r=calcRisk(e);
+  const ld=liveData[e.id]||{};
+  document.getElementById('egrid').style.display='none';
+  const det=document.getElementById('detail');
+  det.classList.add('show');det.style.display='block';
+  const ab=document.getElementById('ai-banner');
+  ab.style.display=e.aiScored?'flex':'none';
+  document.getElementById('d-name').textContent=e.name;
+  document.getElementById('d-cat').textContent=e.cat+' · '+e.scheme;
+  const sc=document.getElementById('d-score');sc.textContent=r.s;sc.style.color=bcolor(r.band);
+  const bd=document.getElementById('d-band');bd.textContent=r.band+' Risk';bd.style.color=bcolor(r.band);
+  document.getElementById('d-var').textContent=r.var;
+  document.getElementById('d-conf').innerHTML=`<div class="conf-dot" style="background:${e.pub?'#00c864':'#fab400'};"></div>${e.pub?'Public Data':'Estimated'}`;
+  setTimeout(()=>{const mf=document.getElementById('d-meter');mf.style.width=r.pct+'%';mf.style.background=r.pct<25?'#00c864':r.pct<50?'#fab400':r.pct<75?'#ff6432':'#dc3232';},60);
+  const mets=[];
+  if(ld.mcap)mets.push({l:'Market Cap',v:fmt(ld.mcap),s:'● CoinGecko'});
+  else if(e.fbMc)mets.push({l:'Market Cap',v:fmt(e.fbMc),s:'Estimated'});
+  if(ld.price)mets.push({l:'Price',v:'$'+ld.price.toLocaleString('en',{maximumFractionDigits:2}),s:'● Live'});
+  if(ld.change24h)mets.push({l:'24h Change',v:(ld.change24h>=0?'+':'')+ld.change24h.toFixed(2)+'%',s:'● CoinGecko'});
+  if(ld.tvl)mets.push({l:'TVL',v:fmt(ld.tvl),s:'● DeFiLlama'});
+  mets.push({l:'Risk Score',v:r.s+'/100',s:r.band});
+  mets.push({l:'Exposure Band',v:r.band,s:'Model Output'});
+  document.getElementById('d-metrics').innerHTML=mets.map(m=>`<div class="mc"><div class="mc-l">${m.l}</div><div class="mc-v">${m.v}</div><div class="mc-s">${m.s}</div></div>`).join('');
+  document.getElementById('d-breakdown').innerHTML=[['Market/Cap Weight',e.f.mc],['User Exposure',e.f.u],['Crypto Vulnerability',e.f.v],['Migration Difficulty',e.f.m],['Time to Migrate',e.f.t]].map(([l,v])=>`<div class="br-row"><div class="br-lbl">${l}</div><div class="br-track"><div class="br-fill" style="width:${v}%"></div></div><div class="br-val">${v}</div></div>`).join('');
+  document.getElementById('ai-narrative').innerHTML='<div class="ai-loading"><div class="spinner"></div>&nbsp;Generating analysis…</div>';
+  window.scrollTo(0,0);
+  genNarrative(e,r);
+}
+
+async function genNarrative(e,r){
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
+        system:'You are a quantum cryptography threat analyst. Write a 2-3 paragraph expert threat assessment. Be specific about cryptographic vulnerabilities, migration challenges, and systemic risk. Plain text only, no markdown.',
+        messages:[{role:'user',content:`Write a quantum threat analysis for ${e.name} (${e.cat}). Risk Score: ${r.s}/100. Band: ${r.band}. Crypto scheme: ${e.scheme}. Value at risk: ${r.var}.`}]})
+    });
+    const d=await resp.json();
+    const txt=d.content&&d.content[0]&&d.content[0].text;
+    if(txt)document.getElementById('ai-narrative').innerHTML=txt.split('\n\n').filter(Boolean).map(p=>`<div class="ai-text" style="margin-bottom:0.75rem;">${p}</div>`).join('');
+    else throw new Error();
+  }catch(e2){
+    const fallback=detailEnt.aiDesc||'AI narrative requires Anthropic API access. The entity\'s risk factors and score are displayed above based on the QEI model.';
+    document.getElementById('ai-narrative').innerHTML=`<div class="ai-text">${fallback}</div>`;
+  }
+}
+
+/* ─── WALLET SCANNER ─── */
+const W_DEMOS={
+  vitalik:{addr:'0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',chains:['ethereum']},
+  eth2:   {addr:'0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',chains:['ethereum']},
+  sol:    {addr:'9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM',chains:['solana']},
+  btc:    {addr:'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',chains:['bitcoin']},
+};
+
+function renderWChains(){
+  document.getElementById('w-chains').innerHTML=W_CHAINS.map(c=>`
+    <div class="cc${selChains.has(c.id)?' on':''}" onclick="toggleWChain('${c.id}')">
+      <div class="ccdot" style="background:${c.col}"></div>
+      <div><div class="ccn">${c.name}</div><div class="ccs">${c.qn?'Quantum-Native':c.band}</div></div>
+    </div>`).join('');
+}
+function toggleWChain(id){selChains.has(id)?selChains.delete(id):selChains.add(id);renderWChains();}
+function wDemo(k){const d=W_DEMOS[k];document.getElementById('w-addr').value=d.addr;selChains=new Set(d.chains);renderWChains();}
+
+function mkStep(txt){
+  const d=document.createElement('div');d.className='pstep';
+  d.innerHTML=`<div class="picon"></div><span>${txt}</span>`;
+  document.getElementById('prog-steps').appendChild(d);return d;
+}
+function stepSt(el,st,msg){
+  el.className='pstep '+st;
+  const ic=el.querySelector('.picon');
+  ic.className='picon'+(st==='act'?' spin':'');
+  ic.textContent=st==='done'?'✓':st==='err'?'✕':'';
+  if(msg)el.querySelector('span').textContent=msg;
+}
+
+async function fetchEVM(chain,addr){
+  const base=SCAN_URLS[chain.type];
+  const key=ethKey?`&apikey=${ethKey}`:'';
+  const res={chain,tokens:[],totalUsd:0,error:null};
+  try{
+    const nb=await fetch(`${base}?module=account&action=balance&address=${addr}&tag=latest${key}`);
+    const nd=await nb.json();
+    if(nd.status==='1'){
+      const raw=parseInt(nd.result)||0;
+      const bal=raw/Math.pow(10,chain.dec);
+      const price=prices[chain.cgId]||0;
+      const usd=bal*price;
+      if(bal>0.000001){
+        res.tokens.push({sym:chain.sym,name:chain.name,raw,dec:chain.dec,usd,risk:chain.risk,band:chain.band});
+        res.totalUsd+=usd;
+      }
+    }
+    if(chain.id==='ethereum'){
+      for(const tok of ERC20_TOKENS){
+        try{
+          const br=await fetch(`${base}?module=account&action=tokenbalance&contractaddress=${tok.contract}&address=${addr}&tag=latest${key}`);
+          const bd=await br.json();
+          if(bd.status==='1'&&bd.result&&bd.result!=='0'){
+            const raw=parseInt(bd.result);
+            if(raw>0){
+              const bal=raw/Math.pow(10,tok.dec);
+              const price=prices[tok.cg]||0;
+              const usd=bal*price;
+              res.tokens.push({sym:tok.sym,name:tok.name,raw,dec:tok.dec,usd,risk:chain.risk,band:chain.band});
+              res.totalUsd+=usd;
+            }
+          }
+        }catch(te){}
+        await new Promise(r=>setTimeout(r,100));
+      }
+    }
+  }catch(e){res.error=`${chain.name} API error: ${e.message}`;}
+  return res;
+}
+
+async function fetchSolana(addr){
+  const chain=W_CHAINS.find(c=>c.id==='solana');
+  const res={chain,tokens:[],totalUsd:0,error:null};
+  try{
+    const r=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[addr]})});
+    const d=await r.json();
+    if(d.result!==undefined){
+      const lamps=typeof d.result==='object'?d.result.value:d.result;
+      const sol=lamps/1e9;
+      const price=prices['solana']||0;
+      const usd=sol*price;
+      if(sol>0.001){res.tokens.push({sym:'SOL',name:'Solana',raw:lamps,dec:9,usd,risk:75,band:'High'});res.totalUsd+=usd;}
+    }
+    const sr=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getTokenAccountsByOwner',params:[addr,{programId:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'},{encoding:'jsonParsed'}]})});
+    const sd=await sr.json();
+    if(sd.result&&sd.result.value){
+      let n=0;
+      for(const acc of sd.result.value){
+        if(n>=8)break;
+        const info=acc.account.data.parsed?.info;
+        if(!info)continue;
+        const amt=parseFloat(info.tokenAmount?.uiAmount||0);
+        if(amt>0){res.tokens.push({sym:info.mint.slice(0,6)+'…',name:'SPL Token',raw:parseInt(info.tokenAmount.amount||0),dec:info.tokenAmount.decimals||0,usd:0,risk:75,band:'High'});n++;}
+      }
+    }
+  }catch(e){res.error=`Solana RPC: ${e.message}`;}
+  return res;
+}
+
+async function fetchBitcoin(addr){
+  const chain=W_CHAINS.find(c=>c.id==='bitcoin');
+  const res={chain,tokens:[],totalUsd:0,error:null};
+  try{
+    const r=await fetch(`https://blockstream.info/api/address/${addr}`);
+    if(!r.ok)throw new Error('Address not found');
+    const d=await r.json();
+    const sats=(d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum);
+    const btc=sats/1e8;
+    const price=prices['bitcoin']||0;
+    const usd=btc*price;
+    res.tokens.push({sym:'BTC',name:'Bitcoin',raw:sats,dec:8,usd,risk:88,band:'Systemic'});
+    res.totalUsd=usd;
+  }catch(e){res.error=`Bitcoin: ${e.message}`;}
+  return res;
+}
+
+async function startWalletScan(){
+  const addr=document.getElementById('w-addr').value.trim();
+  if(!addr){alert('Enter a wallet address.');return;}
+  if(selChains.size===0){alert('Select at least one chain.');return;}
+  document.getElementById('w-results').style.display='none';
+  document.getElementById('w-scan-btn').disabled=true;
+  document.getElementById('w-scan-btn').textContent='Scanning…';
+  document.getElementById('prog-steps').innerHTML='';
+  document.getElementById('prog-wrap').style.display='block';
+  const s0=mkStep('Fetching live prices from CoinGecko…');
+  stepSt(s0,'act');
+  await fetchPrices();
+  stepSt(s0,'done','Prices loaded');
+  scanData={};
+  for(const cid of selChains){
+    const chain=W_CHAINS.find(c=>c.id===cid);
+    const st=mkStep(`Scanning ${chain.name}…`);
+    stepSt(st,'act');
+    let res;
+    if(chain.qn)res={chain,tokens:[],totalUsd:0,error:null,qnote:'Diamante is quantum-native. No cryptographic exposure. Risk score: 4/100.'};
+    else if(chain.type==='bitcoin')res=await fetchBitcoin(addr);
+    else if(chain.type==='solana')res=await fetchSolana(addr);
+    else res=await fetchEVM(chain,addr);
+    scanData[cid]=res;
+    const msg=res.error?`${chain.name}: ${res.error}`:res.qnote?'Diamante: Quantum-Native — 0 exposure':`${chain.name}: ${res.tokens.length} asset(s) · ${fmt(res.totalUsd)}`;
+    stepSt(st,res.error?'err':'done',msg);
+    await new Promise(r=>setTimeout(r,100));
+  }
+  const sf=mkStep('Computing quantum exposure…');stepSt(sf,'act');
+  await new Promise(r=>setTimeout(r,400));
+  stepSt(sf,'done','Quantum risk calculated');
+  document.getElementById('prog-wrap').style.display='none';
+  document.getElementById('w-scan-btn').disabled=false;
+  document.getElementById('w-scan-btn').textContent='Scan Wallet';
+  renderWalletResults(addr);
+}
+
+function renderWalletResults(addr){
+  const all=Object.values(scanData).flatMap(r=>r.tokens||[]);
+  const totalUsd=Object.values(scanData).reduce((s,r)=>s+(r.totalUsd||0),0);
+  const totalVar=all.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);
+  const avg=all.length?Math.round(all.reduce((s,t)=>s+t.risk,0)/all.length):0;
+  const top=all.slice().sort((a,b)=>b.risk-a.risk)[0];
+  document.getElementById('w-addr-lbl').textContent=short(addr)+' · '+selChains.size+' chain(s)';
+  document.getElementById('w-totalvar').textContent=fmt(totalVar);
+  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(totalUsd)}<br>Assets found: ${all.length}<br>Avg risk score: ${avg}/100`;
+  document.getElementById('w-sum').innerHTML=`
+    <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(totalUsd)}</div><div class="mc-s">on-chain</div></div>
+    <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(totalVar)}</div><div class="mc-s">quantum exposure</div></div>
+    <div class="mc"><div class="mc-l">Avg Risk Score</div><div class="mc-v">${avg}/100</div><div class="mc-s">all assets</div></div>
+    <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:'—'}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
+  document.getElementById('w-chains-out').innerHTML=Object.values(scanData).map(res=>{
+    const c=res.chain;
+    const ct=res.tokens.reduce((s,t)=>s+t.usd,0);
+    if(res.qnote)return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">Quantum-Native</div></div></div><div class="cbtotal" style="color:var(--g)">Risk: 4/100</div></div><div class="chain-msg">${res.qnote}</div></div>`;
+    const rows=res.tokens.length>0?res.tokens.sort((a,b)=>b.usd-a.usd).map(t=>`<div class="tok-row"><div class="tsym">${t.sym}</div><div class="tname">${t.name}</div><div class="tbal">${fbal(t.raw,t.dec)}</div><div class="tusd" style="color:${t.usd>0?'var(--t)':'var(--tf)'}">${t.usd>0?fmt(t.usd):'—'}</div><div class="trisk"><div class="trs" style="color:${bcolor(t.band)}">${t.risk}</div><div class="tband ${bcls(t.band)}">${t.band}</div></div><div class="tvar">${t.usd>0?fmt(t.usd*(t.risk/100)*0.65):'—'}</div></div>`).join(''):`<div class="chain-msg" style="color:${res.error?'rgba(255,100,100,0.6)':'var(--tf)'}">${res.error||'No assets found on '+c.name+'.'}</div>`;
+    return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} · ${res.tokens.length} asset(s)</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
+  }).join('');
+  const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  const bkmax=bkdata[0]?.v||1;
+  document.getElementById('w-bk').innerHTML=bkdata.length?bkdata.map(b=>`<div class="bkrow"><div class="bkname"><div class="bkdot" style="background:${b.col}"></div>${b.name}</div><div class="bktrack"><div class="bkfill" style="width:${Math.round(b.v/bkmax*100)}%;background:${b.col}88;"></div></div><div class="bkpct">${Math.round(b.v/totalVar*100)}%</div><div class="bkusd">${fmt(b.v)}</div></div>`).join(''):'<div style="font-family:DM Mono,monospace;font-size:11px;color:var(--tf);">No quantum-exposed value found.</div>';
+  document.getElementById('w-results').style.display='block';
+}
+
+function resetWallet(){document.getElementById('w-results').style.display='none';document.getElementById('w-addr').value='';scanData={};}
+
+/* ─── COMPARE ─── */
+function renderCmpChips(){
+  document.getElementById('cmp-chips').innerHTML=DS.map(e=>`<div class="cs-chip${cmpSel.includes(e.id)?' selected':''}" onclick="toggleCmp('${e.id}')">${e.name}</div>`).join('');
+  updateCmpCount();
+}
+function toggleCmp(id){
+  if(cmpSel.includes(id)){cmpSel=cmpSel.filter(x=>x!==id);}
+  else if(cmpSel.length<4){cmpSel.push(id);}
+  else{alert('Max 4 entities.');return;}
+  renderCmpChips();
+  if(cmpSel.length>=2)renderCmpResults();
+  else document.getElementById('cmp-results').style.display='none';
+}
+function updateCmpCount(){const n=cmpSel.length;document.getElementById('cmp-count').textContent=n===0?'0 selected — pick at least 2':n===1?'1 selected — pick 1 more':`${n} selected`;}
+function renderCmpResults(){
+  const ents=cmpSel.map(id=>DS.find(e=>e.id===id));
+  const scores=ents.map(e=>({e,r:calcRisk(e)}));
+  const lowest=scores.reduce((a,b)=>a.r.s<b.r.s?a:b);
+  const highest=scores.reduce((a,b)=>a.r.s>b.r.s?a:b);
+  const g=document.getElementById('cmp-grid');
+  g.style.gridTemplateColumns=`repeat(${ents.length},1fr)`;
+  g.innerHTML=scores.map(({e,r})=>`<div class="cmp-card${e.id===lowest.e.id?' winner':''}">
+    ${e.id===lowest.e.id?'<div class="cmp-lowest">Lowest Risk</div>':''}
+    <div style="font-size:14px;font-weight:700;margin-bottom:2px;">${e.name}</div>
+    <div style="font-family:DM Mono,monospace;font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${e.cat}</div>
+    <div class="cmp-score" style="color:${bcolor(r.band)}">${r.s}</div>
+    <div class="mini-band ${r.cls}">${r.band}</div>
+    <div style="font-size:12px;color:var(--td);margin:8px 0;">At risk: <span style="font-weight:600;color:${bcolor(r.band)}">${r.var}</span></div>
+    <div>${[['Mkt/Cap',e.f.mc],['Users',e.f.u],['Vuln',e.f.v],['Migration',e.f.m],['Time',e.f.t]].map(([l,v])=>`<div class="cf-row"><div class="cf-lbl">${l}</div><div class="cf-bar"><div class="cf-fill" style="width:${v}%;background:${bcolor(r.band)}88;"></div></div><div class="cf-val">${v}</div></div>`).join('')}</div>
+  </div>`).join('');
+  const diff=highest.r.s-lowest.r.s;
+  const verdict=lowest.e.diam
+    ?`Diamante stands structurally apart from all compared entities — as the only quantum-native L1, it carries a risk score of ${lowest.r.s}/100 versus ${highest.e.name}'s ${highest.r.s}/100. This ${diff}-point gap represents the difference between needing to migrate cryptographic infrastructure and already being built for the post-quantum era.`
+    :`Among the ${scores.length} entities compared, ${lowest.e.name} carries the lowest quantum exposure at ${lowest.r.s}/100, while ${highest.e.name} faces the highest risk at ${highest.r.s}/100 — a ${diff}-point spread.`;
+  document.getElementById('cmp-verdict').textContent=verdict;
+  document.getElementById('cmp-results').style.display='block';
+}
+
+/* ─── SHARE ─── */
+function renderShareChips(){
+  document.getElementById('share-chips').innerHTML=DS.map(e=>`<div class="chip${shareEnt&&shareEnt.id===e.id?' chip-active':''}" style="${shareEnt&&shareEnt.id===e.id?'border-color:var(--g);color:var(--g);background:var(--gd);':''}" onclick="genCard('${e.id}')">${e.name}</div>`).join('');
+}
+function genCard(id){
+  shareEnt=DS.find(e=>e.id===id);
+  const r=calcRisk(shareEnt);
+  document.getElementById('rc-date').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}).toUpperCase();
+  document.getElementById('rc-name').textContent=shareEnt.name;
+  document.getElementById('rc-cat').textContent=shareEnt.cat+' · '+shareEnt.scheme;
+  const sc=document.getElementById('rc-score');sc.textContent=r.s;sc.style.color=bcolor(r.band);
+  document.getElementById('rc-var').textContent=r.var;
+  const bd=document.getElementById('rc-band');bd.textContent=r.band;bd.className='mini-band '+r.cls;
+  const mf=document.getElementById('rc-mf');mf.style.width=r.pct+'%';mf.style.background=r.pct<25?'#00c864':r.pct<50?'#fab400':r.pct<75?'#ff6432':'#dc3232';
+  document.getElementById('rc-scheme').textContent=shareEnt.scheme;
+  document.getElementById('rc-factors').innerHTML=['Mkt/Cap','Users','Vuln','Migration','Time'].map((l,i)=>{const v=[shareEnt.f.mc,shareEnt.f.u,shareEnt.f.v,shareEnt.f.m,shareEnt.f.t][i];return`<div class="rcf"><div class="rcfl">${l}</div><div class="rcfv" style="color:${bcolor(r.band)}">${v}</div></div>`;}).join('');
+  document.getElementById('rc-wrap').style.display='block';
+  renderShareChips();
+}
+function copyPost(){
+  if(!shareEnt)return;
+  const r=calcRisk(shareEnt);
+  const txt=`${shareEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
+  navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
+}
+
+/* ─── INIT ─── */
+renderChips();
+renderGrid('all');
+renderWChains();
+fetchPrices().then(()=>fetchTVL());
+setInterval(fetchPrices,60000);
+</script>
+</body>
+</html>
