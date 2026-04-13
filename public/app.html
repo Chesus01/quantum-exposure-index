@@ -613,7 +613,7 @@ function buildTicker(){
     const ld=liveData[e.id];
     const chg=ld.change24h?ld.change24h.toFixed(2):null;
     const pos=chg&&parseFloat(chg)>=0;
-    return`<div class="ti"><span class="ti-name">${e.name}</span><span style="color:var(--tf)">ÃÂÃÂÃÂÃÂ&middot;</span><span class="ti-price">$${ld.price>=1?ld.price.toLocaleString('en',{maximumFractionDigits:2}):ld.price.toFixed(4)}</span>${chg?`<span class="ti-chg ${pos?'pos':'neg'}">${pos?'+':''}${chg}%</span>`:''}</div>`;
+    return`<div class="ti"><span class="ti-name">${e.name}</span><span style="color:var(--tf)"> | </span><span class="ti-price">$${ld.price>=1?ld.price.toLocaleString('en',{maximumFractionDigits:2}):ld.price.toFixed(4)}</span>${chg?`<span class="ti-chg ${pos?'pos':'neg'}">${pos?'+':''}${chg}%</span>`:''}</div>`;
   }).join('');
   document.getElementById('ticker').innerHTML=mk()+mk();
 }
