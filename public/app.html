@@ -20,7 +20,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--t);font-family:'Syne
 @keyframes sc{0%{top:-2px;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100vh;opacity:0;}}
 #app{position:relative;z-index:2;}
 
-/* ââ NAV ââ */
+/* Ã¢ÂÂÃ¢ÂÂ NAV Ã¢ÂÂÃ¢ÂÂ */
 nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:2px solid var(--bd);flex-wrap:wrap;gap:8px;background:rgba(7,10,15,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
 .logo{display:flex;align-items:center;gap:9px;}
 .lm{width:28px;height:28px;border:1.5px solid var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;}
@@ -37,7 +37,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 .clk{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
 
-/* ââ TICKER ââ */
+/* Ã¢ÂÂÃ¢ÂÂ TICKER Ã¢ÂÂÃ¢ÂÂ */
 .ticker{border-bottom:2px solid var(--bd);padding:7px 0;overflow:hidden;background:var(--bg2);}
 .ticker-inner{display:flex;gap:36px;animation:tick 50s linear infinite;width:max-content;}
 @keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
@@ -48,11 +48,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .pos{color:var(--g);}
 .neg{color:var(--red);}
 
-/* ââ VIEWS ââ */
+/* Ã¢ÂÂÃ¢ÂÂ VIEWS Ã¢ÂÂÃ¢ÂÂ */
 .view{display:none;padding:2rem;}
 .view.active{display:block;}
 
-/* ââ SHARED ââ */
+/* Ã¢ÂÂÃ¢ÂÂ SHARED Ã¢ÂÂÃ¢ÂÂ */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;}
 .sl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);}
 .eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--g);text-transform:uppercase;margin-bottom:1rem;}
@@ -76,7 +76,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .spinner{width:14px;height:14px;border:1.5px solid rgba(100,150,255,0.3);border-top-color:rgba(100,150,255,0.8);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-/* ââ HOME ââ */
+/* Ã¢ÂÂÃ¢ÂÂ HOME Ã¢ÂÂÃ¢ÂÂ */
 .hero{text-align:center;padding:3rem 1rem 2rem;max-width:700px;margin:0 auto;}
 .hero h1{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;letter-spacing:-0.025em;line-height:1.05;margin-bottom:0.75rem;}
 .hero h1 em{font-style:normal;color:var(--g);}
@@ -101,7 +101,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .chip{padding:5px 13px;border:1.5px solid var(--bd2);border-radius:999px;font-size:12px;font-weight:500;color:var(--td);cursor:pointer;transition:all 0.15s;}
 .chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
 
-/* ââ ENTITY GRID ââ */
+/* Ã¢ÂÂÃ¢ÂÂ ENTITY GRID Ã¢ÂÂÃ¢ÂÂ */
 .filter-row{display:flex;gap:6px;flex-wrap:wrap;}
 .fb{padding:4px 11px;border:1.5px solid var(--bd);border-radius:999px;font-family:'DM Mono',monospace;font-size:10px;color:var(--td);cursor:pointer;background:transparent;transition:all 0.15s;letter-spacing:0.05em;}
 .fb:hover,.fb.active{border-color:var(--gb);color:var(--g);background:var(--gd);}
@@ -118,7 +118,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .ec-mcap{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);margin-bottom:5px;}
 .live-dot{font-family:'DM Mono',monospace;font-size:8px;color:var(--g);margin-left:4px;}
 
-/* ââ ENTITY DETAIL ââ */
+/* Ã¢ÂÂÃ¢ÂÂ ENTITY DETAIL Ã¢ÂÂÃ¢ÂÂ */
 .detail{display:none;max-width:900px;margin:0 auto;animation:fadeUp 0.3s ease;}
 .detail.show{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
@@ -150,14 +150,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .ai-loading{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,150,255,0.6);}
 .disc{background:rgba(250,180,0,0.03);border:1px solid rgba(250,180,0,0.12);border-radius:7px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(250,180,0,0.5);line-height:1.65;letter-spacing:0.02em;}
 
-/* ââ GLOBAL STATS ââ */
+/* Ã¢ÂÂÃ¢ÂÂ GLOBAL STATS Ã¢ÂÂÃ¢ÂÂ */
 .gstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--bd);border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin:0 2rem 2rem;max-width:calc(100% - 4rem);}
 .gs{background:var(--bg2);padding:1rem 1.25rem;}
 .gs-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);margin-bottom:5px;}
 .gs-v{font-size:1.2rem;font-weight:800;}
 .gs-s{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);margin-top:2px;}
 
-/* ââ WALLET SCANNER ââ */
+/* Ã¢ÂÂÃ¢ÂÂ WALLET SCANNER Ã¢ÂÂÃ¢ÂÂ */
 .chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:1.5rem;}
 .cc{background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;padding:9px 11px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px;}
 .cc:hover{border-color:var(--bd2);}
@@ -224,13 +224,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .bkpct{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);width:32px;text-align:right;}
 .bkusd{font-size:12px;font-weight:600;width:70px;text-align:right;}
 
-/* ââ COMPARE ââ */
+/* Ã¢ÂÂÃ¢ÂÂ COMPARE Ã¢ÂÂÃ¢ÂÂ */
 .cs-chip{padding:6px 13px;border:1.5px solid var(--bd2);border-radius:999px;font-size:12px;font-weight:500;color:var(--td);cursor:pointer;transition:all 0.15s;}
 .cs-chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
 .cs-chip.selected{border-color:var(--g);color:var(--g);background:var(--gd);}
 .cmp-card{background:var(--bg2);padding:1.125rem;}
 .cmp-card.winner{border:1px solid rgba(0,220,130,0.35);}
-.cmp-score{font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;}
+.cmp-score{font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;}
 .cmp-lowest{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);padding:3px 8px;border:2px solid var(--gb);border-radius:3px;display:inline-block;margin-top:8px;}
 .cf-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
 .cf-lbl{font-size:10px;color:var(--tf);width:90px;flex-shrink:0;}
@@ -241,7 +241,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .verdict-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px;}
 .verdict-text{font-size:13px;color:var(--td);line-height:1.7;}
 
-/* ââ SHARE ââ */
+/* Ã¢ÂÂÃ¢ÂÂ SHARE Ã¢ÂÂÃ¢ÂÂ */
 .report-card{background:var(--bg2);border:2px solid var(--gb);border-radius:14px;padding:1.75rem;position:relative;overflow:hidden;max-width:680px;}
 .rc-gbg{position:absolute;inset:0;background-image:linear-gradient(rgba(0,220,130,0.04)1px,transparent 1px),linear-gradient(90deg,rgba(0,220,130,0.04)1px,transparent 1px);background-size:32px 32px;pointer-events:none;}
 .rc-c{position:relative;z-index:1;}
@@ -253,7 +253,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .rc-sr{display:flex;align-items:flex-end;gap:1.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
 .rc-sb{display:flex;flex-direction:column;}
 .rc-sl{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px;}
-.rc-sv{font-size:2.5rem;font-weight:800;letter-spacing:-0.03em;line-height:1;}
+.rc-sv{font-size:2.5rem;font-weight:800;letter-spacing:-0.03em;line-height:1;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;}
 .rc-vv{font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--g);line-height:1;}
 .rc-meter{height:6px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;margin-bottom:1rem;}
 .rc-mf{height:100%;border-radius:999px;}
@@ -293,7 +293,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 <!-- GLOBAL STATS -->
 <div class="gstats" id="gstats">
   <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-var">Loading...</div><div class="gs-s">all indexed entities</div></div>
-  <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top">â</div><div class="gs-s">systemic exposure</div></div>
+  <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top">Ã¢ÂÂ</div><div class="gs-s">systemic exposure</div></div>
   <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-live">Loading...</div><div class="gs-s">CoinGecko API</div></div>
   <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">12</div><div class="gs-s">+ AI-scored on demand</div></div>
 </div>
@@ -307,7 +307,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div class="search-wrap">
       <div class="search-box">
         <input type="text" id="si" placeholder="Search any company, blockchain, or protocol..." autocomplete="off"/>
-        <button class="ai-btn" id="ai-btn" onclick="aiSearch()">AI Score â</button>
+        <button class="ai-btn" id="ai-btn" onclick="aiSearch()">AI Score Ã¢ÂÂ</button>
       </div>
       <div class="dd" id="dd"></div>
     </div>
@@ -315,7 +315,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   </div>
   <div style="max-width:1100px;margin:0 auto;padding:0 2rem 4rem;">
     <div class="sh">
-      <div class="sl">All entities â sorted by risk</div>
+      <div class="sl">All entities Ã¢ÂÂ sorted by risk</div>
       <div class="filter-row" id="filters">
         <button class="fb active" data-cat="all">All</button>
         <button class="fb" data-cat="Blockchain">Blockchain</button>
@@ -330,9 +330,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 
   <!-- ENTITY DETAIL -->
   <div class="detail" id="detail" style="padding:0 2rem 4rem;">
-    <button class="back-btn" onclick="closeDetail()">â Back to index</button>
+    <button class="back-btn" onclick="closeDetail()">Ã¢ÂÂ Back to index</button>
     <div id="ai-banner" style="display:none;background:rgba(100,150,255,0.05);border:1px solid rgba(100,150,255,0.2);border-radius:7px;padding:0.625rem 1rem;margin-bottom:1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.7);display:flex;align-items:center;gap:7px;">
-      <div class="spinner"></div>AI-generated score Â· Powered by Claude
+      <div class="spinner"></div>AI-generated score ÃÂ· Powered by Claude
     </div>
     <div class="d-hdr">
       <div><div class="d-name" id="d-name"></div><div class="d-cat-tag" id="d-cat"></div></div>
@@ -350,10 +350,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
       <div id="d-breakdown"></div>
     </div>
     <div class="ai-box">
-      <div class="ai-hdr"><div class="ai-lbl">AI Threat Analysis</div><div class="ai-badge">Claude Â· Generated</div></div>
-      <div id="ai-narrative"><div class="ai-loading"><div class="spinner"></div>&nbsp;Generating quantum threat analysisâ¦</div></div>
+      <div class="ai-hdr"><div class="ai-lbl">AI Threat Analysis</div><div class="ai-badge">Claude ÃÂ· Generated</div></div>
+      <div id="ai-narrative"><div class="ai-loading"><div class="spinner"></div>&nbsp;Generating quantum threat analysisÃ¢ÂÂ¦</div></div>
     </div>
-    <div class="disc">DISCLAIMER â Scores and values are modeled estimates, not financial or security advice. Live data from CoinGecko. AI narratives generated by Claude (Anthropic). Quantum timelines are speculative.</div>
+    <div class="disc">DISCLAIMER Ã¢ÂÂ Scores and values are modeled estimates, not financial or security advice. Live data from CoinGecko. AI narratives generated by Claude (Anthropic). Quantum timelines are speculative.</div>
   </div>
 </div>
 
@@ -365,9 +365,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
 
     <div class="api-note">
-      <strong>â  Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
-      1. Go to <strong>etherscan.io</strong> â Sign up (free) â My Account â API Keys â Add<br>
-      2. Paste your key below and click Save â it stores in your browser permanently<br>
+      <strong>Ã¢ÂÂ  Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
+      1. Go to <strong>etherscan.io</strong> Ã¢ÂÂ Sign up (free) Ã¢ÂÂ My Account Ã¢ÂÂ API Keys Ã¢ÂÂ Add<br>
+      2. Paste your key below and click Save Ã¢ÂÂ it stores in your browser permanently<br>
       <div class="api-key-row" style="margin-top:10px;">
         <input class="key-inp" id="etherscan-key" placeholder="Paste your free Etherscan API key here (etherscan.io/myapikey)" />
         <button class="key-btn" onclick="saveKey()">Save Key</button>
@@ -379,7 +379,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div class="chain-grid" id="w-chains"></div>
 
     <div class="addr-row">
-      <input class="ainp" id="w-addr" placeholder="0x... for EVM chains Â· base58 for Solana Â· bc1... for Bitcoin" spellcheck="false" autocomplete="off"/>
+      <input class="ainp" id="w-addr" placeholder="0x... for EVM chains ÃÂ· base58 for Solana ÃÂ· bc1... for Bitcoin" spellcheck="false" autocomplete="off"/>
       <button class="btn-g" id="w-scan-btn" onclick="startWalletScan()">Scan Wallet</button>
     </div>
     <div class="demos">
@@ -395,13 +395,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div class="w-results" id="w-results">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
         <div><div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div></div>
-        <button class="btn-o" onclick="resetWallet()">â New Scan</button>
+        <button class="btn-o" onclick="resetWallet()">Ã¢ÂÂ New Scan</button>
       </div>
       <div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div></div>
       <div class="metric-grid" id="w-sum"></div>
       <div id="w-chains-out"></div>
       <div class="bkbox"><div class="bklbl">Exposure by chain</div><div id="w-bk"></div></div>
-      <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections â not financial advice.</div>
+      <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections Ã¢ÂÂ not financial advice.</div>
     </div>
   </div>
 </div>
@@ -411,7 +411,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   <div style="max-width:1000px;margin:0 auto;">
     <div class="eyebrow">Side-by-Side Analysis</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
-    <div class="sl" style="margin-bottom:10px;">Select 2â4 entities</div>
+    <div class="sl" style="margin-bottom:10px;">Select 2Ã¢ÂÂ4 entities</div>
     <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;" id="cmp-chips"></div>
     <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);margin-bottom:1.5rem;" id="cmp-count">0 selected</div>
     <div id="cmp-results" style="display:none;">
@@ -457,7 +457,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 </div><!-- end #app -->
 
 <script>
-/* âââ DATASET âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ DATASET Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 const DS=[
   {id:'bitcoin',  name:'Bitcoin',    cat:'Blockchain', scheme:'ECDSA/SHA-256',         cgId:'bitcoin',      pub:true,  f:{mc:85,u:70,v:90,m:95,t:85}, fbMc:1300e9},
   {id:'ethereum', name:'Ethereum',   cat:'Blockchain', scheme:'ECDSA/Keccak-256',       cgId:'ethereum',     pub:true,  f:{mc:78,u:82,v:85,m:80,t:70}, fbMc:380e9, dlId:'ethereum'},
@@ -509,7 +509,7 @@ const ERC20_TOKENS=[
   {contract:'0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32',sym:'LDO',name:'Lido DAO',dec:18,cg:'lido-dao'},
 ];
 
-/* âââ STATE âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ STATE Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 let prices={};
 let liveData={};
 let selChains=new Set(['ethereum','solana','bitcoin']);
@@ -521,16 +521,16 @@ let detailEnt=null;
 let ethKey=localStorage.getItem('qei_ethkey')||'';
 if(ethKey) document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('etherscan-key');if(el)el.value=ethKey;});
 
-/* âââ UTILS âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ UTILS Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function bcolor(b){return{Low:'#00c864',Moderate:'#fab400',High:'#ff6432',Critical:'#dc3232',Systemic:'#b400ff','Quantum-Native':'#00dc82'}[b]||'#888';}
 function bcls(b){return{Low:'bL',Moderate:'bM',High:'bH',Critical:'bC',Systemic:'bS','Quantum-Native':'bQ'}[b]||'bL';}
 function fmt(n){if(!n||isNaN(n)||n===0)return'$0';if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(1)+'K';return'$'+n.toFixed(2);}
 function fbal(raw,dec){const v=raw/Math.pow(10,dec);if(v>=1e6)return(v/1e6).toFixed(2)+'M';if(v>=1e3)return(v/1e3).toFixed(2)+'K';if(v>=1)return v.toFixed(4);return v.toFixed(6);}
-function short(a){if(!a||a.length<=16)return a||'';return a.slice(0,8)+'â¦'+a.slice(-6);}
-function saveKey(){ethKey=document.getElementById('etherscan-key').value.trim();localStorage.setItem('qei_ethkey',ethKey);const s=document.getElementById('key-saved');s.textContent='Saved â';s.style.opacity='1';setTimeout(()=>s.style.opacity='0',2000);}
+function short(a){if(!a||a.length<=16)return a||'';return a.slice(0,8)+'Ã¢ÂÂ¦'+a.slice(-6);}
+function saveKey(){ethKey=document.getElementById('etherscan-key').value.trim();localStorage.setItem('qei_ethkey',ethKey);const s=document.getElementById('key-saved');s.textContent='Saved Ã¢ÂÂ';s.style.opacity='1';setTimeout(()=>s.style.opacity='0',2000);}
 
 function calcRisk(e,mcapOverride){
-  if(e.diam)return{s:4,band:'Quantum-Native',var:'$0 â Quantum-Native',varRaw:0,pct:4,cls:'bQ'};
+  if(e.diam)return{s:4,band:'Quantum-Native',var:'$0 Ã¢ÂÂ Quantum-Native',varRaw:0,pct:4,cls:'bQ'};
   const f=e.f;
   const raw=(f.mc*0.25)+(f.u*0.2)+(f.v*0.3)+(f.m*0.15)+(f.t*0.1);
   const s=Math.round(raw);
@@ -548,7 +548,7 @@ function calcRisk(e,mcapOverride){
   return{s,band,var:fmt(varRaw),varRaw,pct,cls};
 }
 
-/* âââ NAV âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ NAV Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function showTab(t){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
@@ -559,11 +559,11 @@ function showTab(t){
   if(t==='share')renderShareChips();
 }
 
-/* âââ CLOCK âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ CLOCK Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function tick(){document.getElementById('clk').textContent=new Date().toUTCString().replace(' GMT',' UTC');}
 tick();setInterval(tick,1000);
 
-/* âââ LIVE DATA âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ LIVE DATA Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 async function fetchPrices(){
   const cgIds=[...new Set(DS.filter(e=>e.cgId).map(e=>e.cgId)),...ERC20_TOKENS.map(t=>t.cg),...W_CHAINS.filter(c=>c.cgId).map(c=>c.cgId)].join(',');
   try{
@@ -603,7 +603,7 @@ function buildTicker(){
     const ld=liveData[e.id];
     const chg=ld.change24h?ld.change24h.toFixed(2):null;
     const pos=chg&&parseFloat(chg)>=0;
-    return`<div class="ti"><span class="ti-name">${e.name}</span><span style="color:var(--tf)">Â·</span><span class="ti-price">$${ld.price>=1?ld.price.toLocaleString('en',{maximumFractionDigits:2}):ld.price.toFixed(4)}</span>${chg?`<span class="ti-chg ${pos?'pos':'neg'}">${pos?'+':''}${chg}%</span>`:''}</div>`;
+    return`<div class="ti"><span class="ti-name">${e.name}</span><span style="color:var(--tf)">ÃÂ·</span><span class="ti-price">$${ld.price>=1?ld.price.toLocaleString('en',{maximumFractionDigits:2}):ld.price.toFixed(4)}</span>${chg?`<span class="ti-chg ${pos?'pos':'neg'}">${pos?'+':''}${chg}%</span>`:''}</div>`;
   }).join('');
   document.getElementById('ticker').innerHTML=mk()+mk();
 }
@@ -618,7 +618,7 @@ function updateGStats(){
   document.getElementById('gs-live').textContent=lv+' assets';
 }
 
-/* âââ ENTITY GRID âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ ENTITY GRID Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function renderGrid(cat){
   activeFilter=cat;
   const list=DS.filter(e=>cat==='all'||e.cat===cat).sort((a,b)=>calcRisk(b).s-calcRisk(a).s);
@@ -632,7 +632,7 @@ function renderGrid(cat){
         <div class="ec-score" style="color:${bcolor(r.band)}">${r.s}</div>
       </div>
       <div class="ec-var">At risk: <span style="color:${bcolor(r.band)};font-weight:600;">${r.var}</span></div>
-      ${ld.mcap?`<div class="ec-mcap">Mkt Cap: ${fmt(ld.mcap)}<span class="live-dot">â live</span></div>`:''}
+      ${ld.mcap?`<div class="ec-mcap">Mkt Cap: ${fmt(ld.mcap)}<span class="live-dot">Ã¢ÂÂ live</span></div>`:''}
       ${ld.tvl?`<div class="ec-mcap">TVL: ${fmt(ld.tvl)}</div>`:''}
       <div class="mini-band ${r.cls}">${r.band}</div>
     </div>`;
@@ -653,7 +653,7 @@ function renderChips(){
   }).join('');
 }
 
-/* âââ SEARCH âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ SEARCH Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 const si=document.getElementById('si');
 const dd=document.getElementById('dd');
 si.addEventListener('input',()=>{
@@ -680,7 +680,7 @@ async function aiSearch(){
   if(ex){showDetail(ex.id);dd.classList.remove('open');return;}
   dd.classList.remove('open');
   const btn=document.getElementById('ai-btn');
-  btn.disabled=true;btn.textContent='Scoringâ¦';
+  btn.disabled=true;btn.textContent='ScoringÃ¢ÂÂ¦';
   try{
     const resp=await fetch('/api/claude',{
       method:'POST',headers:{'Content-Type':'application/json'},
@@ -695,10 +695,10 @@ async function aiSearch(){
     const ent={id:'ai_'+Date.now(),name:parsed.name||q,cat:parsed.cat||'Company',scheme:parsed.scheme||'Unknown',pub:parsed.pub||false,f:parsed.f||{mc:50,u:50,v:60,m:60,t:60},fbMc:parsed.fbMc||1e9,aiDesc:parsed.desc||'',aiScored:true};
     showDetailFromEnt(ent);
   }catch(e){alert('AI scoring unavailable. Check that the Anthropic API is accessible.');}
-  finally{btn.disabled=false;btn.textContent='AI Score â';}
+  finally{btn.disabled=false;btn.textContent='AI Score Ã¢ÂÂ';}
 }
 
-/* âââ DETAIL âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ DETAIL Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function showDetail(id){const e=DS.find(x=>x.id===id);if(e)showDetailFromEnt(e);}
 function closeDetail(){
   document.getElementById('detail').classList.remove('show');
@@ -716,23 +716,23 @@ function showDetailFromEnt(e){
   const ab=document.getElementById('ai-banner');
   ab.style.display=e.aiScored?'flex':'none';
   document.getElementById('d-name').textContent=e.name;
-  document.getElementById('d-cat').textContent=e.cat+' Â· '+e.scheme;
+  document.getElementById('d-cat').textContent=e.cat+' ÃÂ· '+e.scheme;
   const sc=document.getElementById('d-score');sc.textContent=r.s;sc.style.color=bcolor(r.band);
   const bd=document.getElementById('d-band');bd.textContent=r.band+' Risk';bd.style.color=bcolor(r.band);
   document.getElementById('d-var').textContent=r.var;
   document.getElementById('d-conf').innerHTML=`<div class="conf-dot" style="background:${e.pub?'#00c864':'#fab400'};"></div>${e.pub?'Public Data':'Estimated'}`;
   setTimeout(()=>{const mf=document.getElementById('d-meter');mf.style.width=r.pct+'%';mf.style.background=r.pct<25?'#00c864':r.pct<50?'#fab400':r.pct<75?'#ff6432':'#dc3232';},60);
   const mets=[];
-  if(ld.mcap)mets.push({l:'Market Cap',v:fmt(ld.mcap),s:'â CoinGecko'});
+  if(ld.mcap)mets.push({l:'Market Cap',v:fmt(ld.mcap),s:'Ã¢ÂÂ CoinGecko'});
   else if(e.fbMc)mets.push({l:'Market Cap',v:fmt(e.fbMc),s:'Estimated'});
-  if(ld.price)mets.push({l:'Price',v:'$'+ld.price.toLocaleString('en',{maximumFractionDigits:2}),s:'â Live'});
-  if(ld.change24h)mets.push({l:'24h Change',v:(ld.change24h>=0?'+':'')+ld.change24h.toFixed(2)+'%',s:'â CoinGecko'});
-  if(ld.tvl)mets.push({l:'TVL',v:fmt(ld.tvl),s:'â DeFiLlama'});
+  if(ld.price)mets.push({l:'Price',v:'$'+ld.price.toLocaleString('en',{maximumFractionDigits:2}),s:'Ã¢ÂÂ Live'});
+  if(ld.change24h)mets.push({l:'24h Change',v:(ld.change24h>=0?'+':'')+ld.change24h.toFixed(2)+'%',s:'Ã¢ÂÂ CoinGecko'});
+  if(ld.tvl)mets.push({l:'TVL',v:fmt(ld.tvl),s:'Ã¢ÂÂ DeFiLlama'});
   mets.push({l:'Risk Score',v:r.s+'/100',s:r.band});
   mets.push({l:'Exposure Band',v:r.band,s:'Model Output'});
   document.getElementById('d-metrics').innerHTML=mets.map(m=>`<div class="mc"><div class="mc-l">${m.l}</div><div class="mc-v">${m.v}</div><div class="mc-s">${m.s}</div></div>`).join('');
   document.getElementById('d-breakdown').innerHTML=[['Market/Cap Weight',e.f.mc],['User Exposure',e.f.u],['Crypto Vulnerability',e.f.v],['Migration Difficulty',e.f.m],['Time to Migrate',e.f.t]].map(([l,v])=>`<div class="br-row"><div class="br-lbl">${l}</div><div class="br-track"><div class="br-fill" style="width:${v}%"></div></div><div class="br-val">${v}</div></div>`).join('');
-  document.getElementById('ai-narrative').innerHTML='<div class="ai-loading"><div class="spinner"></div>&nbsp;Generating analysisâ¦</div>';
+  document.getElementById('ai-narrative').innerHTML='<div class="ai-loading"><div class="spinner"></div>&nbsp;Generating analysisÃ¢ÂÂ¦</div>';
   window.scrollTo(0,0);
   genNarrative(e,r);
 }
@@ -755,7 +755,7 @@ async function genNarrative(e,r){
   }
 }
 
-/* âââ WALLET SCANNER âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ WALLET SCANNER Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 const W_DEMOS={
   vitalik:{addr:'0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',chains:['ethereum']},
   eth2:   {addr:'0x47ac0Fb4F2D84898e4D9E7b4DaB3C24507a6D503',chains:['ethereum']},
@@ -782,7 +782,7 @@ function stepSt(el,st,msg){
   el.className='pstep '+st;
   const ic=el.querySelector('.picon');
   ic.className='picon'+(st==='act'?' spin':'');
-  ic.textContent=st==='done'?'â':st==='err'?'â':'';
+  ic.textContent=st==='done'?'Ã¢ÂÂ':st==='err'?'Ã¢ÂÂ':'';
   if(msg)el.querySelector('span').textContent=msg;
 }
 
@@ -850,7 +850,7 @@ async function fetchSolana(addr){
         const info=acc.account.data.parsed?.info;
         if(!info)continue;
         const amt=parseFloat(info.tokenAmount?.uiAmount||0);
-        if(amt>0){res.tokens.push({sym:info.mint.slice(0,6)+'â¦',name:'SPL Token',raw:parseInt(info.tokenAmount.amount||0),dec:info.tokenAmount.decimals||0,usd:0,risk:75,band:'High'});n++;}
+        if(amt>0){res.tokens.push({sym:info.mint.slice(0,6)+'Ã¢ÂÂ¦',name:'SPL Token',raw:parseInt(info.tokenAmount.amount||0),dec:info.tokenAmount.decimals||0,usd:0,risk:75,band:'High'});n++;}
       }
     }
   }catch(e){res.error=`Solana RPC: ${e.message}`;}
@@ -880,17 +880,17 @@ async function startWalletScan(){
   if(selChains.size===0){alert('Select at least one chain.');return;}
   document.getElementById('w-results').style.display='none';
   document.getElementById('w-scan-btn').disabled=true;
-  document.getElementById('w-scan-btn').textContent='Scanningâ¦';
+  document.getElementById('w-scan-btn').textContent='ScanningÃ¢ÂÂ¦';
   document.getElementById('prog-steps').innerHTML='';
   document.getElementById('prog-wrap').style.display='block';
-  const s0=mkStep('Fetching live prices from CoinGeckoâ¦');
+  const s0=mkStep('Fetching live prices from CoinGeckoÃ¢ÂÂ¦');
   stepSt(s0,'act');
   await fetchPrices();
   stepSt(s0,'done','Prices loaded');
   scanData={};
   for(const cid of selChains){
     const chain=W_CHAINS.find(c=>c.id===cid);
-    const st=mkStep(`Scanning ${chain.name}â¦`);
+    const st=mkStep(`Scanning ${chain.name}Ã¢ÂÂ¦`);
     stepSt(st,'act');
     let res;
     if(chain.qn)res={chain,tokens:[],totalUsd:0,error:null,qnote:'Diamante is quantum-native. No cryptographic exposure. Risk score: 4/100.'};
@@ -898,11 +898,11 @@ async function startWalletScan(){
     else if(chain.type==='solana')res=await fetchSolana(addr);
     else res=await fetchEVM(chain,addr);
     scanData[cid]=res;
-    const msg=res.error?`${chain.name}: ${res.error}`:res.qnote?'Diamante: Quantum-Native â 0 exposure':`${chain.name}: ${res.tokens.length} asset(s) Â· ${fmt(res.totalUsd)}`;
+    const msg=res.error?`${chain.name}: ${res.error}`:res.qnote?'Diamante: Quantum-Native Ã¢ÂÂ 0 exposure':`${chain.name}: ${res.tokens.length} asset(s) ÃÂ· ${fmt(res.totalUsd)}`;
     stepSt(st,res.error?'err':'done',msg);
     await new Promise(r=>setTimeout(r,100));
   }
-  const sf=mkStep('Computing quantum exposureâ¦');stepSt(sf,'act');
+  const sf=mkStep('Computing quantum exposureÃ¢ÂÂ¦');stepSt(sf,'act');
   await new Promise(r=>setTimeout(r,400));
   stepSt(sf,'done','Quantum risk calculated');
   document.getElementById('prog-wrap').style.display='none';
@@ -917,20 +917,20 @@ function renderWalletResults(addr){
   const totalVar=all.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);
   const avg=all.length?Math.round(all.reduce((s,t)=>s+t.risk,0)/all.length):0;
   const top=all.slice().sort((a,b)=>b.risk-a.risk)[0];
-  document.getElementById('w-addr-lbl').textContent=short(addr)+' Â· '+selChains.size+' chain(s)';
+  document.getElementById('w-addr-lbl').textContent=short(addr)+' ÃÂ· '+selChains.size+' chain(s)';
   document.getElementById('w-totalvar').textContent=fmt(totalVar);
   document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(totalUsd)}<br>Assets found: ${all.length}<br>Avg risk score: ${avg}/100`;
   document.getElementById('w-sum').innerHTML=`
     <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(totalUsd)}</div><div class="mc-s">on-chain</div></div>
     <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(totalVar)}</div><div class="mc-s">quantum exposure</div></div>
     <div class="mc"><div class="mc-l">Avg Risk Score</div><div class="mc-v">${avg}/100</div><div class="mc-s">all assets</div></div>
-    <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:'â'}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
+    <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:'Ã¢ÂÂ'}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
   document.getElementById('w-chains-out').innerHTML=Object.values(scanData).map(res=>{
     const c=res.chain;
     const ct=res.tokens.reduce((s,t)=>s+t.usd,0);
     if(res.qnote)return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">Quantum-Native</div></div></div><div class="cbtotal" style="color:var(--g)">Risk: 4/100</div></div><div class="chain-msg">${res.qnote}</div></div>`;
-    const rows=res.tokens.length>0?res.tokens.sort((a,b)=>b.usd-a.usd).map(t=>`<div class="tok-row"><div class="tsym">${t.sym}</div><div class="tname">${t.name}</div><div class="tbal">${fbal(t.raw,t.dec)}</div><div class="tusd" style="color:${t.usd>0?'var(--t)':'var(--tf)'}">${t.usd>0?fmt(t.usd):'â'}</div><div class="trisk"><div class="trs" style="color:${bcolor(t.band)}">${t.risk}</div><div class="tband ${bcls(t.band)}">${t.band}</div></div><div class="tvar">${t.usd>0?fmt(t.usd*(t.risk/100)*0.65):'â'}</div></div>`).join(''):`<div class="chain-msg" style="color:${res.error?'rgba(255,100,100,0.6)':'var(--tf)'}">${res.error||'No assets found on '+c.name+'.'}</div>`;
-    return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} Â· ${res.tokens.length} asset(s)</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
+    const rows=res.tokens.length>0?res.tokens.sort((a,b)=>b.usd-a.usd).map(t=>`<div class="tok-row"><div class="tsym">${t.sym}</div><div class="tname">${t.name}</div><div class="tbal">${fbal(t.raw,t.dec)}</div><div class="tusd" style="color:${t.usd>0?'var(--t)':'var(--tf)'}">${t.usd>0?fmt(t.usd):'Ã¢ÂÂ'}</div><div class="trisk"><div class="trs" style="color:${bcolor(t.band)}">${t.risk}</div><div class="tband ${bcls(t.band)}">${t.band}</div></div><div class="tvar">${t.usd>0?fmt(t.usd*(t.risk/100)*0.65):'Ã¢ÂÂ'}</div></div>`).join(''):`<div class="chain-msg" style="color:${res.error?'rgba(255,100,100,0.6)':'var(--tf)'}">${res.error||'No assets found on '+c.name+'.'}</div>`;
+    return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} ÃÂ· ${res.tokens.length} asset(s)</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
   }).join('');
   const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const bkmax=bkdata[0]?.v||1;
@@ -940,7 +940,7 @@ function renderWalletResults(addr){
 
 function resetWallet(){document.getElementById('w-results').style.display='none';document.getElementById('w-addr').value='';scanData={};}
 
-/* âââ COMPARE âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ COMPARE Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function renderCmpChips(){
   document.getElementById('cmp-chips').innerHTML=DS.map(e=>`<div class="cs-chip${cmpSel.includes(e.id)?' selected':''}" onclick="toggleCmp('${e.id}')">${e.name}</div>`).join('');
   updateCmpCount();
@@ -953,7 +953,7 @@ function toggleCmp(id){
   if(cmpSel.length>=2)renderCmpResults();
   else document.getElementById('cmp-results').style.display='none';
 }
-function updateCmpCount(){const n=cmpSel.length;document.getElementById('cmp-count').textContent=n===0?'0 selected â pick at least 2':n===1?'1 selected â pick 1 more':`${n} selected`;}
+function updateCmpCount(){const n=cmpSel.length;document.getElementById('cmp-count').textContent=n===0?'0 selected Ã¢ÂÂ pick at least 2':n===1?'1 selected Ã¢ÂÂ pick 1 more':`${n} selected`;}
 function renderCmpResults(){
   const ents=cmpSel.map(id=>DS.find(e=>e.id===id));
   const scores=ents.map(e=>({e,r:calcRisk(e)}));
@@ -972,13 +972,13 @@ function renderCmpResults(){
   </div>`).join('');
   const diff=highest.r.s-lowest.r.s;
   const verdict=lowest.e.diam
-    ?`Diamante stands structurally apart from all compared entities â as the only quantum-native L1, it carries a risk score of ${lowest.r.s}/100 versus ${highest.e.name}'s ${highest.r.s}/100. This ${diff}-point gap represents the difference between needing to migrate cryptographic infrastructure and already being built for the post-quantum era.`
-    :`Among the ${scores.length} entities compared, ${lowest.e.name} carries the lowest quantum exposure at ${lowest.r.s}/100, while ${highest.e.name} faces the highest risk at ${highest.r.s}/100 â a ${diff}-point spread.`;
+    ?`Diamante stands structurally apart from all compared entities Ã¢ÂÂ as the only quantum-native L1, it carries a risk score of ${lowest.r.s}/100 versus ${highest.e.name}'s ${highest.r.s}/100. This ${diff}-point gap represents the difference between needing to migrate cryptographic infrastructure and already being built for the post-quantum era.`
+    :`Among the ${scores.length} entities compared, ${lowest.e.name} carries the lowest quantum exposure at ${lowest.r.s}/100, while ${highest.e.name} faces the highest risk at ${highest.r.s}/100 Ã¢ÂÂ a ${diff}-point spread.`;
   document.getElementById('cmp-verdict').textContent=verdict;
   document.getElementById('cmp-results').style.display='block';
 }
 
-/* âââ SHARE âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ SHARE Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 function renderShareChips(){
   document.getElementById('share-chips').innerHTML=DS.map(e=>`<div class="chip${shareEnt&&shareEnt.id===e.id?' chip-active':''}" style="${shareEnt&&shareEnt.id===e.id?'border-color:var(--g);color:var(--g);background:var(--gd);':''}" onclick="genCard('${e.id}')">${e.name}</div>`).join('');
 }
@@ -987,7 +987,7 @@ function genCard(id){
   const r=calcRisk(shareEnt);
   document.getElementById('rc-date').textContent=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}).toUpperCase();
   document.getElementById('rc-name').textContent=shareEnt.name;
-  document.getElementById('rc-cat').textContent=shareEnt.cat+' Â· '+shareEnt.scheme;
+  document.getElementById('rc-cat').textContent=shareEnt.cat+' ÃÂ· '+shareEnt.scheme;
   const sc=document.getElementById('rc-score');sc.textContent=r.s;sc.style.color=bcolor(r.band);
   document.getElementById('rc-var').textContent=r.var;
   const bd=document.getElementById('rc-band');bd.textContent=r.band;bd.className='mini-band '+r.cls;
@@ -1004,7 +1004,7 @@ function copyPost(){
   navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
 }
 
-/* âââ INIT âââ */
+/* Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ INIT Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂ */
 renderChips();
 renderGrid('all');
 renderWChains();
