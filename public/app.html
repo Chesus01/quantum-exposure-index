@@ -374,24 +374,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.75rem;">Scan any wallet. Any chain.</h2>
     <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
 
-    <div class="api-note">
-      <strong> Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
-      1. Go to <strong>etherscan.io</strong>  Sign up (free)  My Account  API Keys  Add<br>
-      2. Paste your key below and click Save  it stores in your browser permanently<br>
-      <div class="api-key-row" style="margin-top:10px;">
-        <input class="key-inp" id="etherscan-key" placeholder="Paste your free Etherscan API key here (etherscan.io/myapikey)" />
-        <button class="key-btn" onclick="saveKey()">Save Key</button>
-        <span id="key-saved" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--g);opacity:0;transition:opacity 0.3s;align-self:center;"></span>
-      </div>
-    </div>
-
-    <div class="sl" style="margin-bottom:10px;">Select chains to scan</div>
-    <div class="chain-grid" id="w-chains"></div>
-
-    <div class="addr-row">
-      <input class="ainp" id="w-addr" placeholder="0x... for EVM chains &middot; base58 for Solana &middot; bc1... for Bitcoin" spellcheck="false" autocomplete="off"/>
-      <button class="btn-g" id="w-scan-btn" onclick="startWalletScan()">Scan Wallet</button>
-    </div>
+    
     <div class="demos">
       <span class="dlbl">Try:</span>
       <div class="dbtn" onclick="wDemo('vitalik')">Vitalik.eth</div>
