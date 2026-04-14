@@ -842,7 +842,7 @@ async function fetchSolana(addr){
   const chain=W_CHAINS.find(c=>c.id==='solana');
   const res={chain,tokens:[],totalUsd:0,error:null};
   try{
-    const r=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[addr]})});
+    const r=await fetch('/api/solana',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[addr]})});
     const d=await r.json();
     if(d.result!==undefined){
       const lamps=typeof d.result==='object'?d.result.value:d.result;
@@ -851,7 +851,7 @@ async function fetchSolana(addr){
       const usd=sol*price;
       if(sol>0.001){res.tokens.push({sym:'SOL',name:'Solana',raw:lamps,dec:9,usd,risk:75,band:'High'});res.totalUsd+=usd;}
     }
-    const sr=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getTokenAccountsByOwner',params:[addr,{programId:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'},{encoding:'jsonParsed'}]})});
+    const sr=await fetch('/api/solana',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getTokenAccountsByOwner',params:[addr,{programId:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'},{encoding:'jsonParsed'}]})});
     const sd=await sr.json();
     if(sd.result&&sd.result.value){
       let n=0;
