@@ -1,28 +1,27 @@
 export default async function handler(req,res){
   res.setHeader('Access-Control-Allow-Origin','*');
-  const body=req.body||await new Promise(r=>{let d='';req.on('data',c=>d+=c);req.on('end',()=>r(JSON.parse(d)));});
-  
-  // Try multiple public Solana RPCs in order
+  if(req.method==='OPTIONS'){return res.status(200).end();}
+  const body=typeof req.body==='object'?req.body:JSON.parse(req.body||'{}');
+  const heliusKey=process.env.HELIUS_API_KEY;
   const rpcs=[
+    heliusKey?'https://mainnet.helius-rpc.com/?api-key='+heliusKey:null,
     'https://api.mainnet-beta.solana.com',
-    'https://solana-api.projectserum.com',
     'https://rpc.ankr.com/solana',
-    'https://solana.public-rpc.com'
-  ];
-  
+  ].filter(Boolean);
   for(const rpc of rpcs){
     try{
       const r=await fetch(rpc,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(body),
-        signal:AbortSignal.timeout(5000)
+        signal:AbortSignal.timeout(6000)
       });
+      if(!r.ok)continue;
       const d=await r.json();
-      if(d.result!==null && d.result!==undefined){
+      if(d.result!==null&&d.result!==undefined){
         return res.status(200).json(d);
       }
-    }catch(e){ continue; }
+    }catch(e){continue;}
   }
-  res.status(200).json({result:null,error:{message:'All RPCs failed'}});
+  res.status(200).json({jsonrpc:'2.0',result:null,error:{code:-32000,message:'All RPCs failed'}});
 }
