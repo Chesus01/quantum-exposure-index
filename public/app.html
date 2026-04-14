@@ -301,94 +301,123 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 <div class="ticker"><div class="ticker-inner" id="ticker"></div></div>
 
 <!-- GLOBAL STATS -->
-<div class="gstats" id="gstats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--bd);border-bottom:2px solid var(--bd);">
-  <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-tvr">Loading...</div><div class="gs-s">all indexed entities</div></div>
-  <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top">--</div><div class="gs-s">systemic exposure</div></div>
-  <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-prices">Loading...</div><div class="gs-s">CoinGecko API</div></div>
-  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v" id="gs-count">12</div><div class="gs-s">+ AI-scored on demand</div></div>
+<div class="gstats" id="gstats">
+  <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-var">Loading...</div><div class="gs-s">all indexed entities</div></div>
+  <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top"></div><div class="gs-s">systemic exposure</div></div>
+  <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-live">Loading...</div><div class="gs-s">CoinGecko API</div></div>
+  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">12</div><div class="gs-s">+ AI-scored on demand</div></div>
 </div>
 
-<div id="app">
-
-<div id="tab-home" class="view">
-  <div class="gbg"></div><div class="scanline"></div>
-  <section class="hero" style="padding:6rem 2rem 4rem;text-align:center;position:relative;z-index:2;">
+<!-- HOME TAB -->
+<div class="view active" id="tab-home">
+  <div class="hero">
     <div class="eyebrow">Quantum Threat Intelligence</div>
-    <h1>How exposed is<br>your stack to<br><span style="color:var(--g);">quantum?</span></h1>
+    <h1>How exposed is your<br>stack to <em>quantum</em>?</h1>
     <p class="hero-sub">Real-time market data. AI-generated risk narratives. Multi-chain wallet scanning. Search any entity or paste your wallet address.</p>
-    <div class="search-box" style="max-width:640px;margin:0 auto 1.5rem;">
-      <input id="main-search" placeholder="Search any company, blockchain, or protocol..." oninput="aiSearch(this.value)" onkeydown="if(event.key==='Enter')aiSearch(this.value,true)">
-      <button class="btn-g" onclick="aiSearch(document.getElementById('main-search').value,true)">AI Score ^</button>
+    <div class="search-wrap">
+      <div class="search-box">
+        <input type="text" id="si" placeholder="Search any company, blockchain, or protocol..." autocomplete="off"/>
+        <button class="ai-btn" id="ai-btn" onclick="aiSearch()">AI Score </button>
+      </div>
+      <div class="dd" id="dd"></div>
     </div>
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;" id="chips"></div>
-  </section>
-  <div id="ai-result" style="max-width:760px;margin:0 auto 2rem;padding:0 2rem;"></div>
-  <div style="padding:0 2rem 4rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px;">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--tf);">QUANTUM EXPOSURE INDEX</div>
-      <div id="filters" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 2rem 4rem;">
+    <div class="sh">
+      <div class="sl">All entities  sorted by risk</div>
+      <div class="filter-row" id="filters">
+        <button class="fb active" data-cat="all">All</button>
+        <button class="fb" data-cat="Blockchain">Blockchain</button>
+        <button class="fb" data-cat="Exchange">Exchange</button>
+        <button class="fb" data-cat="Company">Company</button>
+        <button class="fb" data-cat="Wallet">Wallet</button>
+        <button class="fb" data-cat="Protocol">Protocol</button>
+      </div>
     </div>
-    <div id="egrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--bd);border:2px solid var(--bd);border-radius:12px;overflow:hidden;"></div>
+    <div class="egrid" id="egrid"></div>
+  </div>
+
+  <!-- ENTITY DETAIL -->
+  <div class="detail" id="detail" style="padding:0 2rem 4rem;">
+    <button class="back-btn" onclick="closeDetail()"> Back to index</button>
+    <div id="ai-banner" style="display:none;background:rgba(100,150,255,0.05);border:1px solid rgba(100,150,255,0.2);border-radius:7px;padding:0.625rem 1rem;margin-bottom:1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.7);display:flex;align-items:center;gap:7px;">
+      <div class="spinner"></div>AI-generated score &middot; Powered by Claude
+    </div>
+    <div class="d-hdr">
+      <div><div class="d-name" id="d-name"></div><div class="d-cat-tag" id="d-cat"></div></div>
+      <div style="text-align:right;"><div class="d-score-big" id="d-score"></div><div class="d-band-lbl" id="d-band"></div></div>
+    </div>
+    <div class="meter-track"><div class="meter-fill" id="d-meter" style="width:0%"></div></div>
+    <div class="meter-labels"><span>Low</span><span>Moderate</span><span>High</span><span>Critical</span><span>Systemic</span></div>
+    <div class="var-box">
+      <div><div class="vb-lbl">Estimated Value at Risk</div><div class="vb-amt" id="d-var"></div></div>
+      <div class="vb-conf" id="d-conf"></div>
+    </div>
+    <div class="metric-grid" id="d-metrics"></div>
+    <div style="margin-bottom:1.75rem;">
+      <div class="sl" style="margin-bottom:.875rem;">Risk factor breakdown</div>
+      <div id="d-breakdown"></div>
+    </div>
+    <div class="ai-box">
+      <div class="ai-hdr"><div class="ai-lbl">AI Threat Analysis</div><div class="ai-badge">Claude &middot; Generated</div></div>
+      <div id="ai-narrative"><div class="ai-loading"><div class="spinner"></div>&nbsp;Generating quantum threat analysis</div></div>
+    </div>
+    <div class="disc">DISCLAIMER  Scores and values are modeled estimates, not financial or security advice. Live data from CoinGecko. AI narratives generated by Claude (Anthropic). Quantum timelines are speculative.</div>
   </div>
 </div>
 
 <!-- WALLET SCANNER TAB -->
-<div id="tab-wallet" class="view">
-class="view">
+<div class="view" id="tab-wallet">
   <div style="max-width:960px;margin:0 auto;">
     <div class="eyebrow">On-Chain Quantum Risk</div>
     <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.75rem;">Scan any wallet. Any chain.</h2>
-    <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;">Enter any wallet address to scan quantum exposure across all supported chains.</p>
+    <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
 
-    <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
-      <input id="w-addr" placeholder="Paste wallet address (0x... or Solana or BTC)..." style="flex:1;min-width:260px;background:rgba(255,255,255,0.04);border:2px solid var(--gb);border-radius:9px;padding:13px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--t);outline:none;" oninput="this.style.borderColor='rgba(0,220,130,0.4)'" onkeydown="if(event.key==='Enter')startWalletScan()">
-      <button id="w-scan-btn" onclick="startWalletScan()" style="background:var(--g);color:#000;border:none;border-radius:9px;padding:13px 24px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Scan Wallet</button>
-    </div>
-
-    <div style="margin-bottom:1rem;">
-      <details style="background:rgba(255,255,255,0.03);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;">
-        <summary style="font-family:'DM Mono',monospace;font-size:11px;color:var(--td);cursor:pointer;list-style:none;">+ Using ETH / Polygon / BNB / Arbitrum / Optimism / Base? Add a free Etherscan key for full results</summary>
-        <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--td);line-height:1.7;">
-          Get your free key at <a href="https://etherscan.io/myapikey" target="_blank" style="color:var(--g);">etherscan.io/myapikey</a> (2 min signup, no credit card)
-          <div style="display:flex;gap:8px;margin-top:10px;">
-            <input id="eth-key-input" placeholder="Paste Etherscan API key..." style="flex:1;background:rgba(255,255,255,0.04);border:1.5px solid var(--bd);border-radius:7px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;">
-            <button onclick="const k=document.getElementById('eth-key-input').value.trim();if(k){localStorage.setItem('ethKey',k);ethKey=k;this.textContent='Saved!';setTimeout(()=>this.textContent='Save',1500);}" style="background:var(--g);color:#000;border:none;border-radius:7px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;">Save</button>
-          </div>
-        </div>
-      </details>
-    </div>
-
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);margin-bottom:12px;">SELECT CHAINS TO SCAN</div>
-    <div id="w-chains" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;"></div>
-
-    <div style="margin-bottom:1rem;">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tf);margin-bottom:8px;">DEMO ADDRESSES</div>
-      <div class="demos">
-        <span class="dlbl">Try:</span>
-        <button class="dbtn" onclick="wDemo('eth')">ETH Whale</button>
-        <button class="dbtn" onclick="wDemo('sol')">SOL Wallet</button>
-        <button class="dbtn" onclick="wDemo('btc')">BTC Address</button>
-        <button class="dbtn" onclick="wDemo('abs')">Abstract</button>
+    <div class="api-note">
+      <strong> Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
+      1. Go to <strong>etherscan.io</strong>  Sign up (free)  My Account  API Keys  Add<br>
+      2. Paste your key below and click Save  it stores in your browser permanently<br>
+      <div class="api-key-row" style="margin-top:10px;">
+        <input class="key-inp" id="etherscan-key" placeholder="Paste your free Etherscan API key here (etherscan.io/myapikey)" />
+        <button class="key-btn" onclick="saveKey()">Save Key</button>
+        <span id="key-saved" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--g);opacity:0;transition:opacity 0.3s;align-self:center;"></span>
       </div>
     </div>
 
-    <div id="w-status" style="font-family:'DM Mono',monospace;font-size:12px;color:var(--g);margin-bottom:1rem;min-height:20px;"></div>
+    <div class="sl" style="margin-bottom:10px;">Select chains to scan</div>
+    <div class="chain-grid" id="w-chains"></div>
 
-    <div class="varbox" style="margin-bottom:1rem;">
-      <div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div>
-      <div class="vbr" id="w-vbr"></div>
+    <div class="addr-row">
+      <input class="ainp" id="w-addr" placeholder="0x... for EVM chains &middot; base58 for Solana &middot; bc1... for Bitcoin" spellcheck="false" autocomplete="off"/>
+      <button class="btn-g" id="w-scan-btn" onclick="startWalletScan()">Scan Wallet</button>
     </div>
-    <div class="metric-grid" id="w-sum"></div>
-    <div id="w-chains-out"></div>
-    <div id="w-results"></div>
+    <div class="demos">
+      <span class="dlbl">Try:</span>
+      <div class="dbtn" onclick="wDemo('vitalik')">Vitalik.eth</div>
+      <div class="dbtn" onclick="wDemo('eth2')">ETH Whale</div>
+      <div class="dbtn" onclick="wDemo('sol')">Solana wallet</div>
+      <div class="dbtn" onclick="wDemo('btc')">Bitcoin address</div>
+    </div>
+
+    <div class="prog-wrap" id="prog-wrap"><div id="prog-steps"></div></div>
+
+    <div class="w-results" id="w-results">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
+        <div><div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div></div>
+        <button class="btn-o" onclick="resetWallet()"> New Scan</button>
+      </div>
+      <div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div></div>
+      <div class="metric-grid" id="w-sum"></div>
+      <div id="w-chains-out"></div>
+      <div class="bkbox"><div class="bklbl">Exposure by chain</div><div id="w-bk"></div></div>
+      <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections  not financial advice.</div>
+    </div>
   </div>
-</div>
-<div class="v
 </div>
 
 <!-- COMPARE TAB -->
-<div id="tab-compare" class="view">
-
+<div class="view" id="tab-compare">
   <div style="max-width:1000px;margin:0 auto;">
     <div class="eyebrow">Side-by-Side Analysis</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
@@ -403,11 +432,7 @@ class="view">
 </div>
 
 <!-- SHARE TAB -->
-<div class="v
-</div>
-
-<!-- SHARE / REPORT CARDS TAB -->
-<div id="tab-share" class="view">
+<div class="view" id="tab-share">
   <div style="max-width:700px;margin:0 auto;">
     <div class="eyebrow">Shareable Report Cards</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Generate & Share</h2>
@@ -437,7 +462,6 @@ class="view">
       </div>
     </div>
   </div>
-</d
 </div>
 
 </div><!-- end #app -->
@@ -471,7 +495,7 @@ const W_CHAINS=[
   {id:'avalanche',name:'Avalanche', sym:'AVAX', col:'#e84142', type:'snowtrace', cgId:'avalanche-2',  dec:18, risk:76, band:'High'},
 
   {id:'abstract', name:'Abstract', sym:'ETH', col:'#00ff87', type:'abstract', cgId:'ethereum', dec:18, risk:78, band:'High'},
-  {id:'diamante', name:'Diamante',  sym:'DIAM', col:'#00dc82', type:'quantum',   cgId:null,           dec:7,  risk:4,  band:'Quantum-Native', qn:true},
+  id:'diamante', name:'Diamante',  sym:'DIAM', col:'#00dc82', type:'quantum',   cgId:null,           dec:7,  risk:4,  band:'Quantum-Native', qn:true},
 ];
 
 const SCAN_URLS={
@@ -863,8 +887,6 @@ async function fetchBitcoin(addr){
 }
 
 async function startWalletScan(){
-  try{
-
   const addr=document.getElementById('w-addr').value.trim();
   if(!addr){alert('Enter a wallet address.');return;}
   if(selChains.size===0){alert('Select at least one chain.');return;}
@@ -992,13 +1014,6 @@ function copyPost(){
   const r=calcRisk(shareEnt);
   const txt=`${shareEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
-
-  }catch(e){
-    console.error('Scan error:',e);
-  }finally{
-    const b=document.getElementById('w-scan-btn');
-    if(b){b.disabled=false;b.textContent='Scan Wallet';}
-  }
 }
 
 /*  INIT  */
