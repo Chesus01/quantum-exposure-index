@@ -376,7 +376,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 
     <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
       <input id="w-addr" placeholder="Paste wallet address (0x... or Solana or BTC)..." style="flex:1;min-width:260px;background:rgba(255,255,255,0.04);border:2px solid var(--gb);border-radius:9px;padding:13px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--t);outline:none;" oninput="this.style.borderColor='rgba(0,220,130,0.4)'" onkeydown="if(event.key==='Enter')startWalletScan()">
-      <button onclick="startWalletScan()" style="background:var(--g);color:#000;border:none;border-radius:9px;padding:13px 24px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Scan Wallet</button>
+      <button id="w-scan-btn" onclick="startWalletScan()" style="background:var(--g);color:#000;border:none;border-radius:9px;padding:13px 24px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Scan Wallet</button>
     </div>
 
     <div style="margin-bottom:1rem;">
