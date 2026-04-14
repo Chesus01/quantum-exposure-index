@@ -368,55 +368,56 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 </div>
 
 <!-- WALLET SCANNER TAB -->
-<div class="view" id="tab-wallet">
+<div class="v<div id="tab-wallet" class="view">
   <div style="max-width:960px;margin:0 auto;">
     <div class="eyebrow">On-Chain Quantum Risk</div>
     <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.75rem;">Scan any wallet. Any chain.</h2>
-    <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
+    <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;">Enter any wallet address to scan quantum exposure across all supported chains.</p>
 
-    
-    <div class="demos">
-      <span class="dlbl">Try:</span>
-      <div class="dbtn" onclick="wDemo('vitalik')">Vitalik.eth</div>
-      <div class="dbtn" onclick="wDemo('eth2')">ETH Whale</div>
-      <div class="dbtn" onclick="wDemo('sol')">Solana wallet</div>
-      <div class="dbtn" onclick="wDemo('btc')">Bitcoin address</div>
-    </div>
-
-    <div class="prog-wrap" id="prog-wrap"><div id="prog-steps"></div></div>
-
-    <div class="w-results" id="w-results">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
-        <div><div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div></div>
-        <button class="btn-o" onclick="resetWallet()"> New Scan</button>
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
+    <div style="display:flex;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap;">
       <input id="w-addr" placeholder="Paste wallet address (0x... or Solana or BTC)..." style="flex:1;min-width:260px;background:rgba(255,255,255,0.04);border:2px solid var(--gb);border-radius:9px;padding:13px 16px;font-family:'DM Mono',monospace;font-size:13px;color:var(--t);outline:none;" oninput="this.style.borderColor='rgba(0,220,130,0.4)'" onkeydown="if(event.key==='Enter')startWalletScan()">
       <button onclick="startWalletScan()" style="background:var(--g);color:#000;border:none;border-radius:9px;padding:13px 24px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;">Scan Wallet</button>
     </div>
-    <details style="margin-bottom:1.25rem;background:rgba(255,255,255,0.03);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;">
-      <summary style="font-family:'DM Mono',monospace;font-size:11px;color:var(--td);cursor:pointer;list-style:none;">+ Using ETH / Polygon / BNB / Arbitrum / Optimism / Base? Add a free Etherscan key for full results</summary>
-      <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--td);line-height:1.7;">
-        Get your free key at <a href="https://etherscan.io/myapikey" target="_blank" style="color:var(--g);">etherscan.io/myapikey</a> (2 min signup, no credit card)
-        <div style="display:flex;gap:8px;margin-top:10px;">
-          <input id="eth-key-input" placeholder="Paste Etherscan API key..." style="flex:1;background:rgba(255,255,255,0.04);border:1.5px solid var(--bd);border-radius:7px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;">
-          <button onclick="const k=document.getElementById('eth-key-input').value.trim();if(k){localStorage.setItem('ethKey',k);ethKey=k;this.textContent='Saved!';setTimeout(()=>this.textContent='Save',1500);}" style="background:var(--g);color:#000;border:none;border-radius:7px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;">Save</button>
+
+    <div style="margin-bottom:1rem;">
+      <details style="background:rgba(255,255,255,0.03);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;">
+        <summary style="font-family:'DM Mono',monospace;font-size:11px;color:var(--td);cursor:pointer;list-style:none;">+ Using ETH / Polygon / BNB / Arbitrum / Optimism / Base? Add a free Etherscan key for full results</summary>
+        <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--td);line-height:1.7;">
+          Get your free key at <a href="https://etherscan.io/myapikey" target="_blank" style="color:var(--g);">etherscan.io/myapikey</a> (2 min signup, no credit card)
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <input id="eth-key-input" placeholder="Paste Etherscan API key..." style="flex:1;background:rgba(255,255,255,0.04);border:1.5px solid var(--bd);border-radius:7px;padding:8px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;">
+            <button onclick="const k=document.getElementById('eth-key-input').value.trim();if(k){localStorage.setItem('ethKey',k);ethKey=k;this.textContent='Saved!';setTimeout(()=>this.textContent='Save',1500);}" style="background:var(--g);color:#000;border:none;border-radius:7px;padding:8px 14px;font-family:'DM Mono',monospace;font-size:11px;font-weight:700;cursor:pointer;">Save</button>
+          </div>
         </div>
-      </div>
-    </details>
+      </details>
+    </div>
+
     <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);margin-bottom:12px;">SELECT CHAINS TO SCAN</div>
     <div id="w-chains" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;"></div>
-    <div class="varbox"><div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div></div>
-      <div class="metric-grid" id="w-sum"></div>
-      <div id="w-chains-out"></div>
-      <div class="bkbox"><div class="bklbl">Exposure by chain</div><div id="w-bk"></div></div>
-      <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections  not financial advice.</div>
+
+    <div style="margin-bottom:1rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--tf);margin-bottom:8px;">DEMO ADDRESSES</div>
+      <div class="demos">
+        <span class="dlbl">Try:</span>
+        <button class="dbtn" onclick="wDemo('eth')">ETH Whale</button>
+        <button class="dbtn" onclick="wDemo('sol')">SOL Wallet</button>
+        <button class="dbtn" onclick="wDemo('btc')">BTC Address</button>
+        <button class="dbtn" onclick="wDemo('abs')">Abstract</button>
+      </div>
     </div>
+
+    <div id="w-status" style="font-family:'DM Mono',monospace;font-size:12px;color:var(--g);margin-bottom:1rem;min-height:20px;"></div>
+
+    <div class="varbox" style="margin-bottom:1rem;">
+      <div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div>
+      <div class="vbr" id="w-vbr"></div>
+    </div>
+    <div class="metric-grid" id="w-sum"></div>
+    <div id="w-chains-out"></div>
+    <div id="w-results"></div>
   </div>
 </div>
-
-<!-- COMPARE TAB -->
-<div class="view" id="tab-compare">
+iew" id="tab-compare">
   <div style="max-width:1000px;margin:0 auto;">
     <div class="eyebrow">Side-by-Side Analysis</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
