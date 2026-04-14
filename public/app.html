@@ -417,7 +417,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div id="w-results"></div>
   </div>
 </div>
-<div class="view" id="tab-compare">
+<div class="v<div class="view" id="tab-compare">
   <div style="max-width:1000px;margin:0 auto;">
     <div class="eyebrow">Side-by-Side Analysis</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
@@ -887,6 +887,8 @@ async function fetchBitcoin(addr){
 }
 
 async function startWalletScan(){
+  try{
+
   const addr=document.getElementById('w-addr').value.trim();
   if(!addr){alert('Enter a wallet address.');return;}
   if(selChains.size===0){alert('Select at least one chain.');return;}
@@ -1014,6 +1016,13 @@ function copyPost(){
   const r=calcRisk(shareEnt);
   const txt=`${shareEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
+
+  }catch(e){
+    console.error('Scan error:',e);
+  }finally{
+    const b=document.getElementById('w-scan-btn');
+    if(b){b.disabled=false;b.textContent='Scan Wallet';}
+  }
 }
 
 /*  INIT  */
