@@ -109,8 +109,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .egrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--bd);border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;}
 .ecard{background:var(--bg2);padding:1.125rem;cursor:pointer;transition:background 0.12s;position:relative;}
 .ecard:hover{background:rgba(0,220,130,0.04);}
-.ecard.diam{border:1px solid rgba(0,220,130,0.3);}
-.qn-tag{position:absolute;top:8px;right:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--g);background:rgba(0,220,130,0.1);border:1px solid rgba(0,220,130,0.25);padding:2px 6px;border-radius:3px;}
+.ecard.diam{border:1.5px solid rgba(0,220,130,0.3);}
+.qn-tag{position:absolute;top:8px;right:8px;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;color:var(--g);background:rgba(0,220,130,0.1);border:1.5px solid rgba(0,220,130,0.25);padding:2px 6px;border-radius:3px;}
 .ec-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;}
 .ec-name{font-size:14px;font-weight:700;}
 .ec-cat{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
@@ -143,13 +143,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .br-track{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;}
 .br-fill{height:100%;border-radius:999px;background:rgba(0,220,130,0.5);transition:width 0.7s ease;}
 .br-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);width:28px;text-align:right;}
-.ai-box{background:rgba(68,136,255,0.04);border:1px solid rgba(68,136,255,0.15);border-radius:10px;padding:1.25rem;margin-bottom:1.75rem;}
+.ai-box{background:rgba(68,136,255,0.04);border:1.5px solid rgba(68,136,255,0.15);border-radius:10px;padding:1.25rem;margin-bottom:1.75rem;}
 .ai-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
 .ai-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(100,150,255,0.7);}
-.ai-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;padding:2px 7px;border-radius:3px;background:rgba(100,150,255,0.1);border:1px solid rgba(100,150,255,0.2);color:rgba(100,150,255,0.8);}
+.ai-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;padding:2px 7px;border-radius:3px;background:rgba(100,150,255,0.1);border:1.5px solid rgba(100,150,255,0.2);color:rgba(100,150,255,0.8);}
 .ai-text{font-size:13px;color:rgba(232,237,245,0.7);line-height:1.75;}
 .ai-loading{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:rgba(100,150,255,0.6);}
-.disc{background:rgba(250,180,0,0.03);border:1px solid rgba(250,180,0,0.12);border-radius:7px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(250,180,0,0.5);line-height:1.65;letter-spacing:0.02em;}
+.disc{background:rgba(250,180,0,0.03);border:1.5px solid rgba(250,180,0,0.12);border-radius:7px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(250,180,0,0.5);line-height:1.65;letter-spacing:0.02em;}
 
 /*  GLOBAL STATS  */
 .gstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--bd);border:1.5px solid var(--bd);border-radius:10px;overflow:hidden;margin:0 2rem 2rem;max-width:calc(100% - 4rem);}
@@ -175,13 +175,19 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .dlbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
 .dbtn{font-family:'DM Mono',monospace;font-size:10px;padding:4px 11px;border:1.5px solid var(--bd2);border-radius:5px;color:var(--td);cursor:pointer;background:transparent;transition:all 0.15s;}
 .dbtn:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
-.api-note{background:rgba(68,136,255,0.06);border:1px solid rgba(68,136,255,0.2);border-radius:8px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,160,255,0.8);line-height:1.7;margin-bottom:1.5rem;letter-spacing:0.02em;}
+.api-note{background:rgba(68,136,255,0.06);border:1.5px solid rgba(68,136,255,0.2);border-radius:8px;padding:0.875rem 1.1rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,160,255,0.8);line-height:1.7;margin-bottom:1.5rem;letter-spacing:0.02em;}
 .api-note strong{color:rgba(100,160,255,1);}
 .api-key-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.key-inp{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1px solid rgba(68,136,255,0.25);border-radius:6px;padding:7px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;}
+.key-inp{flex:1;min-width:180px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(68,136,255,0.25);border-radius:6px;padding:7px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t);outline:none;}
 .key-inp::placeholder{color:var(--tf);}
-.key-btn{font-family:'DM Mono',monospace;font-size:10px;padding:7px 14px;border:1px solid rgba(68,136,255,0.3);border-radius:6px;color:rgba(100,160,255,0.8);background:rgba(68,136,255,0.08);cursor:pointer;transition:all 0.15s;}
+.key-btn{font-family:'DM Mono',monospace;font-size:10px;padding:7px 14px;border:1.5px solid rgba(68,136,255,0.3);border-radius:6px;color:rgba(100,160,255,0.8);background:rgba(68,136,255,0.08);cursor:pointer;transition:all 0.15s;}
 .key-btn:hover{background:rgba(68,136,255,0.15);}
+.api-details{margin-bottom:1.5rem;}
+.api-details summary{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,160,255,0.7);letter-spacing:0.08em;cursor:pointer;padding:7px 0;list-style:none;user-select:none;}
+.api-details summary::-webkit-details-marker{display:none;}
+.api-details summary::before{content:'▶';font-size:8px;transition:transform 0.18s;}
+.api-details[open] summary::before{transform:rotate(90deg);}
+.api-details summary:hover{color:rgba(100,160,255,1);}
 .prog-wrap{margin-bottom:1.5rem;display:none;}
 .pstep{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:6px;background:rgba(255,255,255,0.02);border:1.5px solid var(--bd);margin-bottom:5px;font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);transition:all 0.25s;}
 .pstep.act{color:var(--t);background:var(--gd);border-color:var(--gb);}
@@ -230,7 +236,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .cs-chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
 .cs-chip.selected{border-color:var(--g);color:var(--g);background:var(--gd);}
 .cmp-card{background:var(--bg2);padding:1.125rem;}
-.cmp-card.winner{border:1px solid rgba(0,220,130,0.35);}
+.cmp-card.winner{border:1.5px solid rgba(0,220,130,0.35);}
 .cmp-score{font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;}
 .cmp-lowest{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);padding:3px 8px;border:2px solid var(--gb);border-radius:3px;display:inline-block;margin-top:8px;}
 .cf-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
@@ -262,19 +268,18 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .rcf{text-align:center;}
 .rcfl{font-family:'DM Mono',monospace;font-size:8px;color:var(--tf);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;}
 .rcfv{font-size:1rem;font-weight:700;}
-.rc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--bd);}
+.rc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1.5px solid var(--bd);}
 .rc-scheme{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
 .rc-qei{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);opacity:0.6;letter-spacing:0.1em;}
 .copy-toast{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);opacity:0;transition:opacity 0.3s;margin-left:8px;}
 
 /* === GLOBAL: All numbers use DM Mono tabular-nums === */
 .ec-score,.gs-v,.mc-v,.ddi-score,.d-score-big,.cmp-score,.rc-sv,.rc-vv,
-.vba,.vb-amt,.tbal,.tusd,.trs,.bkusd,.bkpct,.cf-val,.rcfv,.bd-val,
-.cmp-lowest,.ti-price,.ti-chg,.ec-var,.cbaddr,.cbtotal,.wvar,
-.gs-v,.mc-v,.gbar-val,.w-totalvar {
+.vba,.vb-amt,.tbal,.tusd,.trs,.bkusd,.bkpct,.cf-val,.rcfv,
+.cmp-lowest,.ti-price,.ti-chg,.ec-var,.ec-mcap,.cbaddr,.cbtotal,
+.w-totalvar,.tvar,.gs-s,.mc-s,.cbtotal,.vbr,.wvar-val {
   font-family: 'DM Mono', monospace !important;
   font-variant-numeric: tabular-nums;
-  line-height: 1;
 }
 </style>
 </head>
@@ -342,7 +347,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   <!-- ENTITY DETAIL -->
   <div class="detail" id="detail" style="padding:0 2rem 4rem;">
     <button class="back-btn" onclick="closeDetail()"> Back to index</button>
-    <div id="ai-banner" style="display:none;background:rgba(100,150,255,0.05);border:1px solid rgba(100,150,255,0.2);border-radius:7px;padding:0.625rem 1rem;margin-bottom:1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.7);display:flex;align-items:center;gap:7px;">
+    <div id="ai-banner" style="display:none;background:rgba(100,150,255,0.05);border:1.5px solid rgba(100,150,255,0.2);border-radius:7px;padding:0.625rem 1rem;margin-bottom:1.25rem;font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.7);display:flex;align-items:center;gap:7px;">
       <div class="spinner"></div>AI-generated score &middot; Powered by Claude
     </div>
     <div class="d-hdr">
@@ -375,16 +380,19 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.75rem;">Scan any wallet. Any chain.</h2>
     <p style="font-size:13px;color:var(--td);margin-bottom:1.5rem;line-height:1.75;max-width:560px;">Paste a wallet address, select chains, and get your real quantum exposure calculated from live on-chain data.</p>
 
-    <div class="api-note">
-      <strong> Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
-      1. Go to <strong>etherscan.io</strong>  Sign up (free)  My Account  API Keys  Add<br>
-      2. Paste your key below and click Save  it stores in your browser permanently<br>
-      <div class="api-key-row" style="margin-top:10px;">
-        <input class="key-inp" id="etherscan-key" placeholder="Paste your free Etherscan API key here (etherscan.io/myapikey)" />
-        <button class="key-btn" onclick="saveKey()">Save Key</button>
-        <span id="key-saved" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--g);opacity:0;transition:opacity 0.3s;align-self:center;"></span>
+    <details class="api-details" id="etherscan-details">
+      <summary>Etherscan API Key <span id="key-status" style="color:var(--g);margin-left:4px;"></span></summary>
+      <div class="api-note" style="margin-top:8px;">
+        <strong>Etherscan API Key Required:</strong> Etherscan now requires a free API key for all requests (V2 API). Get yours free in 2 minutes:<br><br>
+        1. Go to <strong>etherscan.io</strong> → Sign up (free) → My Account → API Keys → Add<br>
+        2. Paste your key below and click Save — it stores in your browser permanently<br>
+        <div class="api-key-row" style="margin-top:10px;">
+          <input class="key-inp" id="etherscan-key" placeholder="Paste your free Etherscan API key here (etherscan.io/myapikey)" />
+          <button class="key-btn" onclick="saveKey()">Save Key</button>
+          <span id="key-saved" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--g);opacity:0;transition:opacity 0.3s;align-self:center;"></span>
+        </div>
       </div>
-    </div>
+    </details>
 
     <div class="sl" style="margin-bottom:10px;">Select chains to scan</div>
     <div class="chain-grid" id="w-chains"></div>
@@ -532,7 +540,7 @@ let scanData={};
 let activeFilter='all';
 let detailEnt=null;
 let ethKey=localStorage.getItem('qei_ethkey')||'';
-if(ethKey) document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('etherscan-key');if(el)el.value=ethKey;});
+if(ethKey) document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('etherscan-key');if(el)el.value=ethKey;const ks=document.getElementById('key-status');if(ks)ks.textContent='✓ saved';});
 
 /*  UTILS  */
 function bcolor(b){return{Low:'#00c864',Moderate:'#fab400',High:'#ff6432',Critical:'#dc3232',Systemic:'#b400ff','Quantum-Native':'#00dc82'}[b]||'#888';}
@@ -540,7 +548,7 @@ function bcls(b){return{Low:'bL',Moderate:'bM',High:'bH',Critical:'bC',Systemic:
 function fmt(n){if(!n||isNaN(n)||n===0)return'$0';if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(1)+'K';return'$'+n.toFixed(2);}
 function fbal(raw,dec){const v=raw/Math.pow(10,dec);if(v>=1e6)return(v/1e6).toFixed(2)+'M';if(v>=1e3)return(v/1e3).toFixed(2)+'K';if(v>=1)return v.toFixed(4);return v.toFixed(6);}
 function short(a){if(!a||a.length<=16)return a||'';return a.slice(0,8)+''+a.slice(-6);}
-function saveKey(){ethKey=document.getElementById('etherscan-key').value.trim();localStorage.setItem('qei_ethkey',ethKey);const s=document.getElementById('key-saved');s.textContent='Saved ';s.style.opacity='1';setTimeout(()=>s.style.opacity='0',2000);}
+function saveKey(){ethKey=document.getElementById('etherscan-key').value.trim();localStorage.setItem('qei_ethkey',ethKey);const s=document.getElementById('key-saved');s.textContent='Saved ';s.style.opacity='1';setTimeout(()=>s.style.opacity='0',2000);const ks=document.getElementById('key-status');if(ks){ks.textContent=ethKey?'✓ saved':'';} const det=document.getElementById('etherscan-details');if(det&&ethKey)setTimeout(()=>det.removeAttribute('open'),600);}
 
 function calcRisk(e,mcapOverride){
   if(e.diam)return{s:4,band:'Quantum-Native',var:'$0  Quantum-Native',varRaw:0,pct:4,cls:'bQ'};
@@ -891,37 +899,41 @@ async function startWalletScan(){
   const addr=document.getElementById('w-addr').value.trim();
   if(!addr){alert('Enter a wallet address.');return;}
   if(selChains.size===0){alert('Select at least one chain.');return;}
+  const btn=document.getElementById('w-scan-btn');
   document.getElementById('w-results').style.display='none';
-  document.getElementById('w-scan-btn').disabled=true;
-  document.getElementById('w-scan-btn').textContent='Scanning';
+  btn.disabled=true;
+  btn.textContent='Scanning';
   document.getElementById('prog-steps').innerHTML='';
   document.getElementById('prog-wrap').style.display='block';
-  const s0=mkStep('Fetching live prices from CoinGecko');
-  stepSt(s0,'act');
-  await fetchPrices();
-  stepSt(s0,'done','Prices loaded');
-  scanData={};
-  for(const cid of selChains){
-    const chain=W_CHAINS.find(c=>c.id===cid);
-    const st=mkStep(`Scanning ${chain.name}`);
-    stepSt(st,'act');
-    let res;
-    if(chain.qn)res={chain,tokens:[],totalUsd:0,error:null,qnote:'Diamante is quantum-native. No cryptographic exposure. Risk score: 4/100.'};
-    else if(chain.type==='bitcoin')res=await fetchBitcoin(addr);
-    else if(chain.type==='solana')res=await fetchSolana(addr);
-    else res=await fetchEVM(chain,addr);
-    scanData[cid]=res;
-    const msg=res.error?`${chain.name}: ${res.error}`:res.qnote?'Diamante: Quantum-Native  0 exposure':`${chain.name}: ${res.tokens.length} asset(s) &middot; ${fmt(res.totalUsd)}`;
-    stepSt(st,res.error?'err':'done',msg);
-    await new Promise(r=>setTimeout(r,100));
+  try{
+    const s0=mkStep('Fetching live prices from CoinGecko');
+    stepSt(s0,'act');
+    await fetchPrices();
+    stepSt(s0,'done','Prices loaded');
+    scanData={};
+    for(const cid of selChains){
+      const chain=W_CHAINS.find(c=>c.id===cid);
+      const st=mkStep(`Scanning ${chain.name}`);
+      stepSt(st,'act');
+      let res;
+      if(chain.qn)res={chain,tokens:[],totalUsd:0,error:null,qnote:'Diamante is quantum-native. No cryptographic exposure. Risk score: 4/100.'};
+      else if(chain.type==='bitcoin')res=await fetchBitcoin(addr);
+      else if(chain.type==='solana')res=await fetchSolana(addr);
+      else res=await fetchEVM(chain,addr);
+      scanData[cid]=res;
+      const msg=res.error?`${chain.name}: ${res.error}`:res.qnote?'Diamante: Quantum-Native  0 exposure':`${chain.name}: ${res.tokens.length} asset(s) &middot; ${fmt(res.totalUsd)}`;
+      stepSt(st,res.error?'err':'done',msg);
+      await new Promise(r=>setTimeout(r,100));
+    }
+    const sf=mkStep('Computing quantum exposure');stepSt(sf,'act');
+    await new Promise(r=>setTimeout(r,400));
+    stepSt(sf,'done','Quantum risk calculated');
+    document.getElementById('prog-wrap').style.display='none';
+    renderWalletResults(addr);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Scan Wallet';
   }
-  const sf=mkStep('Computing quantum exposure');stepSt(sf,'act');
-  await new Promise(r=>setTimeout(r,400));
-  stepSt(sf,'done','Quantum risk calculated');
-  document.getElementById('prog-wrap').style.display='none';
-  document.getElementById('w-scan-btn').disabled=false;
-  document.getElementById('w-scan-btn').textContent='Scan Wallet';
-  renderWalletResults(addr);
 }
 
 function renderWalletResults(addr){
