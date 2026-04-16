@@ -282,6 +282,43 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   font-variant-numeric: tabular-nums;
 }
 
+/* === METHODOLOGY === */
+.meth-wrap{max-width:820px;margin:0 auto;padding:2.5rem 2rem 4rem;}
+.meth-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:.875rem;}
+.meth-intro{font-size:13px;color:var(--td);line-height:1.8;margin-bottom:2.5rem;max-width:640px;}
+.meth-section{margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1.5px solid var(--bd);}
+.meth-section:last-of-type{border-bottom:none;}
+.meth-h{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--g);margin-bottom:1rem;}
+.meth-p{font-size:13px;color:var(--td);line-height:1.8;}
+.meth-formula{background:var(--bg2);border:1.5px solid var(--bd2);border-radius:10px;padding:1.25rem 1.5rem;margin-top:.875rem;}
+.mf-row{display:flex;align-items:center;gap:10px;padding:5px 0;flex-wrap:wrap;}
+.mf-hi .mf-factor{color:var(--t);}
+.mf-factor{font-family:'DM Mono',monospace;font-size:12px;color:var(--td);flex:1;}
+.mf-op{font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);}
+.mf-weight{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--g);min-width:36px;text-align:right;}
+.mf-total{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);border-top:1.5px solid var(--bd);margin-top:8px;padding-top:10px;letter-spacing:.05em;}
+.meth-table-wrap{overflow-x:auto;}
+.meth-table{width:100%;border-collapse:collapse;font-size:12px;}
+.meth-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--tf);padding:8px 12px;text-align:left;border-bottom:1.5px solid var(--bd2);white-space:nowrap;}
+.meth-table td{padding:10px 12px;border-bottom:1.5px solid var(--bd);color:var(--td);vertical-align:top;line-height:1.65;}
+.meth-table tr:last-child td{border-bottom:none;}
+.meth-table td:first-child{color:var(--t);font-weight:600;white-space:nowrap;}
+.meth-table td:nth-child(3),.meth-table td:nth-child(4){font-family:'DM Mono',monospace;font-size:10px;white-space:nowrap;}
+.meth-link{color:var(--g);text-decoration:none;}
+.meth-link:hover{text-decoration:underline;}
+.meth-bands{display:flex;flex-direction:column;gap:0;}
+.mb-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1.5px solid var(--bd);flex-wrap:wrap;}
+.mb-row:last-child{border-bottom:none;}
+.mb-range{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);min-width:90px;}
+.mb-desc{font-size:12px;color:var(--td);flex:1;}
+.meth-ai-block{background:rgba(68,136,255,0.04);border:1.5px solid rgba(68,136,255,0.15);border-radius:10px;padding:1.25rem 1.5rem;}
+.meth-ai-label{font-family:'DM Mono',monospace;font-size:10px;color:rgba(100,150,255,0.8);letter-spacing:.06em;margin-bottom:.5rem;}
+.meth-limits{display:flex;flex-direction:column;gap:10px;}
+.ml-item{display:flex;gap:10px;font-size:12px;color:var(--td);line-height:1.7;}
+.ml-dot{width:5px;height:5px;border-radius:50%;background:var(--tf);flex-shrink:0;margin-top:7px;}
+.meth-footer{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;padding-top:2rem;border-top:1.5px solid var(--bd);margin-top:1rem;}
+.meth-ver{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);letter-spacing:.08em;}
+
 /* === DOOM CLOCK === */
 #tab-doomclock{padding:0;}
 .doom-wrap{min-height:calc(100vh - 130px);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:3rem 1rem;}
@@ -327,6 +364,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <button class="ntab" onclick="showTab('compare')">Compare</button>
     <button class="ntab" onclick="showTab('share')">Report Cards</button>
     <button class="ntab doom-tab" onclick="showTab('doomclock')">⚠ Doom Clock</button>
+    <button class="ntab" onclick="showTab('methodology')">Methodology</button>
   </div>
   <div class="nav-r">
     <div class="live-pill"><div class="ld"></div>LIVE DATA</div>
@@ -505,6 +543,113 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 </div>
 
 
+<!-- METHODOLOGY TAB -->
+<div class="view" id="tab-methodology">
+  <div class="meth-wrap">
+    <div class="eyebrow">Transparency &amp; Methodology</div>
+    <h2 class="meth-title">How QEI Scores Are Calculated</h2>
+    <p class="meth-intro">Every score, estimate, and risk value on this site comes from a transparent, open model. This page explains exactly how — including where we use real data, where we make estimates, and where AI is involved.</p>
+
+    <div class="meth-section">
+      <div class="meth-h">The Risk Score Model</div>
+      <p class="meth-p">Each entity receives a score from 0–100 based on five weighted factors. Scores are computed entirely in your browser — no server call required for indexed entities.</p>
+      <div class="meth-formula">
+        <div class="mf-row"><span class="mf-factor">Market / Cap Weight</span><span class="mf-op">×</span><span class="mf-weight">25%</span></div>
+        <div class="mf-row"><span class="mf-factor">User Exposure</span><span class="mf-op">×</span><span class="mf-weight">20%</span></div>
+        <div class="mf-row mf-hi"><span class="mf-factor">Crypto Vulnerability</span><span class="mf-op">×</span><span class="mf-weight">30%</span></div>
+        <div class="mf-row"><span class="mf-factor">Migration Difficulty</span><span class="mf-op">×</span><span class="mf-weight">15%</span></div>
+        <div class="mf-row"><span class="mf-factor">Time to Migrate</span><span class="mf-op">×</span><span class="mf-weight">10%</span></div>
+        <div class="mf-total">= Risk Score (0–100)</div>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Factor Definitions</div>
+      <div class="meth-table-wrap">
+        <table class="meth-table">
+          <thead><tr><th>Factor</th><th>Weight</th><th>What it measures</th></tr></thead>
+          <tbody>
+            <tr><td>Market / Cap Weight</td><td>25%</td><td>How much capital is at risk relative to the entity's market cap or total assets. Larger = higher systemic impact.</td></tr>
+            <tr><td>User Exposure</td><td>20%</td><td>How many users or institutions are directly affected by a quantum breach. Custodial services score higher than self-custody protocols.</td></tr>
+            <tr><td>Crypto Vulnerability</td><td>30%</td><td>How directly the entity's cryptographic scheme is broken by Shor's algorithm. ECDSA, RSA, and Ed25519 score high. NIST PQC-native schemes score near zero.</td></tr>
+            <tr><td>Migration Difficulty</td><td>15%</td><td>How hard it is to move to post-quantum cryptography. Decentralised protocols with no upgrade authority score highest. Centralised custodians score lower.</td></tr>
+            <tr><td>Time to Migrate</td><td>10%</td><td>Estimated years needed to complete a full migration given current trajectory. Longer timelines = higher scores.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Risk Bands</div>
+      <div class="meth-bands">
+        <div class="mb-row"><span class="mini-band bQ">Quantum-Native</span><span class="mb-range">Score 0–10</span><span class="mb-desc">Built on NIST PQC standards from genesis. No quantum migration required.</span></div>
+        <div class="mb-row"><span class="mini-band bL">Low</span><span class="mb-range">Score &lt; 30</span><span class="mb-desc">Limited cryptographic exposure or migration already well underway.</span></div>
+        <div class="mb-row"><span class="mini-band bM">Moderate</span><span class="mb-range">Score 30–49</span><span class="mb-desc">Real exposure but manageable migration path with sufficient lead time.</span></div>
+        <div class="mb-row"><span class="mini-band bH">High</span><span class="mb-range">Score 50–64</span><span class="mb-desc">Significant exposure with complex migration requirements.</span></div>
+        <div class="mb-row"><span class="mini-band bC">Critical</span><span class="mb-range">Score 65–79</span><span class="mb-desc">Severe exposure. Migration requires major coordinated effort before Q-Day.</span></div>
+        <div class="mb-row"><span class="mini-band bS">Systemic</span><span class="mb-range">Score 80–100</span><span class="mb-desc">Existential exposure. A breach would cause cascading failures across dependent systems.</span></div>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Value at Risk Formula</div>
+      <p class="meth-p">VAR estimates the dollar value that could be compromised in a quantum breach scenario. It is a modelled projection — not a financial calculation.</p>
+      <div class="meth-formula">
+        <div class="mf-row"><span class="mf-factor">(Market Cap + TVL × 0.5)</span><span class="mf-op">×</span><span class="mf-factor">(Score ÷ 100)</span><span class="mf-op">×</span><span class="mf-weight">0.65</span></div>
+        <div class="mf-total">= Estimated Value at Risk</div>
+      </div>
+      <p class="meth-p" style="margin-top:1rem;">The 0.65 discount reflects that not all at-risk capital would be extractable in a realistic attack scenario. Market cap comes from CoinGecko (live). TVL comes from DeFiLlama (live). Non-crypto entities use estimated figures — labelled "Estimated" on each card.</p>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Data Sources</div>
+      <div class="meth-table-wrap">
+        <table class="meth-table">
+          <thead><tr><th>Source</th><th>Provides</th><th>Cost</th><th>Frequency</th></tr></thead>
+          <tbody>
+            <tr><td><a href="https://coingecko.com" target="_blank" class="meth-link">CoinGecko</a></td><td>Live prices, market caps, 24h changes for crypto entities</td><td>Free</td><td>60s cache</td></tr>
+            <tr><td><a href="https://defillama.com" target="_blank" class="meth-link">DeFiLlama</a></td><td>TVL for DeFi protocols</td><td>Free</td><td>On page load</td></tr>
+            <tr><td><a href="https://etherscan.io" target="_blank" class="meth-link">Etherscan V2</a></td><td>Wallet balances on ETH, Polygon, BNB, Arbitrum, Optimism, Base</td><td>Free</td><td>Wallet scan</td></tr>
+            <tr><td><a href="https://helius.dev" target="_blank" class="meth-link">Helius</a></td><td>Solana wallet balances and SPL token accounts</td><td>Free tier</td><td>Wallet scan</td></tr>
+            <tr><td><a href="https://blockstream.info" target="_blank" class="meth-link">Blockstream</a></td><td>Bitcoin wallet balances via public API</td><td>Free</td><td>Wallet scan</td></tr>
+            <tr><td><a href="https://routescan.io" target="_blank" class="meth-link">Routescan</a></td><td>Avalanche wallet balances</td><td>Free tier</td><td>Wallet scan</td></tr>
+            <tr><td><a href="https://anthropic.com" target="_blank" class="meth-link">Anthropic Claude</a></td><td>AI threat narratives for unknown entities; AI scoring via search</td><td>Per API call</td><td>On demand, cached</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">AI Transparency</div>
+      <p class="meth-p">Claude (Anthropic) is used in two places. Both are clearly labelled on every card that shows AI-generated content.</p>
+      <div class="meth-ai-block" style="margin-top:1rem;">
+        <div class="meth-ai-label">1 — Threat Narratives (entity detail view)</div>
+        <p class="meth-p">For the 12 pre-indexed entities, narratives are written by human researchers and served statically — no AI call is made and no cost is incurred. For all other entities, Claude Haiku generates a 2–3 paragraph plain-text assessment using the entity name, category, risk score, and cryptographic scheme. Results are cached in your browser for 7 days so the same entity is never generated twice on your device.</p>
+        <div class="meth-ai-label" style="margin-top:1.25rem;">2 — Unknown Entity Scoring (AI Score button)</div>
+        <p class="meth-p">When you search for an entity not in the index, Claude Sonnet returns a structured JSON object with: name, category, cryptographic scheme, five risk factor scores (0–100 each), estimated market cap, and a 2-sentence summary. AI-scored entities show a blue banner and should be treated as informed estimates — not authoritative assessments.</p>
+      </div>
+    </div>
+
+    <div class="meth-section">
+      <div class="meth-h">Known Limitations</div>
+      <div class="meth-limits">
+        <div class="ml-item"><span class="ml-dot"></span><span>Q-Day timelines are speculative. Credible estimates range from 5 to 20+ years. The Doom Clock uses a single projected date for illustration only.</span></div>
+        <div class="ml-item"><span class="ml-dot"></span><span>Factor scores for the 12 indexed entities are set by human researchers based on publicly available information. They are not independently audited.</span></div>
+        <div class="ml-item"><span class="ml-dot"></span><span>AI-scored entities rely on Claude's training data, which has a knowledge cutoff. Recent PQC migration announcements may not be reflected.</span></div>
+        <div class="ml-item"><span class="ml-dot"></span><span>Value at Risk figures are illustrative projections only. They are not financial estimates and must not inform investment decisions.</span></div>
+        <div class="ml-item"><span class="ml-dot"></span><span>Wallet scan data reflects on-chain balances only. Off-chain and custodial holdings are not included.</span></div>
+        <div class="ml-item"><span class="ml-dot"></span><span>This site does not constitute financial, security, or legal advice of any kind.</span></div>
+      </div>
+    </div>
+
+    <div class="meth-footer">
+      <span class="meth-ver">QEI Model v2.1</span>
+      <span class="meth-ver">Last updated: April 2026</span>
+      <a href="https://github.com/Chesus01/quantum-exposure-index" target="_blank" class="meth-link">View source on GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
 <!-- DOOM CLOCK TAB -->
 <div class="view" id="tab-doomclock">
   <div class="doom-wrap">
@@ -634,7 +779,7 @@ function showTab(t){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
-  const tabs=['home','wallet','compare','share','doomclock'];
+  const tabs=['home','wallet','compare','share','doomclock','methodology'];
   document.querySelectorAll('.ntab')[tabs.indexOf(t)].classList.add('active');
   if(t==='compare')renderCmpChips();
   if(t==='share')renderShareChips();
@@ -819,20 +964,95 @@ function showDetailFromEnt(e){
   genNarrative(e,r);
 }
 
+/*  PRE-WRITTEN NARRATIVES — zero API cost for indexed entities  */
+const NARRATIVES={
+  bitcoin:`Bitcoin's foundational cryptography — ECDSA over the secp256k1 elliptic curve — is directly vulnerable to Shor's algorithm on a sufficiently powerful quantum computer. Any address that has broadcast a transaction has its public key permanently exposed on-chain, allowing a quantum attacker to derive the corresponding private key. Estimates suggest 25–30% of circulating Bitcoin sits in addresses with exposed public keys, including large early-era holdings.
+
+The migration challenge is structurally severe. Bitcoin has no central authority to coordinate a protocol upgrade. Moving to NIST-approved post-quantum algorithms (ML-DSA) requires a hard fork with overwhelming community consensus — a process that has historically taken years even for uncontroversial changes. Every exchange, wallet, hardware device, and individual holder must act in coordination before Q-Day. The systemic score reflects not just Bitcoin's own exposure but its role as the trust anchor for the entire digital asset ecosystem.`,
+
+  ethereum:`Ethereum uses ECDSA secp256k1 for transaction signing and Keccak-256 for address derivation. Like Bitcoin, any address with a visible transaction history has an exposed public key vulnerable to Shor's algorithm. The additional attack surface comes from Ethereum's programmability: smart contracts, multisig wallets, and cross-chain bridges each represent independent cryptographic failure points across $50B+ in locked value.
+
+Ethereum is relatively better positioned than Bitcoin for migration. The Ethereum Foundation has acknowledged post-quantum migration on its roadmap, EIPs for quantum-resistant signature schemes exist in draft form, and the track record of coordinated upgrades (the Merge, EIP-1559) demonstrates the ecosystem can execute. The critical complication is TVL: every DeFi protocol, liquidity pool, and bridge must upgrade in coordination — a partial migration that leaves major protocols on legacy cryptography provides little real protection.`,
+
+  diamante:`Diamante is purpose-built on NIST Post-Quantum Cryptography standards, making it the only entity in this index with structural quantum immunity rather than quantum exposure. Its consensus and transaction signing mechanisms were designed from genesis to use lattice-based cryptography, bypassing the entire class of vulnerabilities affecting ECDSA, RSA, and Ed25519-based systems.
+
+Unlike every other blockchain in this index, Diamante faces zero migration burden. There are no legacy keys to rotate, no hard forks to coordinate, and no window of vulnerability during a transition period. The risk score of 4/100 reflects only residual uncertainty from the evolving nature of PQC standards themselves — not cryptographic exposure. As quantum timelines compress, Diamante's position becomes the benchmark against which every other entity's migration progress is measured.`,
+
+  solana:`Solana uses Ed25519 for transaction signing — a scheme based on the discrete logarithm problem over elliptic curves, directly solvable by Shor's algorithm. While Ed25519 offers advantages over ECDSA in conventional security contexts, it provides no quantum resistance. Solana's extremely high throughput means a vast and growing surface of exposed public keys accumulates daily across its user base.
+
+Solana's more concentrated validator set may allow for faster coordinated protocol upgrades compared to Bitcoin or Ethereum. However, the ecosystem's rapid growth means any migration must account for thousands of deployed programs, token accounts, and integrations. The economic value concentrated in Solana-native DeFi, NFT infrastructure, and validator stake represents substantial exposure during any transition window.`,
+
+  ripple:`Ripple/XRP operates a dual-key infrastructure supporting both ECDSA (secp256k1) and Ed25519 signatures, inheriting the quantum vulnerabilities of both schemes. The XRP Ledger's account model means most addresses have exposed public keys from their first on-ledger activity, creating a direct attack path for quantum key derivation at scale.
+
+Ripple Labs' partial control over network development gives it more direct levers to coordinate a migration than fully decentralised networks. However, XRP's role in cross-border payment corridors means any upgrade must be coordinated with financial institutions, payment processors, and central banks across 55+ currencies. A quantum compromise of XRPL transaction signing would affect not just token holders but the settlement rails used by banks employing On-Demand Liquidity.`,
+
+  binance:`Binance operates a centralised custodial model where private key management sits entirely within its own infrastructure. This concentration is simultaneously its greatest vulnerability — a single high-value cryptographic target — and its greatest operational advantage: Binance can migrate its key management systems without requiring user action or community consensus.
+
+The primary risk is the transition window between when cryptographically-relevant quantum computers become available and when Binance completes a full infrastructure migration. Its asset concentration across hundreds of billions in customer funds makes it exactly the kind of static, high-value cryptographic target that quantum attackers would prioritise. Binance's score reflects asset concentration and user exposure, not technical inflexibility.`,
+
+  coinbase:`Coinbase employs Multi-Party Computation (MPC) for custody, distributing key material so no single compromise exposes funds. This architecture reduces the surface area for quantum key extraction compared to single-key ECDSA custody, though the underlying key material is still derived from elliptic curve cryptography vulnerable to Shor's algorithm.
+
+As a publicly traded company under SEC oversight, Coinbase faces regulatory pressure to demonstrate cybersecurity preparedness, creating institutional incentives for proactive PQC migration. Its access to institutional resources and compliance infrastructure puts it ahead of most crypto-native entities on planning. The central question is whether MPC migration complexity is manageable within the available timeline — and whether it completes before quantum capability exists.`,
+
+  metamask:`MetaMask is the most widely used self-custody Ethereum wallet, with over 30 million active users each holding ECDSA private keys on their own devices. Unlike exchanges, MetaMask has no ability to migrate user keys unilaterally — every individual must take explicit action to generate quantum-resistant key material and transfer assets. A quantum attacker needs only to observe public keys already on the Ethereum blockchain; the MetaMask application itself is never breached.
+
+This creates one of the hardest migration problems in the ecosystem. Coordinating 30 million mostly non-technical users to understand quantum risk and act before Q-Day has no precedent in consumer software. Historical evidence from other security migrations suggests a significant fraction will never migrate, permanently losing assets. Migration difficulty is scored 98/100 — the highest in the index.`,
+
+  google:`Google is among the most quantum-aware large technology companies. It has deployed hybrid post-quantum TLS (X25519Kyber768) in Chrome, runs FIDO2 authentication at scale, and its security team publishes extensively on PQC migration. The Google Security team has more internal expertise on this problem than most organisations on Earth.
+
+The exposure comes from scale and legacy: billions of user accounts, Gmail archives, Workspace documents, and Cloud customer data encrypted under key hierarchies containing RSA and ECDSA components. The "harvest now, decrypt later" threat is particularly acute — nation-state actors are likely already archiving encrypted Google traffic with intent to decrypt it once quantum capability exists. This means Google's quantum risk is not only about future security but about the confidentiality of data already transmitted.`,
+
+  swift:`SWIFT is the backbone of global interbank messaging, processing over 40 million messages per day across 11,000+ financial institutions in 200+ countries. Its messaging infrastructure relies on RSA and AES-based cryptography for authentication and integrity. A successful quantum attack on SWIFT's cryptographic layer would not just compromise individual banks — it would undermine the trust infrastructure of the entire global financial system.
+
+Migration complexity for SWIFT is uniquely difficult: every member institution must upgrade simultaneously, across vastly different levels of technical sophistication, regulatory environment, and IT budget. Central banks, development banks, and smaller regional institutions across emerging markets may lack the resources to migrate on any coordinated timeline. There is no forcing function that compels all 11,000 participants to move together. The systemic classification reflects SWIFT's role as critical infrastructure underpinning trillions in daily settlement flows.`,
+
+  uniswap:`Uniswap is a non-custodial decentralised exchange operating entirely on Ethereum smart contracts. Its quantum exposure is inherited directly from Ethereum: every liquidity provider position, governance token holding, and fee-collecting address uses ECDSA secp256k1 keys vulnerable to Shor's algorithm once their public keys appear on-chain.
+
+The protocol's smart contract architecture adds complexity. Liquidity pool contracts hold assets on behalf of users and are identified by deterministic Ethereum addresses — there is no "key rotation" for a deployed contract. Migration requires deploying new contracts and moving all liquidity in a coordinated operation. Uniswap's migration timeline is entirely dependent on Ethereum's L1 post-quantum upgrade path, giving the protocol no independent ability to accelerate its own quantum-resistance profile.`,
+
+  ledger:`Ledger hardware wallets provide strong isolation between private key material and internet-connected devices. The secure element chip ensures keys never leave the device in plaintext, and physical possession is required to sign transactions. Against all classical remote attack models, Ledger represents best-practice key management for retail crypto users.
+
+The quantum threat operates at a different layer. Ledger's security model protects against software extraction, but the underlying BIP32/BIP44 key derivation uses ECDSA — vulnerable to Shor's algorithm. A quantum attacker needs only the public key visible on-chain, not access to the device. Migration requires a hardware refresh: new devices with quantum-resistant key derivation. Ledger the company is well-positioned to release PQC-capable hardware, and Ledger Live provides a migration channel — the challenge is motivating users to replace functioning hardware before the threat is realised.`
+};
+
+/*  NARRATIVE CACHE — localStorage, 7-day TTL  */
+function getNarrativeCache(key){
+  try{
+    const c=localStorage.getItem('qei_nar_'+key);
+    if(!c)return null;
+    const p=JSON.parse(c);
+    if(Date.now()-p.ts>604800000)return null;
+    return p.txt;
+  }catch(e){return null;}
+}
+function setNarrativeCache(key,txt){
+  try{localStorage.setItem('qei_nar_'+key,JSON.stringify({txt,ts:Date.now()}));}catch(e){}
+}
+
+function renderNarrative(txt){
+  document.getElementById('ai-narrative').innerHTML=txt.split('\n\n').filter(Boolean).map(p=>`<div class="ai-text" style="margin-bottom:0.75rem;">${p}</div>`).join('');
+}
+
 async function genNarrative(e,r){
+  // 1. Pre-written — free, instant, no API call
+  if(NARRATIVES[e.id]){renderNarrative(NARRATIVES[e.id]);return;}
+  // 2. Browser cache — free after first generation
+  const cached=getNarrativeCache(e.id||e.name);
+  if(cached){renderNarrative(cached);return;}
+  // 3. Claude Haiku — cheapest model, ~$0.0007/call
   try{
     const resp=await fetch('/api/claude',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
-        system:'You are a quantum cryptography threat analyst. Write a 2-3 paragraph expert threat assessment. Be specific about cryptographic vulnerabilities, migration challenges, and systemic risk. Plain text only, no markdown.',
-        messages:[{role:'user',content:`Write a quantum threat analysis for ${e.name} (${e.cat}). Risk Score: ${r.s}/100. Band: ${r.band}. Crypto scheme: ${e.scheme}. Value at risk: ${r.var}.`}]})
+      body:JSON.stringify({model:'claude-3-5-haiku-20241022',max_tokens:500,
+        system:'You are a quantum cryptography threat analyst. Write a 2-paragraph expert threat assessment. Be specific about cryptographic vulnerabilities and migration challenges. Plain text only, no markdown.',
+        messages:[{role:'user',content:`Quantum threat analysis for ${e.name} (${e.cat}). Risk Score: ${r.s}/100. Band: ${r.band}. Crypto scheme: ${e.scheme}. Value at risk: ${r.var}.`}]})
     });
     const d=await resp.json();
     const txt=d.content&&d.content[0]&&d.content[0].text;
-    if(txt)document.getElementById('ai-narrative').innerHTML=txt.split('\n\n').filter(Boolean).map(p=>`<div class="ai-text" style="margin-bottom:0.75rem;">${p}</div>`).join('');
+    if(txt){setNarrativeCache(e.id||e.name,txt);renderNarrative(txt);}
     else throw new Error();
   }catch(e2){
-    const fallback=detailEnt.aiDesc||'AI narrative requires Anthropic API access. The entity\'s risk factors and score are displayed above based on the QEI model.';
+    const fallback=detailEnt.aiDesc||'AI narrative requires Anthropic API access. Risk factors and score are shown above based on the QEI model.';
     document.getElementById('ai-narrative').innerHTML=`<div class="ai-text">${fallback}</div>`;
   }
 }
