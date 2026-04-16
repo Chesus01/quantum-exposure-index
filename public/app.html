@@ -281,6 +281,34 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   font-family: 'DM Mono', monospace !important;
   font-variant-numeric: tabular-nums;
 }
+
+/* === DOOM CLOCK === */
+#tab-doomclock{padding:0;}
+.doom-wrap{min-height:calc(100vh - 130px);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:3rem 1rem;}
+.doom-radial{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 45%,rgba(200,20,20,0.12) 0%,transparent 65%);pointer-events:none;animation:dPulse 3.5s ease-in-out infinite;}
+@keyframes dPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
+.doom-scan{position:absolute;left:0;right:0;height:1px;background:rgba(255,30,30,0.25);animation:dScan 6s linear infinite;pointer-events:none;}
+@keyframes dScan{0%{top:-2px;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100%;opacity:0;}}
+.doom-eye{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,50,50,0.5);margin-bottom:1.5rem;text-align:center;animation:dPulse 2s ease-in-out infinite;}
+.doom-the-end{font-size:clamp(1.8rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-0.01em;color:rgba(232,237,245,0.75);text-align:center;line-height:1.1;}
+.doom-words-row{height:clamp(2.6rem,6.5vw,5.2rem);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:3.5rem;}
+.doom-word{font-size:clamp(2.4rem,6vw,5rem);font-weight:800;letter-spacing:-0.02em;color:#ff2020;text-shadow:0 0 20px rgba(255,30,30,0.8),0 0 50px rgba(255,30,30,0.4),0 0 90px rgba(255,30,30,0.2);line-height:1;display:block;opacity:0;}
+@keyframes wordIn{0%{opacity:0;transform:translateY(14px);}12%{opacity:1;transform:translateY(0);}82%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-14px);}}
+.doom-ring{position:relative;padding:2rem 2.75rem;border:1.5px solid rgba(220,40,40,0.22);border-radius:18px;background:rgba(200,20,20,0.035);margin-bottom:2rem;animation:ringGlow 3.5s ease-in-out infinite;}
+@keyframes ringGlow{0%,100%{box-shadow:0 0 20px rgba(220,40,40,0.06),inset 0 0 20px rgba(220,40,40,0.03);}50%{box-shadow:0 0 55px rgba(220,40,40,0.18),inset 0 0 30px rgba(220,40,40,0.07);}}
+.doom-digits{display:flex;align-items:flex-end;gap:clamp(0.6rem,2vw,1.75rem);}
+.dc-unit{text-align:center;min-width:clamp(58px,9vw,108px);}
+.dc-num{font-family:'DM Mono',monospace;font-size:clamp(2.8rem,7.5vw,6rem);font-weight:400;line-height:1;color:#ff2828;text-shadow:0 0 12px rgba(255,40,40,0.6),0 0 28px rgba(255,40,40,0.3),0 0 55px rgba(255,40,40,0.15);letter-spacing:-0.03em;font-variant-numeric:tabular-nums;animation:numFlick 9s ease-in-out infinite;}
+@keyframes numFlick{0%,93%,100%{opacity:1;}94%{opacity:0.78;}95.5%{opacity:1;}97.5%{opacity:0.88;}98.5%{opacity:1;}}
+.dc-sep{font-family:'DM Mono',monospace;font-size:clamp(2rem,5vw,4rem);color:rgba(220,40,40,0.28);padding-bottom:0.28em;line-height:1;font-weight:300;}
+.dc-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(220,40,40,0.4);margin-top:8px;}
+.doom-target{font-family:'DM Mono',monospace;font-size:11px;color:rgba(220,40,40,0.38);letter-spacing:0.05em;text-align:center;margin-bottom:2.5rem;}
+.doom-bar-wrap{width:100%;max-width:500px;margin-bottom:2.5rem;}
+.doom-bar-row{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:rgba(220,40,40,0.32);letter-spacing:0.08em;margin-bottom:7px;}
+.doom-bar-track{height:2px;background:rgba(220,40,40,0.08);border-radius:999px;overflow:hidden;}
+.doom-bar-fill{height:100%;background:linear-gradient(90deg,rgba(220,40,40,0.25) 0%,#ff2020 100%);border-radius:999px;transition:width 1s linear;box-shadow:0 0 8px rgba(255,32,32,0.45);}
+.doom-footnote{font-family:'DM Mono',monospace;font-size:9px;color:rgba(220,40,40,0.26);letter-spacing:0.04em;text-align:center;max-width:420px;line-height:1.75;}
+.ntab.doom-tab.active{background:rgba(220,40,40,0.1)!important;color:#ff4040!important;border:2px solid rgba(220,40,40,0.38)!important;}
 </style>
 </head>
 <body>
@@ -296,6 +324,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <button class="ntab" onclick="showTab('wallet')">Wallet Scanner</button>
     <button class="ntab" onclick="showTab('compare')">Compare</button>
     <button class="ntab" onclick="showTab('share')">Report Cards</button>
+    <button class="ntab doom-tab" onclick="showTab('doomclock')">⚠ Doom Clock</button>
   </div>
   <div class="nav-r">
     <div class="live-pill"><div class="ld"></div>LIVE DATA</div>
@@ -473,6 +502,35 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   </div>
 </div>
 
+
+<!-- DOOM CLOCK TAB -->
+<div class="view" id="tab-doomclock">
+  <div class="doom-wrap">
+    <div class="doom-radial"></div>
+    <div class="doom-scan"></div>
+    <div class="doom-eye">⚠ &nbsp; Quantum Threat Countdown &nbsp; ⚠</div>
+    <div class="doom-the-end">The End Of</div>
+    <div class="doom-words-row"><span class="doom-word" id="doom-word-el"></span></div>
+    <div class="doom-ring">
+      <div class="doom-digits">
+        <div class="dc-unit"><div class="dc-num" id="dc-days">---</div><div class="dc-lbl">Days</div></div>
+        <div class="dc-sep">:</div>
+        <div class="dc-unit"><div class="dc-num" id="dc-hours">--</div><div class="dc-lbl">Hours</div></div>
+        <div class="dc-sep">:</div>
+        <div class="dc-unit"><div class="dc-num" id="dc-mins">--</div><div class="dc-lbl">Minutes</div></div>
+        <div class="dc-sep">:</div>
+        <div class="dc-unit"><div class="dc-num" id="dc-secs">--</div><div class="dc-lbl">Seconds</div></div>
+      </div>
+    </div>
+    <div class="doom-target">Q-Day Target: Wed, 08 Mar 2028 16:23:49 UTC</div>
+    <div class="doom-bar-wrap">
+      <div class="doom-bar-row"><span>Jan 2020</span><span id="doom-pct">–</span><span>Q-Day 2028</span></div>
+      <div class="doom-bar-track"><div class="doom-bar-fill" id="doom-fill" style="width:0%"></div></div>
+    </div>
+    <div class="doom-footnote">Estimated date when cryptographically-relevant quantum computers can break current encryption standards. All timelines are projections based on published research.</div>
+  </div>
+</div>
+
 </div><!-- end #app -->
 
 <script>
@@ -574,10 +632,11 @@ function showTab(t){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+t).classList.add('active');
-  const tabs=['home','wallet','compare','share'];
+  const tabs=['home','wallet','compare','share','doomclock'];
   document.querySelectorAll('.ntab')[tabs.indexOf(t)].classList.add('active');
   if(t==='compare')renderCmpChips();
   if(t==='share')renderShareChips();
+  if(t==='doomclock')initDoomClock();
 }
 
 /*  CLOCK  */
@@ -1028,6 +1087,55 @@ function copyPost(){
   const txt=`${shareEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
 }
+
+/*  DOOM CLOCK  */
+const QDAY_TARGET=new Date('Wed, 08 Mar 2028 16:23:49 GMT').getTime();
+const QDAY_START=new Date('2020-01-01T00:00:00Z').getTime();
+const DOOM_WORDS=['Bitcoin','Ethereum','RSA-2048','Your Privacy','TLS Encryption','ECDSA Keys','Web3 Security','Digital Signatures','Ed25519','Classical Crypto','SWIFT Networks','Your Wallet','The Internet'];
+let doomWordIdx=0;
+let doomInited=false;
+
+function initDoomClock(){
+  if(doomInited)return;
+  doomInited=true;
+  rotateDoomWord();
+  tickDoom();
+}
+
+function rotateDoomWord(){
+  const el=document.getElementById('doom-word-el');
+  if(!el)return;
+  el.textContent=DOOM_WORDS[doomWordIdx];
+  el.style.animation='none';
+  void el.offsetWidth;
+  el.style.animation='wordIn 2.7s ease-in-out forwards';
+  setTimeout(()=>{doomWordIdx=(doomWordIdx+1)%DOOM_WORDS.length;rotateDoomWord();},2600);
+}
+
+function tickDoom(){
+  const now=Date.now();
+  const diff=QDAY_TARGET-now;
+  const g=id=>document.getElementById(id);
+  if(diff<=0){
+    if(g('dc-days'))g('dc-days').textContent='000';
+    if(g('dc-hours'))g('dc-hours').textContent='00';
+    if(g('dc-mins'))g('dc-mins').textContent='00';
+    if(g('dc-secs'))g('dc-secs').textContent='00';
+    return;
+  }
+  const days=Math.floor(diff/86400000);
+  const hours=Math.floor((diff%86400000)/3600000);
+  const mins=Math.floor((diff%3600000)/60000);
+  const secs=Math.floor((diff%60000)/1000);
+  if(g('dc-days'))g('dc-days').textContent=String(days).padStart(3,'0');
+  if(g('dc-hours'))g('dc-hours').textContent=String(hours).padStart(2,'0');
+  if(g('dc-mins'))g('dc-mins').textContent=String(mins).padStart(2,'0');
+  if(g('dc-secs'))g('dc-secs').textContent=String(secs).padStart(2,'0');
+  const pct=Math.min(100,Math.max(0,(now-QDAY_START)/(QDAY_TARGET-QDAY_START)*100));
+  if(g('doom-fill'))g('doom-fill').style.width=pct.toFixed(2)+'%';
+  if(g('doom-pct'))g('doom-pct').textContent=pct.toFixed(1)+'% elapsed';
+}
+setInterval(tickDoom,1000);
 
 /*  INIT  */
 renderChips();
