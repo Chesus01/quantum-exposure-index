@@ -286,9 +286,20 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .rc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);}
 .rc-scheme{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);}
 .rc-qei{font-family:'DM Mono',monospace;font-size:9px;color:var(--rc-col,var(--g));opacity:0.55;letter-spacing:0.12em;}
-.rc-xuser{display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);}
-.rc-xav{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rc-col,var(--gb));object-fit:cover;flex-shrink:0;}
-.rc-xhandle{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.04em;}
+/* NFT section */
+.nft-section{margin-top:1.5rem;}
+.nft-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+.nft-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--tf);}
+.nft-summary{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);}
+.nft-grid{display:flex;flex-direction:column;gap:6px;}
+.nft-row{display:grid;grid-template-columns:36px 1fr auto auto auto;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;}
+.nft-img{width:32px;height:32px;border-radius:6px;object-fit:cover;background:var(--bg3);}
+.nft-img-placeholder{width:32px;height:32px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.nft-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nft-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);white-space:nowrap;}
+.nft-floor{font-family:'DM Mono',monospace;font-size:11px;color:var(--t);text-align:right;white-space:nowrap;}
+.nft-var{font-family:'DM Mono',monospace;font-size:10px;color:#ff6432;text-align:right;white-space:nowrap;}
+.nft-empty{font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);padding:1rem 0;}
 /* X connect nav button */
 .x-connect-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;border:1.5px solid var(--bd2);background:transparent;color:var(--td);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
 .x-connect-btn:hover{border-color:rgba(255,255,255,0.3);color:var(--t);}
@@ -563,6 +574,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
       <div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div><button class="btn-share" onclick="openWalletShareModal()">↗ Share Report Card</button></div>
       <div class="metric-grid" id="w-sum"></div>
       <div id="w-chains-out"></div>
+      <div class="nft-section" id="w-nft-section" style="display:none;">
+        <div class="nft-hdr">
+          <div class="nft-title">NFT Holdings · Ethereum</div>
+          <div class="nft-summary" id="w-nft-summary"></div>
+        </div>
+        <div class="nft-grid" id="w-nft-grid"></div>
+      </div>
       <div class="bkbox"><div class="bklbl">Exposure by chain</div><div id="w-bk"></div></div>
       <div class="disc">On-chain data from public block explorers. Token prices from CoinGecko. Quantum risk scores are model projections  not financial advice.</div>
     </div>
@@ -620,7 +638,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
           <div class="rc-meter"><div class="rc-mf" id="rc-mf"></div></div>
           <div class="rc-factors" id="rc-factors"></div>
           <div class="rc-foot">
-            <div><div class="rc-scheme" id="rc-scheme"></div><div class="rc-xuser" id="rc-xuser" style="display:none;"><img class="rc-xav" id="rc-xav" src="" alt=""><span class="rc-xhandle" id="rc-xhandle"></span></div></div>
+            <div class="rc-scheme" id="rc-scheme"></div>
             <div class="rc-qei">quantumexposureindex.io</div>
           </div>
         </div>
@@ -662,7 +680,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
         <div class="rc-meter"><div class="rc-mf" id="m-rc-mf"></div></div>
         <div class="rc-factors" id="m-rc-factors"></div>
         <div class="rc-foot">
-          <div><div class="rc-scheme" id="m-rc-scheme"></div><div class="rc-xuser" id="m-rc-xuser" style="display:none;"><img class="rc-xav" id="m-rc-xav" src="" alt=""><span class="rc-xhandle" id="m-rc-xhandle"></span></div></div>
+          <div class="rc-scheme" id="m-rc-scheme"></div>
           <div class="rc-qei">quantumexposureindex.io</div>
         </div>
       </div>
@@ -921,10 +939,11 @@ const ERC20_TOKENS=[
 /*  STATE  */
 let prices={};
 let liveData={};
-let selChains=new Set(['ethereum','solana','bitcoin']);
+let selChains=new Set(['ethereum']);
 let cmpSel=[];
 let shareEnt=null;
 let scanData={};
+let nftData=null;
 let activeFilter='all';
 let detailEnt=null;
 let ethKey=localStorage.getItem('qei_ethkey')||'';
@@ -1624,6 +1643,16 @@ async function startWalletScan(){
       stepSt(st,res.error?'err':'done',msg);
       await new Promise(r=>setTimeout(r,100));
     }
+    // Fetch NFTs if Ethereum is selected
+    nftData=null;
+    if(selChains.has('ethereum')&&addr.startsWith('0x')){
+      const sn=mkStep('Scanning NFT holdings');stepSt(sn,'act');
+      try{
+        const nr=await fetch(`/api/nfts?address=${encodeURIComponent(addr)}`);
+        nftData=await nr.json();
+        stepSt(sn,'done',`NFTs: ${nftData.totalNfts||0} items · ${fmt(nftData.totalUsd||0)}`);
+      }catch(e){stepSt(sn,'err','NFT scan skipped');}
+    }
     const sf=mkStep('Computing quantum exposure');stepSt(sf,'act');
     await new Promise(r=>setTimeout(r,400));
     stepSt(sf,'done','Quantum risk calculated');
@@ -1656,14 +1685,40 @@ function renderWalletResults(addr){
     const rows=res.tokens.length>0?res.tokens.sort((a,b)=>b.usd-a.usd).map(t=>`<div class="tok-row"><div class="tsym">${t.sym}</div><div class="tname">${t.name}</div><div class="tbal">${fbal(t.raw,t.dec)}</div><div class="tusd" style="color:${t.usd>0?'var(--t)':'var(--tf)'}">${t.usd>0?fmt(t.usd):''}</div><div class="trisk"><div class="trs" style="color:${bcolor(t.band)}">${t.risk}</div><div class="tband ${bcls(t.band)}">${t.band}</div></div><div class="tvar">${t.usd>0?fmt(t.usd*(t.risk/100)*0.65):''}</div></div>`).join(''):`<div class="chain-msg" style="color:${res.error?'rgba(255,100,100,0.6)':'var(--tf)'}">${res.error||'No assets found on '+c.name+'.'}</div>`;
     return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} &middot; ${res.tokens.length} asset(s)</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
   }).join('');
+  // NFT section
+  const nftSec=document.getElementById('w-nft-section');
+  const nftGrid=document.getElementById('w-nft-grid');
+  const nftTotalUsd=nftData?.totalUsd||0;
+  const nftTotalVar=nftTotalUsd*(82/100)*0.65; // ECDSA risk same as ETH
+  if(nftData&&(nftData.totalNfts>0)){
+    document.getElementById('w-nft-summary').textContent=`${nftData.totalNfts} NFTs · ${fmt(nftTotalUsd)} floor · ${fmt(nftTotalVar)} at risk`;
+    nftGrid.innerHTML=(nftData.collections||[]).map(c=>{
+      const cvar=c.totalUsd*(82/100)*0.65;
+      const img=c.image?`<img class="nft-img" src="${c.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="nft-img-placeholder" style="display:none;">🖼</div>`:`<div class="nft-img-placeholder">🖼</div>`;
+      return`<div class="nft-row">${img}<div><div class="nft-name">${c.name}</div><div class="nft-count">${c.count} item${c.count>1?'s':''} · floor ${c.floorUsd>0?fmt(c.floorUsd/c.count):'-'}</div></div><div class="nft-floor">${fmt(c.totalUsd)}</div><div class="mini-band bH" style="white-space:nowrap;">High</div><div class="nft-var">${fmt(cvar)} at risk</div></div>`;
+    }).join('')||'<div class="nft-empty">No NFTs with floor prices found.</div>';
+    nftSec.style.display='block';
+  }else{nftSec.style.display='none';}
+  // Update totals to include NFTs
+  const grandTotalUsd=totalUsd+nftTotalUsd;
+  const grandTotalVar=totalVar+nftTotalVar;
+  document.getElementById('w-totalvar').textContent=fmt(grandTotalVar);
+  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(grandTotalUsd)}<br>Assets found: ${all.length}${nftData?.totalNfts?` + ${nftData.totalNfts} NFTs`:''}<br>Avg risk score: ${avg}/100`;
+  document.getElementById('w-sum').innerHTML=`
+    <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(grandTotalUsd)}</div><div class="mc-s">tokens + NFTs</div></div>
+    <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(grandTotalVar)}</div><div class="mc-s">quantum exposure</div></div>
+    <div class="mc"><div class="mc-l">Avg Risk Score</div><div class="mc-v">${avg}/100</div><div class="mc-s">all assets</div></div>
+    <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:''}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
   const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  if(nftTotalVar>0)bkdata.push({name:'NFTs (Ethereum)',col:'#9b59b6',v:nftTotalVar});
+  bkdata.sort((a,b)=>b.v-a.v);
   const bkmax=bkdata[0]?.v||1;
-  document.getElementById('w-bk').innerHTML=bkdata.length?bkdata.map(b=>`<div class="bkrow"><div class="bkname"><div class="bkdot" style="background:${b.col}"></div>${b.name}</div><div class="bktrack"><div class="bkfill" style="width:${Math.round(b.v/bkmax*100)}%;background:${b.col}88;"></div></div><div class="bkpct">${Math.round(b.v/totalVar*100)}%</div><div class="bkusd">${fmt(b.v)}</div></div>`).join(''):'<div style="font-family:DM Mono,monospace;font-size:11px;color:var(--tf);">No quantum-exposed value found.</div>';
+  document.getElementById('w-bk').innerHTML=bkdata.length?bkdata.map(b=>`<div class="bkrow"><div class="bkname"><div class="bkdot" style="background:${b.col}"></div>${b.name}</div><div class="bktrack"><div class="bkfill" style="width:${Math.round(b.v/bkmax*100)}%;background:${b.col}88;"></div></div><div class="bkpct">${Math.round(b.v/grandTotalVar*100)}%</div><div class="bkusd">${fmt(b.v)}</div></div>`).join(''):'<div style="font-family:DM Mono,monospace;font-size:11px;color:var(--tf);">No quantum-exposed value found.</div>';
   updateWalletXProfile();
   document.getElementById('w-results').style.display='block';
 }
 
-function resetWallet(){document.getElementById('w-results').style.display='none';document.getElementById('w-addr').value='';scanData={};}
+function resetWallet(){document.getElementById('w-results').style.display='none';document.getElementById('w-addr').value='';scanData={};nftData=null;}
 
 /*  COMPARE  */
 function renderCmpChips(){
