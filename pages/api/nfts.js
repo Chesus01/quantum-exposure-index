@@ -127,8 +127,10 @@ async function abstractNFTs(address) {
     `https://abstract-mainnet.g.alchemy.com/nft/v3/${apiKey}/getNFTsForOwner?owner=${address}&withMetadata=true&pageSize=100&excludeFilters[]=SPAM`,
     { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
   );
-  if (!r.ok) throw new Error(`Alchemy Abstract NFTs ${r.status}`);
-  const data = await r.json();
+  const rawText = await r.text();
+  console.log('Alchemy Abstract response status:', r.status, 'body:', rawText.slice(0, 500));
+  if (!r.ok) throw new Error(`Alchemy Abstract NFTs ${r.status}: ${rawText.slice(0,200)}`);
+  const data = JSON.parse(rawText);
 
   // Group by collection
   const byCol = {};
