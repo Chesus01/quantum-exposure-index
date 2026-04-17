@@ -279,6 +279,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .rc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);}
 .rc-scheme{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);}
 .rc-qei{font-family:'DM Mono',monospace;font-size:9px;color:var(--rc-col,var(--g));opacity:0.55;letter-spacing:0.12em;}
+.rc-xuser{display:flex;align-items:center;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);}
+.rc-xav{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--rc-col,var(--gb));object-fit:cover;flex-shrink:0;}
+.rc-xhandle{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.04em;}
+/* X connect nav button */
+.x-connect-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;border:1.5px solid var(--bd2);background:transparent;color:var(--td);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+.x-connect-btn:hover{border-color:rgba(255,255,255,0.3);color:var(--t);}
+.x-connect-btn.connected{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:var(--t);}
+.x-nav-av{width:18px;height:18px;border-radius:50%;object-fit:cover;vertical-align:middle;}
 .copy-toast{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);opacity:0;transition:opacity 0.3s;margin-left:8px;}
 
 /* === GLOBAL: All numbers use DM Mono tabular-nums === */
@@ -387,6 +395,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <button class="ntab" onclick="showTab('methodology')">Methodology</button>
   </div>
   <div class="nav-r">
+    <button class="x-connect-btn" id="x-connect-btn" onclick="connectX()" title="Connect your X account">
+      <svg width="12" height="12" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
+      <span id="x-btn-label">Connect X</span>
+    </button>
     <div class="live-pill"><div class="ld"></div>LIVE DATA</div>
     <div class="clk" id="clk"></div>
   </div>
@@ -562,7 +574,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
           <div class="rc-divider"></div>
           <div class="rc-meter"><div class="rc-mf" id="rc-mf"></div></div>
           <div class="rc-factors" id="rc-factors"></div>
-          <div class="rc-foot"><div class="rc-scheme" id="rc-scheme"></div><div class="rc-qei">quantumexposureindex.io</div></div>
+          <div class="rc-foot">
+            <div><div class="rc-scheme" id="rc-scheme"></div><div class="rc-xuser" id="rc-xuser" style="display:none;"><img class="rc-xav" id="rc-xav" src="" alt=""><span class="rc-xhandle" id="rc-xhandle"></span></div></div>
+            <div class="rc-qei">quantumexposureindex.io</div>
+          </div>
         </div>
       </div>
       <div style="display:flex;gap:8px;margin-top:1.25rem;flex-wrap:wrap;align-items:center;">
@@ -595,7 +610,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
         <div class="rc-divider"></div>
         <div class="rc-meter"><div class="rc-mf" id="m-rc-mf"></div></div>
         <div class="rc-factors" id="m-rc-factors"></div>
-        <div class="rc-foot"><div class="rc-scheme" id="m-rc-scheme"></div><div class="rc-qei">quantumexposureindex.io</div></div>
+        <div class="rc-foot">
+          <div><div class="rc-scheme" id="m-rc-scheme"></div><div class="rc-xuser" id="m-rc-xuser" style="display:none;"><img class="rc-xav" id="m-rc-xav" src="" alt=""><span class="rc-xhandle" id="m-rc-xhandle"></span></div></div>
+          <div class="rc-qei">quantumexposureindex.io</div>
+        </div>
       </div>
     </div>
     <div class="share-modal-actions">
@@ -1673,6 +1691,7 @@ function populateModal(e,r,extraLabel){
     return`<div class="rcf"><div class="rcfl">${l}</div><div class="rcfv" style="color:${bcolor(r.band)}">${v}</div></div>`;
   }).join('');
   setCardColors(document.getElementById('modal-report-card'),r.band);
+  updateCardXUser('m-rc');
   document.getElementById('share-modal-bg').style.display='flex';
   document.body.style.overflow='hidden';
 }
@@ -1713,7 +1732,9 @@ function closeShareModal(e){
 function copyModalPost(){
   if(!modalEnt)return;
   const r=calcRisk(modalEnt);
-  const txt=`${modalEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${modalEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
+  const xp=getXProfile();
+  const credit=xp?` (via @${xp.username})`:'';
+  const txt=`${modalEnt.name} quantum exposure${credit} via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${modalEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{
     const t=document.getElementById('modal-copy-toast');
     t.style.opacity='1';
@@ -1734,12 +1755,15 @@ function genCard(id){
   document.getElementById('rc-scheme').textContent=shareEnt.scheme;
   document.getElementById('rc-factors').innerHTML=['Mkt/Cap','Users','Vuln','Migration','Time'].map((l,i)=>{const v=[shareEnt.f.mc,shareEnt.f.u,shareEnt.f.v,shareEnt.f.m,shareEnt.f.t][i];return`<div class="rcf"><div class="rcfl">${l}</div><div class="rcfv" style="color:${bcolor(r.band)}">${v}</div></div>`;}).join('');
   setCardColors(document.getElementById('report-card'),r.band);
+  updateCardXUser('rc');
   document.getElementById('rc-wrap').style.display='block';
 }
 function copyPost(){
   if(!shareEnt)return;
   const r=calcRisk(shareEnt);
-  const txt=`${shareEnt.name} quantum exposure via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
+  const xp=getXProfile();
+  const credit=xp?` (via @${xp.username})`:'';
+  const txt=`${shareEnt.name} quantum exposure${credit} via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${shareEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';setTimeout(()=>t.style.opacity='0',2500);});
 }
 
@@ -1792,7 +1816,104 @@ function tickDoom(){
 }
 setInterval(tickDoom,1000);
 
+/*  X AUTH  */
+const X_STORAGE_KEY='qei_x_profile';
+function getXProfile(){try{return JSON.parse(localStorage.getItem(X_STORAGE_KEY)||'null');}catch(e){return null;}}
+function setXProfile(p){localStorage.setItem(X_STORAGE_KEY,JSON.stringify(p));}
+function clearXProfile(){localStorage.removeItem(X_STORAGE_KEY);}
+
+async function genCodeVerifier(){
+  const arr=new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return btoa(String.fromCharCode(...arr)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+async function genCodeChallenge(v){
+  const data=new TextEncoder().encode(v);
+  const digest=await crypto.subtle.digest('SHA-256',data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+
+async function connectX(){
+  const xp=getXProfile();
+  if(xp){disconnectX();return;}
+  try{
+    const cfg=await fetch('/api/auth/x-config');
+    if(!cfg.ok)throw new Error('Config unavailable');
+    const {clientId}=await cfg.json();
+    const verifier=await genCodeVerifier();
+    const challenge=await genCodeChallenge(verifier);
+    const state=btoa(Math.random().toString(36));
+    sessionStorage.setItem('x_cv',verifier);
+    sessionStorage.setItem('x_st',state);
+    const p=new URLSearchParams({
+      response_type:'code',client_id:clientId,
+      redirect_uri:'https://quantum-exposure-index.vercel.app/app.html',
+      scope:'tweet.read users.read',
+      state,code_challenge:challenge,code_challenge_method:'S256'
+    });
+    window.location.href='https://twitter.com/i/oauth2/authorize?'+p.toString();
+  }catch(e){alert('X connect unavailable right now. Make sure X_CLIENT_ID is configured in Vercel.');}
+}
+
+function disconnectX(){
+  clearXProfile();
+  updateXUI();
+}
+
+async function handleXCallback(){
+  const params=new URLSearchParams(window.location.search);
+  const code=params.get('code');
+  const state=params.get('state');
+  if(!code)return;
+  history.replaceState({},'',window.location.pathname);
+  const verifier=sessionStorage.getItem('x_cv');
+  const savedState=sessionStorage.getItem('x_st');
+  sessionStorage.removeItem('x_cv');
+  sessionStorage.removeItem('x_st');
+  if(!verifier||state!==savedState)return;
+  try{
+    const r=await fetch(`/api/auth/x?code=${encodeURIComponent(code)}&code_verifier=${encodeURIComponent(verifier)}`);
+    if(!r.ok)return;
+    const profile=await r.json();
+    if(profile.username){setXProfile(profile);updateXUI();}
+  }catch(e){console.error('X callback error',e);}
+}
+
+function updateXUI(){
+  const p=getXProfile();
+  const btn=document.getElementById('x-connect-btn');
+  const label=document.getElementById('x-btn-label');
+  if(btn&&label){
+    if(p){
+      btn.classList.add('connected');
+      label.innerHTML=`<img class="x-nav-av" src="${p.avatar}" alt=""> @${p.username}`;
+      btn.title='Click to disconnect X';
+    }else{
+      btn.classList.remove('connected');
+      label.textContent='Connect X';
+      btn.title='Connect your X account';
+    }
+  }
+  updateCardXUser('rc');
+  updateCardXUser('m-rc');
+}
+
+function updateCardXUser(prefix){
+  const p=getXProfile();
+  const wrap=document.getElementById(prefix+'-xuser');
+  if(!wrap)return;
+  if(p){
+    document.getElementById(prefix+'-xav').src=p.avatar;
+    document.getElementById(prefix+'-xhandle').textContent='Shared by @'+p.username;
+    wrap.style.display='flex';
+  }else{
+    wrap.style.display='none';
+  }
+}
+
 /*  INIT  */
+handleXCallback();
+updateXUI();
 renderChips();
 renderGrid('all');
 renderWChains();
