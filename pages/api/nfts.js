@@ -78,7 +78,31 @@ async function openSeaNFTs(address, osChain, apiKey) {
   return top;
 }
 
-// ── OpenSea SDK (Abstract) ──────────────────────────────────────────────────
+// ── Abstract via Blockscout explorer (fallback — always works, no floor prices) ──
+async function abstractNFTsBlockscout(address) {
+  const r = await fetch(
+    `https://explorer.abstract.network/api/v2/addresses/${address}/nft?type=ERC-721%2CERC-1155&limit=100`,
+    { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
+  );
+  if (!r.ok) throw new Error(`Abstract Explorer ${r.status}`);
+  const data = await r.json();
+
+  const byCol = {};
+  for (const item of data.items || []) {
+    const colId   = item.token?.address || 'unknown';
+    const colName = item.token?.name || slug2name(colId);
+    const image   = item.image_url || item.metadata?.image || null;
+    if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0 };
+    byCol[colId].count++;
+  }
+
+  return Object.values(byCol)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 20)
+    .map(c => ({ ...c, slug: null, floorEth: 0, floorUsd: 0, totalUsd: 0 }));
+}
+
+// ── OpenSea SDK (Abstract) — floor prices when available ────────────────────
 async function abstractNFTs(address) {
   const { OpenSeaSDK, Chain } = await import('@opensea/sdk');
   const { JsonRpcProvider } = await import('ethers');
@@ -92,7 +116,7 @@ async function abstractNFTs(address) {
   const provider = new JsonRpcProvider(rpcUrl);
   const sdk = new OpenSeaSDK(provider, { chain: Chain.Abstract, apiKey });
 
-  // 1. Fetch all NFTs (up to 200 via two pages of 100)
+  // 1. Fetch NFTs via SDK — fall back to Blockscout if SDK returns nothing
   let allNfts = [];
   try {
     const page1 = await sdk.api.getNFTsByAccount(address, 100, undefined, Chain.Abstract);
@@ -104,7 +128,14 @@ async function abstractNFTs(address) {
       } catch { /* ignore pagination errors */ }
     }
   } catch (e) {
-    throw new Error(`OpenSea SDK (Abstract) getNFTsByAccount: ${e.message}`);
+    console.warn('OpenSea SDK Abstract failed, falling back to Blockscout:', e.message);
+    return abstractNFTsBlockscout(address);
+  }
+
+  // If SDK returned nothing, fall back to Blockscout so user sees their holdings
+  if (allNfts.length === 0) {
+    console.warn('OpenSea SDK returned 0 NFTs for Abstract, falling back to Blockscout');
+    return abstractNFTsBlockscout(address);
   }
 
   // 2. Group by collection slug
@@ -126,7 +157,6 @@ async function abstractNFTs(address) {
     try {
       const stats = await sdk.api.getCollectionStats(col.slug);
       const floorEth = stats?.total?.floor_price || 0;
-      // floor_price_symbol is usually 'ETH' on Abstract
       col.floorEth = floorEth;
       col.floorUsd = floorEth * ethUsd;
     } catch {
