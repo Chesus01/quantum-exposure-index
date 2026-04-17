@@ -1711,7 +1711,7 @@ function renderWalletResults(addr){
       const rows=d.collections.map(c=>{
         const cvar=c.totalUsd*(82/100)*0.65;
         const img=c.image?`<img class="nft-img" src="${c.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="nft-img-placeholder" style="display:none;">🖼</div>`:`<div class="nft-img-placeholder">🖼</div>`;
-        return`<div class="nft-row">${img}<div><div class="nft-name">${c.name}</div><div class="nft-count">${c.count} item${c.count>1?'s':''} · floor ${c.floorUsd>0?fmt(c.floorUsd/Math.max(c.count,1)):'-'}</div></div><div class="nft-floor">${c.totalUsd>0?fmt(c.totalUsd):'-'}</div><div class="mini-band bH" style="white-space:nowrap;">High</div><div class="nft-var">${cvar>0?fmt(cvar)+' at risk':'no floor data'}</div></div>`;
+        return`<div class="nft-row">${img}<div><div class="nft-name">${c.name}</div><div class="nft-count">${c.count} item${c.count>1?'s':''} · floor ${c.floorUsd>0?fmt(c.floorUsd):'-'}</div></div><div class="nft-floor">${c.totalUsd>0?fmt(c.totalUsd):'-'}</div><div class="mini-band bH" style="white-space:nowrap;">High</div><div class="nft-var">${cvar>0?fmt(cvar)+' at risk':'no floor data'}</div></div>`;
       }).join('');
       return[chainLabel+rows];
     }).join('')||'<div class="nft-empty">No NFTs with floor prices found.</div>';
