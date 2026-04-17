@@ -15,6 +15,28 @@
   --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.14);
   --amber:#fab400;--red:#ff4444;--orange:#ff6432;--purple:#b400ff;--blue:#4d9fff;
 }
+body.light{
+  --bg:#f0f2f5;--bg2:#ffffff;--bg3:#e8ecf0;
+  --t:#0d1117;--td:rgba(13,17,23,0.65);--tf:rgba(13,17,23,0.4);
+  --bd:rgba(0,0,0,0.08);--bd2:rgba(0,0,0,0.15);
+  --gd:rgba(0,180,100,0.08);--gb:rgba(0,180,100,0.3);
+}
+body.light .gbg{background-image:linear-gradient(rgba(0,180,100,0.015)1px,transparent 1px),linear-gradient(90deg,rgba(0,180,100,0.015)1px,transparent 1px);}
+body.light nav{background:rgba(240,242,245,0.97);}
+body.light .ticker{background:var(--bg2);}
+body.light .report-card{background:#ffffff;}
+body.light .dd{background:var(--bg2);}
+body.light .ddi:hover{background:var(--gd);}
+body.light .share-modal-bg{background:rgba(240,242,245,0.92);}
+body.light .share-modal{background:var(--bg2);}
+body.light .welcome-modal{background:var(--bg2);}
+body.light .mc{background:var(--bg2);}
+body.light .chain-block{background:var(--bg2);}
+body.light .detail-panel{background:var(--bg2);}
+body.light .verdict-box{background:var(--bg3);}
+body.light .meth-wrap{background:none;}
+.theme-btn{background:transparent;border:1.5px solid var(--bd2);border-radius:999px;padding:5px 10px;cursor:pointer;font-size:13px;color:var(--td);transition:all 0.15s;line-height:1;}
+.theme-btn:hover{border-color:var(--gb);color:var(--t);}
 html,body{min-height:100vh;background:var(--bg);color:var(--t);font-family:'Syne',sans-serif;}
 .gbg{position:fixed;inset:0;background-image:linear-gradient(rgba(0,220,130,0.025)1px,transparent 1px),linear-gradient(90deg,rgba(0,220,130,0.025)1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
 .scanline{position:fixed;left:0;right:0;height:1px;background:rgba(0,220,130,0.3);animation:sc 9s linear infinite;z-index:1;pointer-events:none;}
@@ -22,13 +44,13 @@ html,body{min-height:100vh;background:var(--bg);color:var(--t);font-family:'Syne
 #app{position:relative;z-index:2;}
 
 /*  NAV  */
-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:2px solid var(--bd);flex-wrap:wrap;gap:8px;background:rgba(7,10,15,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+nav{display:flex;align-items:center;justify-content:space-between;padding:1rem clamp(0.75rem,3vw,2rem);border-bottom:2px solid var(--bd);flex-wrap:wrap;gap:8px;background:rgba(7,10,15,0.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
 .logo{display:flex;align-items:center;gap:9px;}
 .lm{width:28px;height:28px;border:1.5px solid var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;}
 .lm::before{content:'';width:10px;height:10px;border:1.5px solid var(--g);border-radius:50%;}
 .lm::after{content:'';position:absolute;width:18px;height:1px;background:var(--g);transform:rotate(45deg);}
 .lt{font-size:12px;font-weight:700;letter-spacing:0.12em;color:var(--g);text-transform:uppercase;}
-.nav-tabs{display:flex;gap:2px;background:rgba(255,255,255,0.04);border:1.5px solid var(--bd);border-radius:8px;padding:3px;}
+.nav-tabs{display:flex;flex-wrap:wrap;gap:2px;background:rgba(255,255,255,0.04);border:1.5px solid var(--bd);border-radius:8px;padding:3px;}
 .ntab{padding:6px 14px;border-radius:5px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;color:var(--td);cursor:pointer;transition:all 0.15s;border:none;background:transparent;}
 .ntab.active{background:var(--gd);color:var(--g);border:2px solid var(--gb);}
 .ntab:hover:not(.active){color:var(--t);background:rgba(255,255,255,0.04);}
@@ -50,7 +72,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .neg{color:var(--red);}
 
 /*  VIEWS  */
-.view{display:none;padding:2rem;}
+.view{display:none;padding:clamp(1rem,4vw,2rem);}
 .view.active{display:block;}
 
 /*  SHARED  */
@@ -159,7 +181,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .gs-s{font-family:'DM Mono',monospace;font-size:10px;color:var(--g);margin-top:2px;}
 
 /*  WALLET SCANNER  */
-.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:1.5rem;}
+.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:7px;margin-bottom:1.5rem;}
 .cc{background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;padding:9px 11px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:8px;}
 .cc:hover{border-color:var(--bd2);}
 .cc.on{border-color:var(--g);background:var(--gd);}
@@ -247,6 +269,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .verdict-box{background:var(--gd);border:2px solid var(--gb);border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem;}
 .verdict-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px;}
 .verdict-text{font-size:13px;color:var(--td);line-height:1.7;}
+/* Detail section wrappers */
+.detail-section{border-top:1.5px solid var(--bd);padding-top:1.25rem;margin-top:1.25rem;}
+.d-sim-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:999px;border:1.5px solid;font-size:11px;font-weight:500;cursor:pointer;transition:opacity 0.15s;}
+.d-sim-chip:hover{opacity:0.75;}
 
 /*  SHARE  */
 .report-card{background:#060910;border:2px solid var(--rc-col,var(--gb));border-radius:16px;padding:2rem;position:relative;overflow:hidden;max-width:680px;box-shadow:0 0 0 1px rgba(0,0,0,0.6),0 0 40px var(--rc-glow,rgba(0,220,130,0.12)),0 0 80px var(--rc-glow,rgba(0,220,130,0.06)),inset 0 0 60px var(--rc-glow,rgba(0,220,130,0.03));transition:box-shadow 0.4s ease;}
@@ -415,6 +441,62 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .ntab.doom-tab{color:#ff4040!important;}
 .ntab.doom-tab:hover:not(.active){color:#ff6060!important;background:rgba(220,40,40,0.06)!important;}
 .ntab.doom-tab.active{background:rgba(220,40,40,0.1)!important;color:#ff4040!important;border:2px solid rgba(220,40,40,0.38)!important;}
+/* ── MOBILE ── */
+@media(max-width:600px){
+  /* Nav */
+  nav{padding:0.6rem 0.75rem;gap:6px;flex-wrap:nowrap;align-items:center;}
+  .lt{display:none;}                           /* hide wordmark, keep logo mark */
+  .nav-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-ms-overflow-style:none;max-width:calc(100vw - 160px);}
+  .nav-tabs::-webkit-scrollbar{display:none;}
+  .ntab{padding:5px 10px;font-size:10px;letter-spacing:0.02em;flex-shrink:0;white-space:nowrap;}
+  .nav-r{gap:6px;flex-shrink:0;}
+  .clk{display:none;}                          /* hide UTC clock */
+  .live-pill{display:none;}                    /* hide LIVE pill */
+  /* Hero */
+  .hero{padding:2rem 0.75rem 1.5rem;}
+  .hero h1{font-size:clamp(1.7rem,7.5vw,2.4rem);}
+  .hero-sub{font-size:13px;}
+  /* Global stats */
+  .gstats{margin:0 0 1.5rem;max-width:100%;}
+  /* Metrics */
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  /* Report card */
+  .rc-factors{grid-template-columns:repeat(3,1fr);}
+  .rc-sr{gap:1rem;}
+  .rc-sv{font-size:clamp(2rem,10vw,3rem);}
+  /* Wallet */
+  .varbox{flex-direction:column;gap:10px;}
+  .chain-grid{grid-template-columns:repeat(auto-fill,minmax(90px,1fr));}
+  .tok-hdr{display:none;}
+  .tok-row{grid-template-columns:1fr auto auto;gap:4px;padding:8px 10px;}
+  .tok-row .tbal,.tok-row .tname{display:none;}
+  .tok-row .tsym{font-weight:700;}
+  .tok-row .tvar{display:none;}
+  /* Breakdown bar — fix: bkrow is flex, not grid */
+  .bkrow{gap:6px;}
+  .bkname{font-size:11px;min-width:0;flex:1;}
+  .bktrack{width:70px;}
+  .bkpct{width:28px;}
+  .bkusd{width:56px;font-size:11px;}
+  /* Compare chips: horizontal scroll */
+  #cmp-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+  #cmp-chips::-webkit-scrollbar{display:none;}
+  .cs-chip{flex-shrink:0;}
+  /* Share / modal */
+  .share-modal{padding:1.25rem 0.875rem;max-width:100%;}
+  .share-modal-actions{gap:6px;}
+  /* NFT */
+  .nft-row{grid-template-columns:32px 1fr auto;gap:8px;}
+  .nft-floor,.nft-var{display:none;}
+  /* Detail panel */
+  .d-hdr{flex-direction:column;gap:6px;}
+  .d-score-big{font-size:2.6rem;}
+  .var-box{flex-direction:column;gap:10px;}
+  /* Welcome */
+  .welcome-modal{padding:2rem 1.25rem;}
+  /* Detail section labels */
+  .verdict-lbl{font-size:9px;}
+}
 </style>
 </head>
 <body>
@@ -434,6 +516,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <button class="ntab" onclick="showTab('methodology')">Methodology</button>
   </div>
   <div class="nav-r">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
     <button class="x-connect-btn" id="x-connect-btn" onclick="connectX()" title="Connect your X account">
       <svg width="12" height="12" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
       <span id="x-btn-label">Connect X</span>
@@ -468,6 +551,10 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
       <div class="dd" id="dd"></div>
     </div>
     <div class="chips" id="chips"></div>
+    <div id="rv-wrap" style="display:none;margin-top:1.75rem;padding-top:1.25rem;border-top:1.5px solid var(--bd);">
+      <div class="sl" style="margin-bottom:10px;">Recently Viewed</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;" id="rv-chips"></div>
+    </div>
   </div>
   <div style="max-width:1100px;margin:0 auto;padding:0 2rem 4rem;">
     <div class="sh">
@@ -508,6 +595,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div style="margin-bottom:1.75rem;">
       <div class="sl" style="margin-bottom:.875rem;">Risk factor breakdown</div>
       <div id="d-breakdown"></div>
+    </div>
+    <div class="detail-section" id="d-similar-wrap" style="display:none;">
+      <div class="verdict-lbl" style="margin-bottom:10px;">Similar Entities</div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap;" id="d-similar"></div>
+    </div>
+    <div class="detail-section" id="d-migration-wrap">
+      <div class="verdict-lbl" style="margin-bottom:8px;">Migration Path</div>
+      <div class="verdict-text" id="d-migration" style="background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;padding:0.875rem 1.1rem;font-size:13px;"></div>
     </div>
     <div class="ai-box">
       <div class="ai-hdr"><div class="ai-lbl">AI Threat Analysis</div><div class="ai-badge">Claude &middot; Generated</div></div>
@@ -1184,7 +1279,7 @@ async function aiSearch(){
 }
 
 /*  DETAIL  */
-function showDetail(id){const e=DS.find(x=>x.id===id);if(e)showDetailFromEnt(e);}
+function showDetail(id){addRV(id);renderRV();const e=DS.find(x=>x.id===id);if(e)showDetailFromEnt(e);}
 function closeDetail(){
   document.getElementById('detail').classList.remove('show');
   document.getElementById('detail').style.display='none';
@@ -1219,6 +1314,16 @@ function showDetailFromEnt(e){
   mets.push({l:'Exposure Band',v:r.band,s:'Model Output'});
   document.getElementById('d-metrics').innerHTML=mets.map(m=>`<div class="mc"><div class="mc-l">${m.l}</div><div class="mc-v">${m.v}</div><div class="mc-s">${m.s}</div></div>`).join('');
   document.getElementById('d-breakdown').innerHTML=[['Market/Cap Weight',e.f.mc],['User Exposure',e.f.u],['Crypto Vulnerability',e.f.v],['Migration Difficulty',e.f.m],['Time to Migrate',e.f.t]].map(([l,v])=>`<div class="br-row"><div class="br-lbl">${l}</div><div class="br-track"><div class="br-fill" style="width:${v}%"></div></div><div class="br-val">${v}</div></div>`).join('');
+  // Similar entities
+  const similar=DS.filter(x=>x.id!==e.id&&x.cat===e.cat).map(x=>({x,d:Math.abs(calcRisk(x).s-r.s)})).sort((a,b)=>a.d-b.d).slice(0,4);
+  const simWrap=document.getElementById('d-similar-wrap');
+  if(simWrap){
+    if(similar.length){document.getElementById('d-similar').innerHTML=similar.map(({x})=>{const rx=calcRisk(x);return`<div class="d-sim-chip" style="border-color:${bcolor(rx.band)}55;color:${bcolor(rx.band)};background:${bcolor(rx.band)}0d;" onclick="showDetail('${x.id}')">${x.name}<span style="opacity:.55;font-family:'DM Mono',monospace;font-size:10px;">${rx.s}</span></div>`;}).join('');simWrap.style.display='block';}
+    else{simWrap.style.display='none';}
+  }
+  const migMap={'Quantum-Native':'This entity already uses post-quantum cryptography. No migration required.','Low':'Low urgency. Standard PQC migration timeline (2027–2030) is sufficient. Begin inventory of cryptographic assets.','Moderate':'Plan migration within 3–5 years. Prioritize customer-facing TLS and signing keys. Evaluate NIST PQC standards (ML-KEM, ML-DSA).','High':'Urgent migration recommended. Current ECDSA/RSA exposure is significant. Begin hybrid PQC deployment immediately for high-value systems.','Critical':'Immediate action required. Full cryptographic audit needed. Deploy ML-KEM for key exchange and ML-DSA for signatures as priority.','Systemic':'Systemic risk. Quantum breach would have cascading global effects. Requires coordinated multi-institution PQC migration strategy.'};
+  const mig=document.getElementById('d-migration');
+  if(mig)mig.textContent=migMap[r.band]||'Migration timeline depends on cryptographic inventory and system complexity.';
   document.getElementById('ai-narrative').innerHTML='<div class="ai-loading"><div class="spinner"></div>&nbsp;Generating analysis</div>';
   window.scrollTo(0,0);
   genNarrative(e,r);
@@ -1451,6 +1556,21 @@ WHO's quantum risk is more about data confidentiality and integrity than financi
 
 The quantum threat operates at a different layer. Ledger's security model protects against software extraction, but the underlying BIP32/BIP44 key derivation uses ECDSA — vulnerable to Shor's algorithm. A quantum attacker needs only the public key visible on-chain, not access to the device. Migration requires a hardware refresh: new devices with quantum-resistant key derivation. Ledger the company is well-positioned to release PQC-capable hardware, and Ledger Live provides a migration channel — the challenge is motivating users to replace functioning hardware before the threat is realised.`
 };
+
+/* RECENTLY VIEWED */
+const RV_KEY='qei_recent';
+function getRV(){try{return JSON.parse(localStorage.getItem(RV_KEY)||'[]');}catch{return[];}}
+function addRV(id){const a=getRV().filter(x=>x!==id);a.unshift(id);localStorage.setItem(RV_KEY,JSON.stringify(a.slice(0,5)));}
+function renderRV(){
+  const ids=getRV();
+  const wrap=document.getElementById('rv-wrap');
+  if(!wrap)return;
+  if(!ids.length){wrap.style.display='none';return;}
+  const chips=ids.map(id=>{const e=DS.find(x=>x.id===id);if(!e)return'';const r=calcRisk(e);return`<div class="chip" style="border-color:${bcolor(r.band)}33;color:${bcolor(r.band)}" onclick="showDetail('${id}')">${e.name}</div>`;}).filter(Boolean).join('');
+  if(!chips){wrap.style.display='none';return;}
+  document.getElementById('rv-chips').innerHTML=chips;
+  wrap.style.display='block';
+}
 
 /*  NARRATIVE CACHE — localStorage, 7-day TTL  */
 function getNarrativeCache(key){
@@ -1942,6 +2062,19 @@ function tickDoom(){
 }
 setInterval(tickDoom,1000);
 
+/* THEME */
+const THEME_KEY='qei_theme';
+function applyTheme(t){
+  document.body.classList.toggle('light',t==='light');
+  const btn=document.getElementById('theme-btn');
+  if(btn)btn.textContent=t==='light'?'🌙':'☀️';
+}
+function toggleTheme(){
+  const next=document.body.classList.contains('light')?'dark':'light';
+  localStorage.setItem(THEME_KEY,next);
+  applyTheme(next);
+}
+
 /*  X AUTH  */
 const X_STORAGE_KEY='qei_x_profile';
 function getXProfile(){try{return JSON.parse(localStorage.getItem(X_STORAGE_KEY)||'null');}catch(e){return null;}}
@@ -2082,10 +2215,12 @@ function updateWalletXProfile(){
 }
 
 /*  INIT  */
+applyTheme(localStorage.getItem(THEME_KEY)||'dark');
 handleXCallback();
 updateXUI();
 showWelcomeIfNeeded();
 renderChips();
+renderRV();
 renderGrid('all');
 renderWChains();
 fetchPrices().then(()=>fetchTVL());
