@@ -259,7 +259,14 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 @keyframes rcScan{0%{top:-2px;}100%{top:102%;}}
 .rc-spotlight{position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:80%;height:160%;background:radial-gradient(ellipse at 50% 0%,var(--rc-spot,rgba(0,220,130,0.06)) 0%,transparent 65%);pointer-events:none;}
 .rc-c{position:relative;z-index:1;}
-.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+.rc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.5rem;}
+.rc-x-top{display:none;align-items:center;gap:9px;flex-shrink:0;}
+.rc-x-top.show{display:flex;}
+.rc-x-top-av{width:46px;height:46px;border-radius:50%;border:2px solid var(--rc-col,var(--gb));object-fit:cover;box-shadow:0 0 12px var(--rc-glow,rgba(0,220,130,0.25));}
+.rc-x-top-info{display:flex;flex-direction:column;gap:2px;text-align:right;}
+.rc-x-top-name{font-size:11px;font-weight:700;letter-spacing:-0.01em;}
+.rc-x-top-handle{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);}
+.rc-x-top-tag{font-family:'DM Mono',monospace;font-size:8px;color:var(--rc-col,var(--g));opacity:0.7;letter-spacing:0.1em;text-transform:uppercase;}
 .rc-logo{font-family:'DM Mono',monospace;font-size:10px;color:var(--rc-col,var(--g));letter-spacing:0.15em;text-transform:uppercase;opacity:0.75;}
 .rc-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);letter-spacing:0.06em;}
 .rc-name{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:800;letter-spacing:-0.025em;margin-bottom:4px;line-height:1.1;}
@@ -595,7 +602,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
         <div class="rc-scan"></div>
         <div class="rc-spotlight"></div>
         <div class="rc-c">
-          <div class="rc-top"><div class="rc-logo">Quantum Exposure Index</div><div class="rc-date" id="rc-date"></div></div>
+          <div class="rc-top">
+            <div><div class="rc-logo">Quantum Exposure Index</div><div class="rc-date" id="rc-date"></div></div>
+            <div class="rc-x-top" id="rc-x-top">
+              <div class="rc-x-top-info"><div class="rc-x-top-tag">Shared by</div><div class="rc-x-top-name" id="rc-x-top-name"></div><div class="rc-x-top-handle" id="rc-x-top-handle"></div></div>
+              <img class="rc-x-top-av" id="rc-x-top-av" src="" alt="">
+            </div>
+          </div>
           <div class="rc-name" id="rc-name"></div>
           <div class="rc-cat" id="rc-cat"></div>
           <div class="rc-sr">
@@ -631,7 +644,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
       <div class="rc-scan"></div>
       <div class="rc-spotlight"></div>
       <div class="rc-c">
-        <div class="rc-top"><div class="rc-logo">Quantum Exposure Index</div><div class="rc-date" id="m-rc-date"></div></div>
+        <div class="rc-top">
+          <div><div class="rc-logo">Quantum Exposure Index</div><div class="rc-date" id="m-rc-date"></div></div>
+          <div class="rc-x-top" id="m-rc-x-top">
+            <div class="rc-x-top-info"><div class="rc-x-top-tag">Shared by</div><div class="rc-x-top-name" id="m-rc-x-top-name"></div><div class="rc-x-top-handle" id="m-rc-x-top-handle"></div></div>
+            <img class="rc-x-top-av" id="m-rc-x-top-av" src="" alt="">
+          </div>
+        </div>
         <div class="rc-name" id="m-rc-name"></div>
         <div class="rc-cat" id="m-rc-cat"></div>
         <div class="rc-sr">
@@ -1933,11 +1952,24 @@ function updateXUI(){
 
 function updateCardXUser(prefix){
   const p=getXProfile();
+  // Top-right profile block
+  const top=document.getElementById(prefix+'-x-top');
+  if(top){
+    if(p){
+      document.getElementById(prefix+'-x-top-av').src=p.avatar;
+      document.getElementById(prefix+'-x-top-name').textContent=p.name;
+      document.getElementById(prefix+'-x-top-handle').textContent='@'+p.username;
+      top.classList.add('show');
+    }else{
+      top.classList.remove('show');
+    }
+  }
+  // Footer (kept for share post context)
   const wrap=document.getElementById(prefix+'-xuser');
   if(!wrap)return;
   if(p){
     document.getElementById(prefix+'-xav').src=p.avatar;
-    document.getElementById(prefix+'-xhandle').textContent='Shared by @'+p.username;
+    document.getElementById(prefix+'-xhandle').textContent='@'+p.username;
     wrap.style.display='flex';
   }else{
     wrap.style.display='none';
