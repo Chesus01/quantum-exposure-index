@@ -1,7 +1,7 @@
 // NFT holdings scanner
 // OpenSea v2  → Ethereum, Polygon, Arbitrum, Optimism, Base, Avalanche
+// OpenSea SDK → Abstract  (Chain.Abstract, floor prices included)
 // Magic Eden  → Solana
-// Reservoir   → Abstract (chain-specific free endpoint)
 // Returns unified { chain, collections:[{name,image,count,floorUsd,totalUsd}], totalUsd, totalNfts }
 
 const cache = {};
@@ -33,7 +33,7 @@ async function coinPrice(id) {
   } catch { return 0; }
 }
 
-// ── OpenSea (EVM) ───────────────────────────────────────────────────────────
+// ── OpenSea (EVM — all chains except Abstract) ──────────────────────────────
 async function openSeaNFTs(address, osChain, apiKey) {
   // 1. list NFTs
   const nftsRes = await fetch(
@@ -78,6 +78,67 @@ async function openSeaNFTs(address, osChain, apiKey) {
   return top;
 }
 
+// ── OpenSea SDK (Abstract) ──────────────────────────────────────────────────
+async function abstractNFTs(address) {
+  const { OpenSeaSDK, Chain } = await import('@opensea/sdk');
+  const { JsonRpcProvider } = await import('ethers');
+
+  const apiKey     = process.env.OPENSEA_API_KEY || '';
+  const alchemyKey = process.env.ALCHEMY_API_KEY || '';
+  const rpcUrl     = alchemyKey
+    ? `https://abstract-mainnet.g.alchemy.com/v2/${alchemyKey}`
+    : 'https://api.mainnet.abs.xyz';
+
+  const provider = new JsonRpcProvider(rpcUrl);
+  const sdk = new OpenSeaSDK(provider, { chain: Chain.Abstract, apiKey });
+
+  // 1. Fetch all NFTs (up to 200 via two pages of 100)
+  let allNfts = [];
+  try {
+    const page1 = await sdk.api.getNFTsByAccount(address, 100, undefined, Chain.Abstract);
+    allNfts = page1.nfts || [];
+    if (page1.next && allNfts.length === 100) {
+      try {
+        const page2 = await sdk.api.getNFTsByAccount(address, 100, page1.next, Chain.Abstract);
+        allNfts = allNfts.concat(page2.nfts || []);
+      } catch { /* ignore pagination errors */ }
+    }
+  } catch (e) {
+    throw new Error(`OpenSea SDK (Abstract) getNFTsByAccount: ${e.message}`);
+  }
+
+  // 2. Group by collection slug
+  const byCol = {};
+  for (const n of allNfts) {
+    const slug = n.collection;
+    if (!slug) continue;
+    if (!byCol[slug]) byCol[slug] = { slug, count: 0, image: null };
+    byCol[slug].count++;
+    if (!byCol[slug].image && n.image_url) byCol[slug].image = n.image_url;
+  }
+
+  // 3. Floor prices via SDK getCollectionStats — top 15 collections
+  const top = Object.values(byCol).sort((a, b) => b.count - a.count).slice(0, 15);
+  const ethUsd = await coinPrice('ethereum');
+
+  await Promise.all(top.map(async col => {
+    col.name = slug2name(col.slug);
+    try {
+      const stats = await sdk.api.getCollectionStats(col.slug);
+      const floorEth = stats?.total?.floor_price || 0;
+      // floor_price_symbol is usually 'ETH' on Abstract
+      col.floorEth = floorEth;
+      col.floorUsd = floorEth * ethUsd;
+    } catch {
+      col.floorEth = 0;
+      col.floorUsd = 0;
+    }
+    col.totalUsd = (col.floorUsd || 0) * col.count;
+  }));
+
+  return top;
+}
+
 // ── Magic Eden (Solana) ─────────────────────────────────────────────────────
 async function magicEdenNFTs(address) {
   const tokRes = await fetch(
@@ -115,34 +176,6 @@ async function magicEdenNFTs(address) {
   }));
 
   return top;
-}
-
-// ── Abstract Block Explorer (Blockscout) ────────────────────────────────────
-async function abstractNFTs(address) {
-  // Use Abstract's native block explorer — no API key required
-  const r = await fetch(
-    `https://explorer.abstract.network/api/v2/addresses/${address}/nft?type=ERC-721%2CERC-1155&limit=100`,
-    { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
-  );
-  if (!r.ok) throw new Error(`Abstract Explorer NFTs ${r.status}`);
-  const data = await r.json();
-
-  // Group by collection contract
-  const byCol = {};
-  for (const item of data.items || []) {
-    const colId   = item.token?.address || 'unknown';
-    const colName = item.token?.name || slug2name(colId);
-    const image   = item.image_url || item.metadata?.image || null;
-
-    if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0 };
-    byCol[colId].count++;
-  }
-
-  // Floor prices not yet available via explorer — show holdings with no floor
-  return Object.values(byCol)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 20)
-    .map(c => ({ ...c, floorEth: 0, floorUsd: 0, totalUsd: 0 }));
 }
 
 // ── handler ─────────────────────────────────────────────────────────────────
