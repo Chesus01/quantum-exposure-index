@@ -539,7 +539,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
     <div class="eyebrow">Shareable Report Cards</div>
     <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Generate & Share</h2>
     <div class="sl" style="margin-bottom:10px;">Select entity</div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.5rem;" id="share-chips"></div>
+    <div style="position:relative;margin-bottom:1.5rem;" id="share-search-wrap">
+      <div class="search-box" style="border-color:var(--bd2);">
+        <input type="text" id="share-search-input" placeholder="Search any entity…" autocomplete="off" oninput="filterShareSearch()" onfocus="openShareSearch()" onblur="setTimeout(closeShareSearch,180)">
+      </div>
+      <div class="dd" id="share-dd"></div>
+    </div>
     <div id="rc-wrap" style="display:none;">
       <div class="report-card" id="report-card">
         <div class="rc-gbg"></div>
@@ -900,7 +905,6 @@ function showTab(t){
   const tabs=['home','wallet','compare','share','doomclock','methodology'];
   document.querySelectorAll('.ntab')[tabs.indexOf(t)].classList.add('active');
   if(t==='compare')renderCmpChips();
-  if(t==='share')renderShareChips();
   if(t==='doomclock')initDoomClock();
 }
 
@@ -1629,9 +1633,27 @@ function renderCmpResults(){
   document.getElementById('cmp-results').style.display='block';
 }
 
-/*  SHARE  */
-function renderShareChips(){
-  document.getElementById('share-chips').innerHTML=DS.map(e=>`<div class="chip${shareEnt&&shareEnt.id===e.id?' chip-active':''}" style="${shareEnt&&shareEnt.id===e.id?'border-color:var(--g);color:var(--g);background:var(--gd);':''}" onclick="genCard('${e.id}')">${e.name}</div>`).join('');
+/*  SHARE SEARCH  */
+function renderShareChips(){}  // no-op kept for call sites
+function filterShareSearch(){
+  const q=document.getElementById('share-search-input').value.trim().toLowerCase();
+  const dd=document.getElementById('share-dd');
+  const matches=DS.filter(e=>e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q)).slice(0,10);
+  if(!matches.length){dd.classList.remove('open');return;}
+  const r=matches.map(e=>{const rs=calcRisk(e);return`<div class="ddi" onmousedown="pickShareEnt('${e.id}')"><div><div class="ddi-name">${e.name}</div><div class="ddi-cat">${e.cat}</div></div><div class="ddi-score" style="color:${bcolor(rs.band)}">${rs.s}</div></div>`;}).join('');
+  dd.innerHTML=r;dd.classList.add('open');
+}
+function openShareSearch(){
+  const q=document.getElementById('share-search-input').value.trim();
+  if(!q)filterShareSearch();
+  document.getElementById('share-dd').classList.add('open');
+  filterShareSearch();
+}
+function closeShareSearch(){document.getElementById('share-dd').classList.remove('open');}
+function pickShareEnt(id){
+  document.getElementById('share-search-input').value=DS.find(e=>e.id===id)?.name||'';
+  document.getElementById('share-dd').classList.remove('open');
+  genCard(id);
 }
 /*  SHARE MODAL  */
 let modalEnt=null;
@@ -1713,7 +1735,6 @@ function genCard(id){
   document.getElementById('rc-factors').innerHTML=['Mkt/Cap','Users','Vuln','Migration','Time'].map((l,i)=>{const v=[shareEnt.f.mc,shareEnt.f.u,shareEnt.f.v,shareEnt.f.m,shareEnt.f.t][i];return`<div class="rcf"><div class="rcfl">${l}</div><div class="rcfv" style="color:${bcolor(r.band)}">${v}</div></div>`;}).join('');
   setCardColors(document.getElementById('report-card'),r.band);
   document.getElementById('rc-wrap').style.display='block';
-  renderShareChips();
 }
 function copyPost(){
   if(!shareEnt)return;
