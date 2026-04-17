@@ -303,7 +303,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .welcome-modal::after{bottom:12px;right:12px;border-width:0 2px 2px 0;}
 .welcome-logo{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--g);text-transform:uppercase;margin-bottom:1.5rem;opacity:0.75;}
 .welcome-title{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:800;letter-spacing:-0.025em;margin-bottom:0.75rem;line-height:1.15;}
-.welcome-sub{font-size:13px;color:var(--td);line-height:1.7;margin-bottom:2rem;}
+.welcome-sub{font-size:13px;color:rgba(232,237,245,0.75);line-height:1.7;margin-bottom:2rem;}
 .welcome-x-btn{display:inline-flex;align-items:center;gap:8px;background:var(--t);color:#000;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:opacity 0.15s;width:100%;justify-content:center;margin-bottom:0.75rem;}
 .welcome-x-btn:hover{opacity:0.88;}
 .welcome-skip{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;background:none;border:none;padding:6px;transition:color 0.15s;}
@@ -1990,7 +1990,7 @@ setInterval(fetchPrices,60000);
 <div class="welcome-bg" id="welcome-bg" style="display:none;">
   <div class="welcome-modal">
     <div class="welcome-logo">Quantum Exposure Index</div>
-    <div class="welcome-title">See who's sharing<br>quantum intelligence</div>
+    <div class="welcome-title"><span style="color:#ff4040;">Are you<br>Exposed?</span></div>
     <p class="welcome-sub">Connect your X account to personalize your report cards with your profile photo. Your cards will show your identity when you share them — building credibility with every post.</p>
     <button class="welcome-x-btn" onclick="welcomeConnectX()">
       <svg width="15" height="15" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
