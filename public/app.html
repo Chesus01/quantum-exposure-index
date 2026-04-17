@@ -1701,7 +1701,7 @@ function renderWalletResults(addr){
   const nftTotalUsd=allNftChains.reduce((s,d)=>s+(d.totalUsd||0),0);
   const nftTotalItems=allNftChains.reduce((s,d)=>s+(d.totalNfts||0),0);
   const nftTotalVar=nftTotalUsd*(82/100)*0.65;
-  if(allNftChains.length>0&&nftTotalItems>0){
+  if(allNftChains.length>0&&(nftTotalItems>0||Object.values(nftData||{}).some(d=>d.collections?.length>0))){
     document.getElementById('w-nft-summary').textContent=`${nftTotalItems} NFTs · ${fmt(nftTotalUsd)} floor · ${fmt(nftTotalVar)} at risk`;
     const chainColors={ethereum:'#627eea',polygon:'#8247e5',arbitrum:'#28a0f0',optimism:'#ff0420',base:'#0052ff',avalanche:'#e84142',solana:'#9945ff',abstract:'#00ff87'};
     const chainNames={ethereum:'Ethereum',polygon:'Polygon',arbitrum:'Arbitrum',optimism:'Optimism',base:'Base',avalanche:'Avalanche',solana:'Solana',abstract:'Abstract'};

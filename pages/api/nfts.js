@@ -117,43 +117,32 @@ async function magicEdenNFTs(address) {
   return top;
 }
 
-// ── Alchemy (Abstract) ──────────────────────────────────────────────────────
+// ── Abstract Block Explorer (Blockscout) ────────────────────────────────────
 async function abstractNFTs(address) {
-  const apiKey = process.env.ALCHEMY_API_KEY;
-  if (!apiKey) throw new Error('ALCHEMY_API_KEY not configured');
-
-  // Alchemy NFT API v3 for Abstract mainnet
+  // Use Abstract's native block explorer — no API key required
   const r = await fetch(
-    `https://abstract-mainnet.g.alchemy.com/nft/v3/${apiKey}/getNFTsForOwner?owner=${address}&withMetadata=true&pageSize=100&excludeFilters[]=SPAM`,
+    `https://explorer.abstract.network/api/v2/addresses/${address}/nft?type=ERC-721%2CERC-1155&limit=100`,
     { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
   );
-  const rawText = await r.text();
-  console.log('Alchemy Abstract response status:', r.status, 'body:', rawText.slice(0, 500));
-  if (!r.ok) throw new Error(`Alchemy Abstract NFTs ${r.status}: ${rawText.slice(0,200)}`);
-  const data = JSON.parse(rawText);
+  if (!r.ok) throw new Error(`Abstract Explorer NFTs ${r.status}`);
+  const data = await r.json();
 
-  // Group by collection
+  // Group by collection contract
   const byCol = {};
-  for (const nft of data.ownedNfts || []) {
-    const colId   = nft.contract?.address || 'unknown';
-    const colName = nft.contract?.name || nft.collection?.name || slug2name(colId);
-    const image   = nft.contract?.openSeaMetadata?.imageUrl || nft.image?.thumbnailUrl || nft.image?.pngUrl || null;
-    const floorEth = nft.contract?.openSeaMetadata?.floorPrice || 0;
+  for (const item of data.items || []) {
+    const colId   = item.token?.address || 'unknown';
+    const colName = item.token?.name || slug2name(colId);
+    const image   = item.image_url || item.metadata?.image || null;
 
-    if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0, floorEth, totalNative: 0 };
+    if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0 };
     byCol[colId].count++;
-    byCol[colId].totalNative += floorEth;
   }
 
-  const ethUsd = await coinPrice('ethereum'); // Abstract uses ETH
+  // Floor prices not yet available via explorer — show holdings with no floor
   return Object.values(byCol)
     .sort((a, b) => b.count - a.count)
     .slice(0, 20)
-    .map(c => ({
-      ...c,
-      floorUsd: c.floorEth * ethUsd,
-      totalUsd: c.totalNative * ethUsd,
-    }));
+    .map(c => ({ ...c, floorEth: 0, floorUsd: 0, totalUsd: 0 }));
 }
 
 // ── handler ─────────────────────────────────────────────────────────────────
