@@ -1,6 +1,7 @@
 // NFT holdings scanner
 // OpenSea v2  → Ethereum, Polygon, Arbitrum, Optimism, Base, Avalanche
 // Magic Eden  → Solana
+// Reservoir   → Abstract (chain-specific free endpoint)
 // Returns unified { chain, collections:[{name,image,count,floorUsd,totalUsd}], totalUsd, totalNfts }
 
 const cache = {};
@@ -116,6 +117,40 @@ async function magicEdenNFTs(address) {
   return top;
 }
 
+// ── Reservoir (Abstract) ────────────────────────────────────────────────────
+async function abstractNFTs(address) {
+  // Reservoir has a dedicated Abstract endpoint — no API key required for basic usage
+  const r = await fetch(
+    `https://api-abstract.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true&sortBy=acquiredAt`,
+    { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
+  );
+  if (!r.ok) throw new Error(`Reservoir Abstract ${r.status}`);
+  const data = await r.json();
+
+  const byCol = {};
+  for (const item of data.tokens || []) {
+    const t   = item.token || {};
+    const colId   = t.collection?.id   || 'unknown';
+    const colName = t.collection?.name || slug2name(colId);
+    const floorEth = item.market?.floorAsk?.price?.amount?.native || 0;
+    const image    = t.collection?.imageUrl || t.image || null;
+
+    if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0, floorEth, totalNative: 0 };
+    byCol[colId].count++;
+    byCol[colId].totalNative += floorEth;
+  }
+
+  const ethUsd = await coinPrice('ethereum'); // Abstract uses ETH
+  return Object.values(byCol)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 20)
+    .map(c => ({
+      ...c,
+      floorUsd:  c.floorEth  * ethUsd,
+      totalUsd:  c.totalNative * ethUsd,
+    }));
+}
+
 // ── handler ─────────────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -133,6 +168,8 @@ export default async function handler(req, res) {
 
     if (chain === 'solana') {
       collections = await magicEdenNFTs(address);
+    } else if (chain === 'abstract') {
+      collections = await abstractNFTs(address);
     } else {
       const osChain = OS_CHAIN[chain];
       if (!osChain) {
