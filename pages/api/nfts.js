@@ -119,13 +119,19 @@ async function magicEdenNFTs(address) {
 
 // ── Reservoir (Abstract) ────────────────────────────────────────────────────
 async function abstractNFTs(address) {
-  // Reservoir has a dedicated Abstract endpoint — no API key required for basic usage
-  const r = await fetch(
-    `https://api-abstract.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true&sortBy=acquiredAt`,
-    { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
-  );
-  if (!r.ok) throw new Error(`Reservoir Abstract ${r.status}`);
-  const data = await r.json();
+  // Try chain-specific endpoint first, fall back to main API with x-chain header
+  let data = null;
+  const urls = [
+    { url: `https://api-abstract.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true`, headers: { accept: 'application/json' } },
+    { url: `https://api.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true`, headers: { accept: 'application/json', 'x-chain': 'abstract' } },
+  ];
+  for (const { url, headers } of urls) {
+    try {
+      const r = await fetch(url, { headers, signal: AbortSignal.timeout(10000) });
+      if (r.ok) { data = await r.json(); break; }
+    } catch { /* try next */ }
+  }
+  if (!data) throw new Error('Reservoir Abstract unreachable');
 
   const byCol = {};
   for (const item of data.tokens || []) {
