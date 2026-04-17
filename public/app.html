@@ -287,6 +287,27 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 .x-connect-btn:hover{border-color:rgba(255,255,255,0.3);color:var(--t);}
 .x-connect-btn.connected{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:var(--t);}
 .x-nav-av{width:18px;height:18px;border-radius:50%;object-fit:cover;vertical-align:middle;}
+/* Wallet X profile display */
+.w-xprofile{display:none;align-items:center;gap:14px;padding:1.25rem 0 0.5rem;}
+.w-xprofile.show{display:flex;}
+.w-xbig-av{width:64px;height:64px;border-radius:50%;border:2px solid var(--gb);object-fit:cover;flex-shrink:0;box-shadow:0 0 18px rgba(0,220,130,0.2);}
+.w-xinfo{display:flex;flex-direction:column;gap:3px;}
+.w-xname{font-size:15px;font-weight:700;letter-spacing:-0.01em;}
+.w-xhandle{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);}
+.w-xtag{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
+/* Welcome modal */
+.welcome-bg{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.welcome-modal{background:#0d1117;border:2px solid var(--gb);border-radius:20px;padding:2.5rem 2rem;max-width:420px;width:100%;text-align:center;position:relative;box-shadow:0 0 60px rgba(0,220,130,0.12),0 0 120px rgba(0,220,130,0.06);}
+.welcome-modal::before,.welcome-modal::after{content:'';position:absolute;width:16px;height:16px;border-color:var(--g);border-style:solid;opacity:0.5;}
+.welcome-modal::before{top:12px;left:12px;border-width:2px 0 0 2px;}
+.welcome-modal::after{bottom:12px;right:12px;border-width:0 2px 2px 0;}
+.welcome-logo{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--g);text-transform:uppercase;margin-bottom:1.5rem;opacity:0.75;}
+.welcome-title{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:800;letter-spacing:-0.025em;margin-bottom:0.75rem;line-height:1.15;}
+.welcome-sub{font-size:13px;color:var(--td);line-height:1.7;margin-bottom:2rem;}
+.welcome-x-btn{display:inline-flex;align-items:center;gap:8px;background:var(--t);color:#000;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:opacity 0.15s;width:100%;justify-content:center;margin-bottom:0.75rem;}
+.welcome-x-btn:hover{opacity:0.88;}
+.welcome-skip{font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);cursor:pointer;letter-spacing:0.08em;text-transform:uppercase;background:none;border:none;padding:6px;transition:color 0.15s;}
+.welcome-skip:hover{color:var(--td);}
 .copy-toast{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);opacity:0;transition:opacity 0.3s;margin-left:8px;}
 
 /* === GLOBAL: All numbers use DM Mono tabular-nums === */
@@ -518,7 +539,18 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
 
     <div class="w-results" id="w-results">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:8px;">
-        <div><div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div></div>
+        <div>
+          <div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;">Quantum Exposure Report</div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--tf);" id="w-addr-lbl"></div>
+          <div class="w-xprofile" id="w-xprofile">
+            <img class="w-xbig-av" id="w-xbig-av" src="" alt="">
+            <div class="w-xinfo">
+              <div class="w-xname" id="w-xname"></div>
+              <div class="w-xhandle" id="w-xhandle-lbl"></div>
+              <div class="w-xtag">Scanned by</div>
+            </div>
+          </div>
+        </div>
         <button class="btn-o" onclick="resetWallet()"> New Scan</button>
       </div>
       <div class="varbox"><div><div class="vbl">Total Estimated Value at Quantum Risk</div><div class="vba" id="w-totalvar"></div></div><div class="vbr" id="w-vbr"></div><button class="btn-share" onclick="openWalletShareModal()">↗ Share Report Card</button></div>
@@ -1608,6 +1640,7 @@ function renderWalletResults(addr){
   const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
   const bkmax=bkdata[0]?.v||1;
   document.getElementById('w-bk').innerHTML=bkdata.length?bkdata.map(b=>`<div class="bkrow"><div class="bkname"><div class="bkdot" style="background:${b.col}"></div>${b.name}</div><div class="bktrack"><div class="bkfill" style="width:${Math.round(b.v/bkmax*100)}%;background:${b.col}88;"></div></div><div class="bkpct">${Math.round(b.v/totalVar*100)}%</div><div class="bkusd">${fmt(b.v)}</div></div>`).join(''):'<div style="font-family:DM Mono,monospace;font-size:11px;color:var(--tf);">No quantum-exposed value found.</div>';
+  updateWalletXProfile();
   document.getElementById('w-results').style.display='block';
 }
 
@@ -1911,14 +1944,60 @@ function updateCardXUser(prefix){
   }
 }
 
+/* WELCOME MODAL */
+const WELCOME_KEY='qei_welcomed';
+function showWelcomeIfNeeded(){
+  if(getXProfile())return; // already connected, skip
+  if(localStorage.getItem(WELCOME_KEY))return; // already seen
+  setTimeout(()=>{document.getElementById('welcome-bg').style.display='flex';},800);
+}
+function dismissWelcome(){
+  localStorage.setItem(WELCOME_KEY,'1');
+  document.getElementById('welcome-bg').style.display='none';
+}
+async function welcomeConnectX(){
+  dismissWelcome();
+  await connectX();
+}
+
+/* WALLET X PROFILE */
+function updateWalletXProfile(){
+  const p=getXProfile();
+  const wrap=document.getElementById('w-xprofile');
+  if(!wrap)return;
+  if(p){
+    document.getElementById('w-xbig-av').src=p.avatar;
+    document.getElementById('w-xname').textContent=p.name;
+    document.getElementById('w-xhandle-lbl').textContent='@'+p.username;
+    wrap.classList.add('show');
+  }else{
+    wrap.classList.remove('show');
+  }
+}
+
 /*  INIT  */
 handleXCallback();
 updateXUI();
+showWelcomeIfNeeded();
 renderChips();
 renderGrid('all');
 renderWChains();
 fetchPrices().then(()=>fetchTVL());
 setInterval(fetchPrices,60000);
 </script>
+
+<!-- WELCOME MODAL -->
+<div class="welcome-bg" id="welcome-bg" style="display:none;">
+  <div class="welcome-modal">
+    <div class="welcome-logo">Quantum Exposure Index</div>
+    <div class="welcome-title">See who's sharing<br>quantum intelligence</div>
+    <p class="welcome-sub">Connect your X account to personalize your report cards with your profile photo. Your cards will show your identity when you share them — building credibility with every post.</p>
+    <button class="welcome-x-btn" onclick="welcomeConnectX()">
+      <svg width="15" height="15" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
+      Connect X Account
+    </button>
+    <button class="welcome-skip" onclick="dismissWelcome()">Skip for now</button>
+  </div>
+</div>
 </body>
 </html>
