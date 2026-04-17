@@ -534,7 +534,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
   <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-var">Loading...</div><div class="gs-s">all indexed entities</div></div>
   <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top"></div><div class="gs-s">systemic exposure</div></div>
   <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-live">Loading...</div><div class="gs-s">CoinGecko API</div></div>
-  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">54</div><div class="gs-s">+ AI-scored on demand</div></div>
+  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v" id="gs-ei">79</div><div class="gs-s">+ AI-scored on demand</div></div>
 </div>
 
 <!-- HOME TAB -->
@@ -568,7 +568,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
         <button class="fb" data-cat="Bank">Bank</button>
         <button class="fb" data-cat="Government">Government</button>
         <button class="fb" data-cat="Wallet">Wallet</button>
-        <button class="fb" data-cat="Protocol">Protocol</button>
+        <button class="fb" data-cat="Protocol">Protocol / DeFi</button>
       </div>
     </div>
     <div class="egrid" id="egrid"></div>
@@ -888,8 +888,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
     </div>
 
     <div class="meth-footer">
-      <span class="meth-ver">QEI Model v2.1</span>
-      <span class="meth-ver">Last updated: April 2026</span>
+      <span class="meth-ver">QEI Model v2.2</span>
+      <span class="meth-ver">Last updated: April 2026 · 79 entities</span>
       <a href="https://github.com/Chesus01/quantum-exposure-index" target="_blank" class="meth-link">View source on GitHub ↗</a>
     </div>
   </div>
@@ -991,6 +991,38 @@ const DS=[
   {id:'mstr',       name:'MicroStrategy',    cat:'Company',scheme:'ECDSA (BTC treasury custody)',  pub:true, f:{mc:58,u:35,v:78,m:72,t:65}, fbMc:40e9,   domain:'microstrategy.com'},
   {id:'fidelitydigital',name:'Fidelity Digital',cat:'Company',scheme:'RSA/ECDSA (custody HSM)',   pub:true, f:{mc:75,u:80,v:68,m:55,t:48}, fbMc:500e9,  domain:'fidelity.com'},
   {id:'grayscale',  name:'Grayscale',        cat:'Company',scheme:'ECDSA (crypto trust custody)',  pub:false,f:{mc:50,u:42,v:78,m:72,t:65}, fbMc:20e9},
+  /* MORE BLOCKCHAINS */
+  {id:'cardano',    name:'Cardano',          cat:'Blockchain',scheme:'Ed25519 (Ouroboros)',          cgId:'cardano',       pub:true, f:{mc:58,u:45,v:82,m:72,t:75}, fbMc:22e9},
+  {id:'polkadot',   name:'Polkadot',         cat:'Blockchain',scheme:'sr25519/Ed25519',              cgId:'polkadot',      pub:true, f:{mc:52,u:40,v:80,m:70,t:72}, fbMc:12e9},
+  {id:'ton',        name:'TON (Telegram)',   cat:'Blockchain',scheme:'Ed25519',                      cgId:'the-open-network',pub:true,f:{mc:50,u:70,v:80,m:68,t:70}, fbMc:24e9},
+  {id:'tron',       name:'TRON',             cat:'Blockchain',scheme:'ECDSA secp256k1',              cgId:'tron',          pub:false,f:{mc:58,u:55,v:85,m:68,t:72}, fbMc:20e9},
+  {id:'near',       name:'NEAR Protocol',    cat:'Blockchain',scheme:'Ed25519',                      cgId:'near',          pub:true, f:{mc:35,u:32,v:78,m:68,t:70}, fbMc:6e9},
+  {id:'sui',        name:'Sui',              cat:'Blockchain',scheme:'Ed25519/Secp256k1',            cgId:'sui',           pub:true, f:{mc:32,u:28,v:76,m:62,t:65}, fbMc:8e9},
+  /* MORE EXCHANGES */
+  {id:'kraken',     name:'Kraken',           cat:'Exchange',  scheme:'Cold storage ECDSA',          cgId:null,            pub:false,f:{mc:38,u:58,v:72,m:58,t:52}, fbMc:10e9, domain:'kraken.com'},
+  {id:'okx',        name:'OKX',              cat:'Exchange',  scheme:'Custodial ECDSA',             cgId:null,            pub:false,f:{mc:50,u:72,v:75,m:60,t:55}, fbMc:20e9},
+  /* DEFI PROTOCOLS */
+  {id:'aave',       name:'Aave',             cat:'Protocol',  scheme:'ECDSA Ethereum-native',       cgId:'aave',          pub:true, f:{mc:42,u:40,v:85,m:78,t:80}, fbMc:3e9,   dlId:'aave-v3'},
+  {id:'makerdao',   name:'MakerDAO / Sky',   cat:'Protocol',  scheme:'ECDSA (DAI stability)',       cgId:'maker',         pub:true, f:{mc:45,u:55,v:85,m:80,t:82}, fbMc:2.5e9, dlId:'makerdao'},
+  {id:'lido',       name:'Lido',             cat:'Protocol',  scheme:'ECDSA (liquid staking)',      cgId:'lido-dao',      pub:true, f:{mc:55,u:60,v:85,m:75,t:78}, fbMc:1.5e9, dlId:'lido'},
+  {id:'chainlink',  name:'Chainlink',        cat:'Protocol',  scheme:'ECDSA (oracle node keys)',    cgId:'chainlink',     pub:true, f:{mc:48,u:72,v:80,m:72,t:75}, fbMc:12e9},
+  /* PAYMENT COMPANIES */
+  {id:'paypal',     name:'PayPal',           cat:'Company',   scheme:'RSA/ECDSA (TLS+payments)',   cgId:null,            pub:true, f:{mc:65,u:90,v:58,m:52,t:42}, fbMc:70e9,  domain:'paypal.com'},
+  {id:'block',      name:'Block (Square)',   cat:'Company',   scheme:'RSA/ECDSA + BTC treasury',   cgId:null,            pub:true, f:{mc:50,u:72,v:62,m:55,t:48}, fbMc:40e9,  domain:'block.xyz'},
+  {id:'stripe',     name:'Stripe',           cat:'Company',   scheme:'RSA/ECDSA (payment infra)',  cgId:null,            pub:false,f:{mc:60,u:78,v:58,m:50,t:40}, fbMc:65e9,  domain:'stripe.com'},
+  /* MORE TECH */
+  {id:'samsung',    name:'Samsung',          cat:'Company',   scheme:'RSA/ECDSA (Knox + Pay)',     cgId:null,            pub:true, f:{mc:75,u:82,v:42,m:45,t:32}, fbMc:300e9, domain:'samsung.com'},
+  {id:'intel',      name:'Intel',            cat:'Company',   scheme:'RSA/ECDSA + SGX',            cgId:null,            pub:true, f:{mc:68,u:68,v:38,m:40,t:28}, fbMc:110e9, domain:'intel.com'},
+  /* CENTRAL BANKS / INTL FINANCE */
+  {id:'ecb',        name:'European Central Bank',cat:'Government',scheme:'RSA/TLS (TARGET2/T2S)',  pub:false,            f:{mc:85,u:82,v:72,m:68,t:60}, fbMc:0},
+  {id:'boj',        name:'Bank of Japan',    cat:'Government',scheme:'RSA/TLS (BOJ-NET)',          pub:false,            f:{mc:80,u:78,v:72,m:65,t:58}, fbMc:0},
+  {id:'imf',        name:'IMF',              cat:'Government',scheme:'RSA/TLS (SDR infrastructure)',pub:false,           f:{mc:70,u:78,v:72,m:68,t:62}, fbMc:0},
+  /* MORE WALLETS */
+  {id:'phantom',    name:'Phantom',          cat:'Wallet',    scheme:'Ed25519 (Solana-native)',     cgId:null,            pub:false,f:{mc:18,u:48,v:82,m:95,t:88}, fbMc:3e9},
+  {id:'trustwallet',name:'Trust Wallet',     cat:'Wallet',    scheme:'ECDSA multi-chain',          cgId:null,            pub:false,f:{mc:15,u:55,v:88,m:96,t:90}, fbMc:1e9},
+  /* WEB3 INFRA */
+  {id:'alchemy',    name:'Alchemy',          cat:'Protocol',  scheme:'RSA/ECDSA (node infra TLS)', cgId:null,            pub:false,f:{mc:30,u:68,v:48,m:45,t:35}, fbMc:10e9, domain:'alchemy.com'},
+  {id:'infura',     name:'Infura / ConsenSys',cat:'Protocol', scheme:'RSA/ECDSA (Ethereum node)',  cgId:null,            pub:false,f:{mc:25,u:65,v:50,m:48,t:38}, fbMc:5e9,  domain:'infura.io'},
 ];
 
 const W_CHAINS=[
@@ -1148,6 +1180,7 @@ function updateGStats(){
   document.getElementById('gs-var').textContent=fmt(tv);
   document.getElementById('gs-top').textContent=mx+'/100';
   document.getElementById('gs-live').textContent=lv+' assets';
+  const gsei=document.getElementById('gs-ei');if(gsei)gsei.textContent=DS.length;
 }
 
 /*  ENTITY GRID  */
@@ -1179,8 +1212,9 @@ document.getElementById('filters').addEventListener('click',ev=>{
 });
 
 function renderChips(){
-  document.getElementById('chips').innerHTML=['bitcoin','ethereum','diamante','usa','openai','blackrock','mstr','nvidia','jpmorgan','swift'].map(id=>{
+  document.getElementById('chips').innerHTML=['bitcoin','ethereum','diamante','usa','lido','chainlink','openai','blackrock','paypal','jpmorgan','swift','ton'].map(id=>{
     const e=DS.find(x=>x.id===id);
+    if(!e)return'';
     return`<div class="chip" onclick="showDetail('${id}')">${e.name}</div>`;
   }).join('');
 }
@@ -1554,7 +1588,103 @@ WHO's quantum risk is more about data confidentiality and integrity than financi
 
   ledger:`Ledger hardware wallets provide strong isolation between private key material and internet-connected devices. The secure element chip ensures keys never leave the device in plaintext, and physical possession is required to sign transactions. Against all classical remote attack models, Ledger represents best-practice key management for retail crypto users.
 
-The quantum threat operates at a different layer. Ledger's security model protects against software extraction, but the underlying BIP32/BIP44 key derivation uses ECDSA — vulnerable to Shor's algorithm. A quantum attacker needs only the public key visible on-chain, not access to the device. Migration requires a hardware refresh: new devices with quantum-resistant key derivation. Ledger the company is well-positioned to release PQC-capable hardware, and Ledger Live provides a migration channel — the challenge is motivating users to replace functioning hardware before the threat is realised.`
+The quantum threat operates at a different layer. Ledger's security model protects against software extraction, but the underlying BIP32/BIP44 key derivation uses ECDSA — vulnerable to Shor's algorithm. A quantum attacker needs only the public key visible on-chain, not access to the device. Migration requires a hardware refresh: new devices with quantum-resistant key derivation. Ledger the company is well-positioned to release PQC-capable hardware, and Ledger Live provides a migration channel — the challenge is motivating users to replace functioning hardware before the threat is realised.`,
+
+  cardano:`Cardano uses Ed25519 for transaction signing under the Ouroboros proof-of-stake consensus protocol. Like all Ed25519-based systems, Cardano's signing keys are directly vulnerable to Shor's algorithm — the discrete logarithm problem over elliptic curves is solvable in polynomial time on a sufficiently powerful quantum computer. Cardano's extensive on-chain history means a large percentage of active addresses have exposed public keys, providing a mapped attack surface for quantum adversaries.
+
+The Cardano ecosystem has acknowledged post-quantum migration in research discussions. IOHK has published academic work on quantum-resistant signature schemes that could be incorporated into a future Cardano hard fork. However, Cardano's governance mechanism — which requires voting consensus among stake pool operators and ADA holders — means any cryptographic upgrade must navigate a formal on-chain governance process. Cardano's deliberate, peer-reviewed development pace is a double-edged characteristic: it produces higher-quality upgrades but extends the timeline to deployment. Cardano's migration path is technically feasible but governance-constrained.`,
+
+  polkadot:`Polkadot uses sr25519 (Schnorr over Ristretto255) as its primary signing scheme, with Ed25519 supported for compatibility. While sr25519 offers certain advantages over ECDSA in classical security contexts, it remains based on elliptic curve cryptography and is fully vulnerable to Shor's algorithm. Polkadot's parachain architecture means quantum exposure is not limited to the relay chain — every parachain team must independently manage cryptographic upgrades within their own runtime logic.
+
+Polkadot's on-chain governance and forkless runtime upgrade mechanism is among the most sophisticated in the blockchain space. Substrate's modular architecture, which underlies both Polkadot and its parachains, theoretically allows cryptographic scheme replacement without a hard fork. The Polkadot Fellowship — a technical body with on-chain governance power — could propose and vote through PQC signature scheme upgrades more efficiently than Bitcoin or Ethereum. The migration challenge is coordinating across 40+ active parachains, each with independent validator sets and economic models.`,
+
+  ton:`TON (The Open Network), originally developed by Telegram, uses Ed25519 for wallet key pairs and signs blocks with the same elliptic curve scheme. Telegram's integration — with 900 million monthly active users — creates an unusually large potential attack surface: TON wallets embedded in Telegram mini-apps represent one of the most accessible cryptocurrency entry points globally, and any quantum compromise of Ed25519 on TON would affect a user base far larger than most standalone blockchains.
+
+TON's development is managed by the TON Foundation, giving it a more centralised upgrade path than Bitcoin or Ethereum. The team has engaged with post-quantum research, and TON's high-performance architecture was designed to accommodate future protocol changes. The primary migration risk is user distribution: a billion-scale user base that interacts with TON primarily through Telegram's consumer interface will require seamless migration tooling that non-technical users can execute without understanding the underlying cryptography. TON's integration with Telegram payments and advertising infrastructure adds financial-system exposure to the messaging platform risk.`,
+
+  tron:`TRON uses ECDSA secp256k1 — the same elliptic curve scheme as Bitcoin and Ethereum — for transaction signing. All addresses that have ever broadcast a transaction have exposed public keys on the TRON blockchain, directly enabling quantum key derivation. TRON hosts a significant portion of global USDT supply (Tether on TRON exceeds $60B), making its cryptographic integrity directly relevant to stablecoin stability and cross-chain liquidity.
+
+TRON's governance is highly centralised around Justin Sun and the TRON Foundation, which paradoxically makes it easier to coordinate a PQC migration than fully decentralised networks — a decision by the Foundation could drive protocol-level changes without requiring community consensus at the Bitcoin or Ethereum scale. The migration challenge is primarily the USDT ecosystem: every TRON-based USDT address migration requires coordination with Tether Limited, exchange integrations, and the hundreds of millions of users who hold USDT on TRON for cross-border payments and DeFi. The centralisation that simplifies governance also concentrates risk.`,
+
+  near:`NEAR Protocol uses Ed25519 for account keys and validator node signing, inheriting the standard elliptic curve quantum vulnerability profile. NEAR's account model is more human-readable than EVM addresses (e.g., alice.near), but this usability layer sits above the same ECDSA/Ed25519 cryptographic foundation that is vulnerable to Shor's algorithm. NEAR's sharding architecture — Nightshade — means key material is distributed across shard validators, but each individual key remains quantum-vulnerable.
+
+NEAR's relatively small but technically sophisticated developer community and its foundation-led governance model provide a more streamlined upgrade path than larger decentralised networks. The NEAR Foundation has not published a formal PQC migration roadmap, but NEAR's modular protocol design and regular hard fork cadence suggest technical capacity for cryptographic scheme replacement. NEAR's exposure is lower than Bitcoin or Ethereum on absolute value terms, but its role as infrastructure for Aurora (EVM compatibility layer) and Rainbow Bridge (cross-chain) creates second-order quantum exposure to Ethereum's ecosystem risks.`,
+
+  sui:`Sui supports multiple signing schemes including Ed25519, Secp256k1, and Secp256r1 — all elliptic curve variants vulnerable to Shor's algorithm — with BLS12-381 used for validator threshold signatures. Sui's object-centric model assigns unique IDs to digital assets, but the ownership authentication layer rests entirely on these pre-quantum cryptographic schemes. Sui's Move programming language provides formal verification properties for smart contracts but cannot compensate for the underlying signature scheme vulnerabilities.
+
+Sui is among the newer major blockchains in this index (mainnet 2023), giving it a theoretical advantage: it was designed more recently and could incorporate PQC standards into a future upgrade with less legacy infrastructure to navigate. The Mysten Labs team has deep cryptographic expertise, and Sui's validator set is relatively small and professional. The migration challenge is that Sui's rapid TVL growth means an increasingly large asset base needs migration before Q-Day. Sui's multi-signature flexibility — allowing accounts to use multiple signing schemes — could be leveraged to support a hybrid PQC migration path more smoothly than single-scheme networks.`,
+
+  kraken:`Kraken is one of the longest-operating cryptocurrency exchanges, known for its security-focused operations and strong regulatory compliance in the US and EU. Its custody model involves a combination of cold storage (offline ECDSA private keys) and multi-signature security. Kraken's reputation is built on not having been hacked during its decade of operation — a track record that reflects strong classical security practices.
+
+Quantum risk for Kraken operates on the same timeline as all ECDSA-based exchanges: the cold storage advantage disappears when quantum computers can derive private keys from public keys exposed in any historical transaction. Kraken's regulatory standing in the US (FinCEN registered) and EU provides institutional incentive for proactive PQC migration planning. Compared to Binance or OKX, Kraken's smaller scale and Western regulatory oversight create a more manageable migration environment — fewer assets under custody, clearer compliance frameworks, and a less complex operational footprint.`,
+
+  okx:`OKX is one of the largest global cryptocurrency exchanges by volume, with particularly strong market penetration across Asia. Its custodial model holds significant ECDSA-based private keys across Bitcoin, Ethereum, and hundreds of altcoin assets. OKX's OKX Chain (now X Layer) adds smart contract platform exposure, combining custodial exchange risk with DeFi protocol risk in a single corporate entity.
+
+OKX operates under UAE regulatory oversight following its headquarters relocation, creating a different regulatory environment than US-based exchanges on PQC migration mandates. Its large derivatives business — futures, options, and perpetuals — involves digital signatures on instruments with future settlement dates, creating time-deferred exposure where contracts entered today could be quantum-vulnerable when they expire. OKX's Web3 wallet product extends its key management surface into non-custodial territory, adding user-held ECDSA exposure to its institutional custody risk profile.`,
+
+  aave:`Aave is the largest decentralised lending protocol with over $15B in TVL across multiple blockchain networks. Every Aave position — supplier deposit, borrower collateral, and liquidation event — is authenticated by ECDSA secp256k1 keys on Ethereum and its deployment chains. A quantum compromise of a major liquidity provider's keys would enable unauthorised withdrawal of supplied assets, potentially triggering cascading liquidations across the protocol.
+
+Aave's quantum migration is entirely dependent on Ethereum's L1 cryptographic upgrade. Aave itself controls smart contracts that hold funds, but those contracts authenticate ownership through the ECDSA keys of their users — keys Aave has no ability to rotate on users' behalf. Aave's governance token (AAVE) uses the same ECDSA scheme for voting, meaning a quantum attacker could also capture governance control of the protocol. The multi-chain deployment of Aave across Polygon, Arbitrum, Optimism, and Base multiplies the migration surface, as each deployment chain must complete its own PQC upgrade independently.`,
+
+  makerdao:`MakerDAO (now transitioning to Sky) operates the DAI stablecoin system — a decentralised infrastructure where $8B+ in collateral is locked in smart contracts and the stability of a widely-used stablecoin depends on cryptographic integrity of collateral positions. Every vault position, governance vote, and stability fee adjustment is authenticated via ECDSA keys. A quantum attack that compromised large vault holders' keys could enable fraudulent collateral withdrawal and DAI de-pegging with systemic consequences across DeFi.
+
+The MakerDAO/Sky system's exposure is amplified by its role as collateral backbone for other protocols: DAI is used as collateral in Aave, Compound, and dozens of other DeFi systems. A cryptographic compromise of the MakerDAO system would not be contained to MakerDAO users — it would propagate through the entire DeFi dependency graph. MakerDAO's governance process requires on-chain votes from MKR holders, and migration of the core system would require passing governance proposals while simultaneously managing a live $8B+ collateral system with continuous liquidation risk.`,
+
+  lido:`Lido is the largest liquid staking protocol, controlling approximately 29% of all staked Ethereum — roughly 9.7 million ETH worth over $25B at current prices. Lido issues stETH tokens that represent staked ETH with accruing rewards, and the entire system's cryptographic security rests on ECDSA keys for both user positions and the validator node operators that Lido authorises. A quantum attack on Lido's validator node keys would enable fraudulent validator operations, potentially triggering mass slashing events.
+
+Lido's concentration of staked ETH makes it the highest-value single target in Ethereum's proof-of-stake security model. Post-quantum migration for Lido requires two parallel tracks: migrating user-facing stETH positions (dependent on Ethereum L1 PQC upgrade) and migrating validator node operator keys (dependent on Ethereum's BLS validator scheme also being quantum-resistant). BLS12-381, used for Ethereum validator signatures, is vulnerable to a quantum variant of the discrete logarithm attack, meaning Lido's validator infrastructure faces quantum exposure on two distinct cryptographic layers simultaneously.`,
+
+  chainlink:`Chainlink operates the world's largest decentralised oracle network, with node operators signing price feeds and other off-chain data using ECDSA keys before submitting to smart contracts. The integrity of financial products worth hundreds of billions of dollars depends on Chainlink oracle signatures — DeFi protocols use Chainlink price data for lending, derivatives, and liquidation triggers. A quantum attacker who could forge Chainlink oracle signatures could manipulate price data and trigger fraudulent liquidations across every DeFi protocol that uses Chainlink feeds.
+
+Chainlink's architecture creates a unique quantum attack surface: the oracle nodes are individually operated by external node operators, each managing their own ECDSA signing keys. A migration requires coordinating across hundreds of independent operators simultaneously. Chainlink's CCIP (Cross-Chain Interoperability Protocol) adds cross-chain messaging to its attack surface — forged cross-chain messages authenticated by compromised Chainlink keys could drain bridges and cross-chain liquidity pools. The oracle attack vector is particularly dangerous because it enables indirect quantum attacks on protocols that don't directly hold exposed keys.`,
+
+  paypal:`PayPal processes over $1.5 trillion in payment volume annually, serving 430 million active accounts with RSA/ECDSA TLS encryption for all transactions. Its acquisition of Venmo and expansion into cryptocurrency (Bitcoin, Ethereum custody) adds direct digital asset ECDSA exposure to its traditional payment infrastructure. PayPal's PYUSD stablecoin, issued on Ethereum and Solana, adds further quantum exposure through smart contract authentication.
+
+PayPal's scale as the world's most-used digital payments platform makes it a high-value harvest-now-decrypt-later target. Years of payment records, encrypted under RSA certificates that quantum computers will eventually break, represent a data archive of exceptional financial intelligence value to nation-state actors. PayPal's regulatory standing under FinCEN, FCA, and dozens of international payment licenses creates compliance pressure for PQC migration, but its dependency on Ethereum and Solana for cryptocurrency products ties part of its migration timeline to those networks' own PQC roadmaps.`,
+
+  block:`Block (formerly Square) operates payment infrastructure for millions of merchants globally through Square, peer-to-peer payments through Cash App, and holds Bitcoin as a treasury asset. Block's Bitcoin holdings — currently over 8,000 BTC — represent direct ECDSA secp256k1 exposure on the Bitcoin blockchain. CEO Jack Dorsey is a Bitcoin maximalist who has publicly discussed quantum threats, suggesting higher-than-average internal awareness of the migration challenge.
+
+Block's hardware wallet product, Bitkey, creates additional quantum migration complexity: a self-custody hardware wallet product must eventually support PQC key derivation, requiring either a hardware refresh or a key migration process for existing users. Block's Cash App serves over 50 million monthly active users for both fiat and Bitcoin transactions — a consumer-facing migration at that scale would require careful UX design. Block's multi-entity structure (Square, Cash App, Bitkey, TBD) means PQC migration must be coordinated across independently-architected products on a single timeline.`,
+
+  stripe:`Stripe is the world's leading payment infrastructure provider for internet businesses, processing hundreds of billions in annual payment volume for millions of businesses including many of the largest internet companies. Stripe's cryptographic infrastructure is standard RSA/ECDSA TLS — the same as any large internet company — but the consequences of compromise are amplified by Stripe's role as payment orchestration layer for a significant fraction of global e-commerce.
+
+Stripe's private company status means its security roadmap and PQC migration planning are entirely undisclosed. Unlike public companies with SEC cyber risk disclosure requirements, Stripe faces no regulatory mandate to report on its quantum preparedness. Stripe's migration path runs through its cloud providers (AWS primary) and CDN infrastructure, meaning it inherits those providers' PQC timelines for the bulk of its cryptographic attack surface. The 2024 Stripe IPO filing, when it occurs, may provide the first public visibility into its cybersecurity posture — including any quantum preparedness.`,
+
+  samsung:`Samsung's quantum exposure spans three major business units. Samsung Electronics produces 20%+ of global semiconductor supply, with chip design files and manufacturing IP protected under RSA/ECDSA key hierarchies. Samsung Pay processes billions of contactless payments using tokenised card credentials authenticated via ECDSA. Samsung Knox — the security platform embedded in over 1 billion Galaxy devices — uses ECDSA-based attestation for enterprise device management.
+
+A quantum compromise of Samsung's code-signing infrastructure would be among the most consequential supply chain attacks possible: firmware pushed to billions of Galaxy devices and Samsung chips embedded in infrastructure worldwide could be maliciously signed. Samsung has quantum computing research programmes at Samsung Advanced Institute of Technology and is aware of the threat landscape. However, its migration challenge is exceptionally broad — spanning consumer devices, enterprise security, payment networks, and semiconductor manufacturing, across highly regulated markets in the US, EU, and Korea simultaneously.`,
+
+  intel:`Intel's quantum exposure is centred on its Software Guard Extensions (SGX) trusted execution environment technology, which uses RSA and ECDSA for remote attestation — the process by which cloud providers and software vendors verify that code is running in a genuine Intel secure enclave. A quantum attack on Intel's SGX attestation keys would undermine the security claims of every application that relies on SGX for confidential computing, including healthcare data processing, financial applications, and government workloads.
+
+Intel has unique visibility into quantum timelines as a major semiconductor company with active quantum computing research, including its spin-qubit programme. Intel has published on PQC integration in its cryptographic libraries (Intel IPP Crypto) and has stated SGX attestation PQC migration is on its roadmap. Intel's migration challenge is the long tail of deployed SGX hardware: existing server CPUs with SGX cannot be software-updated to use different attestation schemes — a full migration requires hardware generation replacement across millions of deployed servers worldwide, a process that takes years even under active push from cloud providers.`,
+
+  ecb:`The European Central Bank operates TARGET2 and TARGET2-Securities, the euro area's real-time gross settlement and securities settlement systems processing trillions in daily transactions. ECB cryptographic infrastructure uses RSA/TLS standards consistent with EU banking regulations, with oversight from ENISA and compliance with eIDAS. T2 — the modernised successor to TARGET2 — was deployed in 2023, but like all current financial infrastructure, uses pre-quantum cryptographic standards.
+
+The ECB's role as central bank to 20 Eurozone member states creates a migration coordination challenge at the intersection of monetary policy and cybersecurity. Any PQC migration affecting TARGET2 must be coordinated with all 20 national central banks simultaneously. The ECB has published research on quantum risks to financial infrastructure and participates in ENISA working groups on PQC. DORA (Digital Operational Resilience Act) creates regulatory pressure for documented quantum risk management across EU financial institutions, but the ECB itself has no specific public PQC migration timeline.`,
+
+  boj:`The Bank of Japan operates BOJ-NET, the yen settlement system processing trillions in daily Japanese financial transactions. BOJ infrastructure uses RSA/TLS standards consistent with global central bank norms, under the oversight of Japan's Financial Services Agency. Japan has emerged as a significant quantum computing investor — Fujitsu and NEC operate quantum hardware programmes, and the government has committed significant funding to quantum research.
+
+Japan's unique position as both a major quantum computing investor and operator of critical financial infrastructure creates an interesting dynamic: Japan may have better than average visibility into quantum threat timelines while simultaneously running legacy RSA-protected financial systems that require migration. The Bank of Japan has participated in BIS quantum working groups and is aware of the migration imperative. Japan's domestic semiconductor and computing industry provides supply chain advantages for PQC hardware procurement that some other central banks lack.`,
+
+  imf:`The International Monetary Fund operates global financial surveillance and emergency lending infrastructure for 190 member countries, with RSA/TLS-secured communications between IMF staff and all member central banks and finance ministries. IMF Special Drawing Rights (SDR) allocation and emergency lending programs involve authenticated communications whose integrity is critical to global financial stability — a quantum forgery of IMF communications or lending agreements could trigger sovereign financial crises.
+
+The IMF's unique risk profile comes from the breadth and sensitivity of its intelligence function: IMF staff receive confidential macroeconomic data from member governments under diplomatic confidentiality, and this data is transmitted over RSA/TLS connections that are subject to harvest-now-decrypt-later collection. Nation-state actors archiving encrypted IMF communications today could eventually decrypt them to learn which countries faced undisclosed financial stress, when emergency programs were requested, and what confidential policy conditions were imposed. The IMF's Article IV consultations — confidential annual economic reviews of every member country — represent an intelligence archive of extraordinary value.`,
+
+  phantom:`Phantom is the leading wallet for Solana, with over 4 million monthly active users managing Ed25519 keys for SOL, SPL tokens, and Solana NFTs. Like MetaMask on Ethereum, Phantom's quantum risk is not in the wallet software itself — the application is never breached — but in the Ed25519 private keys it manages, which are vulnerable to quantum key derivation from publicly visible on-chain transaction records.
+
+Phantom's migration challenge mirrors MetaMask's: tens of millions of mostly non-technical users must understand quantum risk and take explicit action to migrate to quantum-resistant key material before Q-Day. Phantom has expanded to support Ethereum and Bitcoin in addition to Solana, making it a multi-chain quantum exposure aggregator. The 2024 Phantom app store dominance across iOS and Android means its migration channel reaches a broader audience than any single-chain wallet — but executing user-facing PQC key migration at scale without causing user confusion or fund loss is an unsolved UX problem.`,
+
+  trustwallet:`Trust Wallet is Binance's official non-custodial wallet, supporting over 100 blockchains with 100 million+ registered users managing their own ECDSA and Ed25519 private keys. As a multi-chain self-custody wallet, Trust Wallet is exposed to quantum vulnerabilities across every supported blockchain simultaneously — ECDSA for Ethereum and Bitcoin derivatives, Ed25519 for Solana and other chains, sr25519 for Polkadot. The breadth of Trust Wallet's multi-chain support means it has the widest per-wallet quantum attack surface of any product in the index.
+
+Trust Wallet's affiliation with Binance creates both a resource advantage and a conflict of interest on migration: Binance's institutional resources could fund rapid development of PQC key derivation support, but Binance's incentive to retain the largest user wallet in its ecosystem may create pressure to minimise migration urgency messaging that could reduce user confidence. Trust Wallet's open-source codebase (TrustCore SDK) means the crypto community can independently develop PQC extensions, potentially accelerating migration timeline independent of Binance corporate priorities.`,
+
+  alchemy:`Alchemy provides Ethereum and multi-chain RPC infrastructure used by the majority of production Web3 applications — including most major DeFi protocols, NFT platforms, and wallets. Alchemy itself does not hold user private keys, but its infrastructure sits in the critical path of nearly every Ethereum transaction from application submission to confirmation. The RSA/ECDSA TLS securing Alchemy's API endpoints means that a quantum compromise of Alchemy's authentication infrastructure could enable man-in-the-middle attacks on the transaction flow of millions of applications simultaneously.
+
+Alchemy's risk profile is as a trusted infrastructure provider rather than a direct key holder. A quantum attacker who compromised Alchemy's TLS certificates could intercept and modify transaction data flowing through Alchemy's nodes — a supply chain attack affecting every dApp built on Alchemy's infrastructure. Alchemy's SuperNode architecture and enhanced APIs (Transaction API, Token API) create additional authenticated surface areas. Its Node-as-a-Service model means the migration path is primarily through Alchemy's own cloud infrastructure upgrades, which is more straightforward than migrating user-held keys — but the criticality of its position in the Web3 stack makes timing essential.`,
+
+  infura:`Infura, operated by ConsenSys, is the original Ethereum node-as-a-service provider and remains the most widely used RPC endpoint for Ethereum applications globally. Like Alchemy, Infura does not hold user private keys but provides the authenticated connection layer through which user transactions flow to the Ethereum network. Infura's historical role as the default Ethereum endpoint — hardcoded into early MetaMask and Ethereum application deployments — means it processes an outsize share of Ethereum network traffic.
+
+The 2022 Infura outage that briefly blocked MetaMask users from accessing their funds demonstrated the systemic dependence of the Ethereum ecosystem on Infura's infrastructure. A quantum compromise of Infura's API authentication would have similar systemic consequences — affecting every application that has defaulted to Infura endpoints without implementing redundant node providers. ConsenSys, Infura's parent company, also operates MetaMask, creating a combined quantum exposure at both the wallet key management layer (MetaMask user keys) and the infrastructure authentication layer (Infura API TLS). ConsenSys's PQC migration must address both attack surfaces in coordination.`
 };
 
 /* RECENTLY VIEWED */
