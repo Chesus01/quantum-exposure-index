@@ -117,29 +117,26 @@ async function magicEdenNFTs(address) {
   return top;
 }
 
-// ── Reservoir (Abstract) ────────────────────────────────────────────────────
+// ── Alchemy (Abstract) ──────────────────────────────────────────────────────
 async function abstractNFTs(address) {
-  // Try chain-specific endpoint first, fall back to main API with x-chain header
-  let data = null;
-  const urls = [
-    { url: `https://api-abstract.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true`, headers: { accept: 'application/json' } },
-    { url: `https://api.reservoir.tools/users/${address}/tokens/v7?limit=200&excludeSpam=true`, headers: { accept: 'application/json', 'x-chain': 'abstract' } },
-  ];
-  for (const { url, headers } of urls) {
-    try {
-      const r = await fetch(url, { headers, signal: AbortSignal.timeout(10000) });
-      if (r.ok) { data = await r.json(); break; }
-    } catch { /* try next */ }
-  }
-  if (!data) throw new Error('Reservoir Abstract unreachable');
+  const apiKey = process.env.ALCHEMY_API_KEY;
+  if (!apiKey) throw new Error('ALCHEMY_API_KEY not configured');
 
+  // Alchemy NFT API v3 for Abstract mainnet
+  const r = await fetch(
+    `https://abstract-mainnet.g.alchemy.com/nft/v3/${apiKey}/getNFTsForOwner?owner=${address}&withMetadata=true&pageSize=100&excludeFilters[]=SPAM`,
+    { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(10000) }
+  );
+  if (!r.ok) throw new Error(`Alchemy Abstract NFTs ${r.status}`);
+  const data = await r.json();
+
+  // Group by collection
   const byCol = {};
-  for (const item of data.tokens || []) {
-    const t   = item.token || {};
-    const colId   = t.collection?.id   || 'unknown';
-    const colName = t.collection?.name || slug2name(colId);
-    const floorEth = item.market?.floorAsk?.price?.amount?.native || 0;
-    const image    = t.collection?.imageUrl || t.image || null;
+  for (const nft of data.ownedNfts || []) {
+    const colId   = nft.contract?.address || 'unknown';
+    const colName = nft.contract?.name || nft.collection?.name || slug2name(colId);
+    const image   = nft.contract?.openSeaMetadata?.imageUrl || nft.image?.thumbnailUrl || nft.image?.pngUrl || null;
+    const floorEth = nft.contract?.openSeaMetadata?.floorPrice || 0;
 
     if (!byCol[colId]) byCol[colId] = { name: colName, image, count: 0, floorEth, totalNative: 0 };
     byCol[colId].count++;
@@ -152,8 +149,8 @@ async function abstractNFTs(address) {
     .slice(0, 20)
     .map(c => ({
       ...c,
-      floorUsd:  c.floorEth  * ethUsd,
-      totalUsd:  c.totalNative * ethUsd,
+      floorUsd: c.floorEth * ethUsd,
+      totalUsd: c.totalNative * ethUsd,
     }));
 }
 
