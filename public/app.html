@@ -380,7 +380,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
   <div class="gs"><div class="gs-l">Total Value at Risk</div><div class="gs-v" id="gs-var">Loading...</div><div class="gs-s">all indexed entities</div></div>
   <div class="gs"><div class="gs-l">Highest Risk Score</div><div class="gs-v" id="gs-top"></div><div class="gs-s">systemic exposure</div></div>
   <div class="gs"><div class="gs-l">Live Prices</div><div class="gs-v" id="gs-live">Loading...</div><div class="gs-s">CoinGecko API</div></div>
-  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">12</div><div class="gs-s">+ AI-scored on demand</div></div>
+  <div class="gs"><div class="gs-l">Entities Indexed</div><div class="gs-v">37</div><div class="gs-s">+ AI-scored on demand</div></div>
 </div>
 
 <!-- HOME TAB -->
@@ -406,6 +406,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2
         <button class="fb" data-cat="Blockchain">Blockchain</button>
         <button class="fb" data-cat="Exchange">Exchange</button>
         <button class="fb" data-cat="Company">Company</button>
+        <button class="fb" data-cat="Bank">Bank</button>
+        <button class="fb" data-cat="Government">Government</button>
         <button class="fb" data-cat="Wallet">Wallet</button>
         <button class="fb" data-cat="Protocol">Protocol</button>
       </div>
@@ -695,6 +697,37 @@ const DS=[
   {id:'swift',    name:'SWIFT',      cat:'Protocol',   scheme:'RSA/AES inter-bank',     cgId:null,           pub:false, f:{mc:30,u:40,v:78,m:90,t:88}, fbMc:10e9},
   {id:'uniswap',  name:'Uniswap',    cat:'Protocol',   scheme:'ECDSA Ethereum-native',  cgId:'uniswap',      pub:true,  f:{mc:40,u:35,v:85,m:78,t:80}, fbMc:8.5e9, dlId:'uniswap'},
   {id:'ledger',   name:'Ledger',     cat:'Wallet',     scheme:'ECDSA hardware isolated',cgId:null,           pub:false, f:{mc:15,u:40,v:72,m:85,t:80}, fbMc:1.5e9},
+  /* GOVERNMENTS */
+  {id:'usa',        name:'United States', cat:'Government', scheme:'RSA/ECDSA (NIST SP 800-56)', pub:true,  f:{mc:95,u:98,v:72,m:55,t:45}, fbMc:25e12},
+  {id:'china',      name:'China',         cat:'Government', scheme:'SM2/SM3 (OSCCA standard)',   pub:false, f:{mc:88,u:95,v:70,m:60,t:50}, fbMc:18e12},
+  {id:'uk',         name:'United Kingdom',cat:'Government', scheme:'RSA/ECDSA (NCSC guidance)',  pub:true,  f:{mc:72,u:82,v:72,m:55,t:48}, fbMc:3.1e12},
+  {id:'eu',         name:'European Union',cat:'Government', scheme:'RSA/ECDSA (eIDAS)',          pub:true,  f:{mc:85,u:90,v:72,m:65,t:52}, fbMc:18e12},
+  {id:'russia',     name:'Russia',        cat:'Government', scheme:'GOST R 34.10 (ECDSA-based)', pub:false, f:{mc:68,u:80,v:75,m:70,t:60}, fbMc:2.2e12},
+  /* BANKS */
+  {id:'jpmorgan',   name:'JPMorgan Chase',cat:'Bank',       scheme:'RSA/TLS hybrid',             pub:true,  f:{mc:78,u:85,v:72,m:62,t:52}, fbMc:500e9,  domain:'jpmorgan.com'},
+  {id:'hsbc',       name:'HSBC',          cat:'Bank',       scheme:'RSA/TLS hybrid',             pub:true,  f:{mc:72,u:82,v:72,m:65,t:55}, fbMc:180e9,  domain:'hsbc.com'},
+  {id:'bankofamerica',name:'Bank of America',cat:'Bank',    scheme:'RSA/TLS hybrid',             pub:true,  f:{mc:75,u:85,v:72,m:62,t:52}, fbMc:300e9,  domain:'bankofamerica.com'},
+  {id:'goldmansachs',name:'Goldman Sachs', cat:'Bank',      scheme:'RSA/TLS hybrid',             pub:true,  f:{mc:70,u:60,v:72,m:58,t:50}, fbMc:120e9,  domain:'goldmansachs.com'},
+  {id:'icbc',       name:'ICBC',          cat:'Bank',       scheme:'RSA/SM2 hybrid',             pub:true,  f:{mc:80,u:88,v:74,m:70,t:62}, fbMc:220e9},
+  /* BIG TECH */
+  {id:'microsoft',  name:'Microsoft',     cat:'Company',    scheme:'RSA/ECDSA (Azure hybrid)',   pub:true,  f:{mc:88,u:95,v:38,m:42,t:28}, fbMc:3100e9, domain:'microsoft.com'},
+  {id:'apple',      name:'Apple',         cat:'Company',    scheme:'RSA/ECDSA (TLS/Secure Enclave)',pub:true,f:{mc:85,u:92,v:40,m:45,t:30}, fbMc:2800e9, domain:'apple.com'},
+  {id:'meta',       name:'Meta',          cat:'Company',    scheme:'RSA/ECDSA (WhatsApp Signal)', pub:true, f:{mc:78,u:98,v:48,m:50,t:38}, fbMc:1400e9, domain:'meta.com'},
+  {id:'amazon',     name:'Amazon / AWS',  cat:'Company',    scheme:'RSA/ECDSA (AWS KMS)',        pub:true,  f:{mc:90,u:95,v:40,m:45,t:32}, fbMc:2000e9, domain:'aws.amazon.com'},
+  {id:'tesla',      name:'Tesla',         cat:'Company',    scheme:'RSA/ECDSA (vehicle PKI)',    pub:true,  f:{mc:65,u:55,v:52,m:58,t:45}, fbMc:700e9,  domain:'tesla.com'},
+  /* FINANCE / INFRA */
+  {id:'visa',       name:'Visa',          cat:'Protocol',   scheme:'RSA/3DES payment rails',     pub:true,  f:{mc:72,u:95,v:78,m:70,t:62}, fbMc:550e9,  domain:'visa.com'},
+  {id:'mastercard', name:'Mastercard',    cat:'Protocol',   scheme:'RSA/3DES payment rails',     pub:true,  f:{mc:70,u:94,v:78,m:70,t:62}, fbMc:430e9,  domain:'mastercard.com'},
+  {id:'fedreserve', name:'Federal Reserve',cat:'Government',scheme:'RSA/TLS (Fedwire)',          pub:false, f:{mc:92,u:90,v:75,m:72,t:65}, fbMc:9e12},
+  {id:'nasdaq',     name:'NASDAQ',        cat:'Protocol',   scheme:'RSA/TLS (FIX protocol)',     pub:true,  f:{mc:80,u:75,v:72,m:65,t:55}, fbMc:25e9,   domain:'nasdaq.com'},
+  /* TELECOM / INFRA */
+  {id:'att',        name:'AT&T',          cat:'Company',    scheme:'RSA/ECDSA (BGP/TLS)',        pub:true,  f:{mc:62,u:88,v:68,m:60,t:52}, fbMc:120e9,  domain:'att.com'},
+  {id:'verizon',    name:'Verizon',       cat:'Company',    scheme:'RSA/ECDSA (BGP/TLS)',        pub:true,  f:{mc:60,u:86,v:68,m:60,t:52}, fbMc:170e9,  domain:'verizon.com'},
+  {id:'cloudflare', name:'Cloudflare',    cat:'Company',    scheme:'ECDSA + partial PQC (TLS)',  pub:true,  f:{mc:45,u:82,v:35,m:35,t:22}, fbMc:30e9,   domain:'cloudflare.com'},
+  /* HEALTHCARE / OTHER */
+  {id:'nsa',        name:'NSA / CISA',    cat:'Government', scheme:'Suite B (ECDSA/SHA-384)',    pub:false, f:{mc:60,u:70,v:65,m:38,t:28}, fbMc:0},
+  {id:'interpol',   name:'INTERPOL',      cat:'Government', scheme:'RSA/TLS (I-24/7 network)',   pub:false, f:{mc:40,u:65,v:72,m:68,t:60}, fbMc:0},
+  {id:'who',        name:'World Health Org',cat:'Government',scheme:'RSA/TLS (UN infrastructure)',pub:false,f:{mc:35,u:72,v:72,m:65,t:58}, fbMc:0},
 ];
 
 const W_CHAINS=[
@@ -874,7 +907,7 @@ document.getElementById('filters').addEventListener('click',ev=>{
 });
 
 function renderChips(){
-  document.getElementById('chips').innerHTML=['bitcoin','ethereum','diamante','solana','google','swift'].map(id=>{
+  document.getElementById('chips').innerHTML=['bitcoin','ethereum','diamante','usa','jpmorgan','swift','microsoft','visa'].map(id=>{
     const e=DS.find(x=>x.id===id);
     return`<div class="chip" onclick="showDetail('${id}')">${e.name}</div>`;
   }).join('');
@@ -900,28 +933,76 @@ si.addEventListener('input',()=>{
 si.addEventListener('keydown',ev=>{if(ev.key==='Enter')document.getElementById('ai-btn').click();});
 document.addEventListener('click',ev=>{if(!ev.target.closest('.search-wrap'))dd.classList.remove('open');});
 
+const AI_SCORE_KEY='qei_aiscore_count';
+const AI_SCORE_MAX=5;
+function getAiScoreCount(){try{const d=JSON.parse(sessionStorage.getItem(AI_SCORE_KEY)||'{}');return d.count||0;}catch(e){return 0;}}
+function incAiScoreCount(){try{const d=JSON.parse(sessionStorage.getItem(AI_SCORE_KEY)||'{}');d.count=(d.count||0)+1;sessionStorage.setItem(AI_SCORE_KEY,JSON.stringify(d));}catch(e){}}
+
+async function fetchSslContext(domain){
+  if(!domain)return null;
+  try{
+    const r=await fetch(`/api/ssllabs?host=${encodeURIComponent(domain)}`,{signal:AbortSignal.timeout(14000)});
+    const d=await r.json();
+    if(d.error||d.status==='unavailable')return null;
+    return d;
+  }catch(e){return null;}
+}
+
 async function aiSearch(){
   const q=si.value.trim();
   if(!q)return;
+  // Exact match in dataset — free, no Claude call
   const ex=DS.find(e=>e.name.toLowerCase()===q.toLowerCase());
   if(ex){showDetail(ex.id);dd.classList.remove('open');return;}
+  // Partial match suggestion
+  const partial=DS.find(e=>e.name.toLowerCase().includes(q.toLowerCase()));
+  if(partial&&q.length<4){showDetail(partial.id);dd.classList.remove('open');return;}
   dd.classList.remove('open');
+  // Rate limit: 5 AI scores per session
+  if(getAiScoreCount()>=AI_SCORE_MAX){
+    alert(`You've used ${AI_SCORE_MAX} AI scores this session. Refresh the page to get more, or search the ${DS.length} entities already in the index.`);
+    return;
+  }
   const btn=document.getElementById('ai-btn');
-  btn.disabled=true;btn.textContent='Scoring';
+  btn.disabled=true;btn.textContent='Scanning...';
   try{
+    // Try to guess domain for SSL scan (Claude will also return one)
+    const guessDomain=q.toLowerCase().replace(/\s+/g,'')+'.com';
+    const [sslData]=await Promise.allSettled([fetchSslContext(guessDomain)]);
+    const ssl=sslData.status==='fulfilled'?sslData.value:null;
+    const sslContext=ssl&&ssl.grade?`\nReal TLS scan of ${ssl.host}: Grade ${ssl.grade}, Key: ${ssl.keyType||'unknown'} ${ssl.keyBits||''}bit, Sig: ${ssl.sigAlg||'unknown'}. Quantum risk: ${ssl.quantumRisk}. ${ssl.summary}`:'';
+    btn.textContent='AI Scoring...';
     const resp=await fetch('/api/claude',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,
-        system:'You are the Quantum Exposure Index scoring engine. Return ONLY valid JSON (no markdown) with: name, cat (Blockchain/Exchange/Company/Wallet/Protocol/Government/Bank), scheme, pub (bool), f:{mc:0-100,u:0-100,v:0-100,m:0-100,t:0-100}, fbMc (USD estimate), desc (2-sentence plain text risk summary).',
-        messages:[{role:'user',content:`Score for quantum exposure: "${q}"`}]})
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:900,
+        system:'You are the Quantum Exposure Index scoring engine. Return ONLY valid JSON (no markdown) with: name, cat (Blockchain/Exchange/Company/Wallet/Protocol/Government/Bank), scheme, domain (primary website domain or null), pub (bool), f:{mc:0-100,u:0-100,v:0-100,m:0-100,t:0-100}, fbMc (USD market cap or assets under management estimate as a number), desc (2-sentence plain text risk summary based on real cryptographic facts).',
+        messages:[{role:'user',content:`Score quantum exposure for: "${q}"${sslContext}`}]})
     });
     const d=await resp.json();
     const txt=d.content&&d.content[0]&&d.content[0].text;
     if(!txt)throw new Error('no response');
     const parsed=JSON.parse(txt.replace(/```json|```/g,'').trim());
-    const ent={id:'ai_'+Date.now(),name:parsed.name||q,cat:parsed.cat||'Company',scheme:parsed.scheme||'Unknown',pub:parsed.pub||false,f:parsed.f||{mc:50,u:50,v:60,m:60,t:60},fbMc:parsed.fbMc||1e9,aiDesc:parsed.desc||'',aiScored:true};
+    // If Claude returned a domain and we didn't scan it yet, try again with correct domain
+    let finalSsl=ssl;
+    if(parsed.domain&&parsed.domain!==guessDomain&&!finalSsl){
+      finalSsl=await fetchSslContext(parsed.domain);
+    }
+    const ent={
+      id:'ai_'+Date.now(),
+      name:parsed.name||q,
+      cat:parsed.cat||'Company',
+      scheme:parsed.scheme||(finalSsl?.keyType?`${finalSsl.keyType}-${finalSsl.keyBits}`:'Unknown'),
+      pub:parsed.pub||false,
+      f:parsed.f||{mc:50,u:50,v:60,m:60,t:60},
+      fbMc:parsed.fbMc||1e9,
+      aiDesc:parsed.desc||'',
+      aiScored:true,
+      domain:parsed.domain||null,
+      sslData:finalSsl||null
+    };
+    incAiScoreCount();
     showDetailFromEnt(ent);
-  }catch(e){alert('AI scoring unavailable. Check that the Anthropic API is accessible.');}
+  }catch(e){alert('AI scoring unavailable. Try again in a moment.');}
   finally{btn.disabled=false;btn.textContent='AI Score ';}
 }
 
@@ -955,6 +1036,8 @@ function showDetailFromEnt(e){
   if(ld.price)mets.push({l:'Price',v:'$'+ld.price.toLocaleString('en',{maximumFractionDigits:2}),s:' Live'});
   if(ld.change24h)mets.push({l:'24h Change',v:(ld.change24h>=0?'+':'')+ld.change24h.toFixed(2)+'%',s:' CoinGecko'});
   if(ld.tvl)mets.push({l:'TVL',v:fmt(ld.tvl),s:' DeFiLlama'});
+  if(e.sslData&&e.sslData.grade)mets.push({l:'TLS Grade',v:e.sslData.grade,s:'SSL Labs live scan'});
+  if(e.sslData&&e.sslData.keyType)mets.push({l:'Key Type',v:`${e.sslData.keyType} ${e.sslData.keyBits||''}bit`,s:'SSL Labs'});
   mets.push({l:'Risk Score',v:r.s+'/100',s:r.band});
   mets.push({l:'Exposure Band',v:r.band,s:'Model Output'});
   document.getElementById('d-metrics').innerHTML=mets.map(m=>`<div class="mc"><div class="mc-l">${m.l}</div><div class="mc-v">${m.v}</div><div class="mc-s">${m.s}</div></div>`).join('');
@@ -1009,6 +1092,112 @@ Migration complexity for SWIFT is uniquely difficult: every member institution m
   uniswap:`Uniswap is a non-custodial decentralised exchange operating entirely on Ethereum smart contracts. Its quantum exposure is inherited directly from Ethereum: every liquidity provider position, governance token holding, and fee-collecting address uses ECDSA secp256k1 keys vulnerable to Shor's algorithm once their public keys appear on-chain.
 
 The protocol's smart contract architecture adds complexity. Liquidity pool contracts hold assets on behalf of users and are identified by deterministic Ethereum addresses — there is no "key rotation" for a deployed contract. Migration requires deploying new contracts and moving all liquidity in a coordinated operation. Uniswap's migration timeline is entirely dependent on Ethereum's L1 post-quantum upgrade path, giving the protocol no independent ability to accelerate its own quantum-resistance profile.`,
+
+  /* GOVERNMENTS */
+  usa:`The United States federal government operates the world's most complex cryptographic infrastructure. NIST — a US agency — literally defines the post-quantum standards the world is migrating to (FIPS 203, 204, 205), and NSA's Commercial National Security Algorithm Suite 2.0 mandates PQC for national security systems by 2030. The federal government is arguably the most quantum-aware large institution on earth, with active migration programmes across DoD, CISA, and intelligence agencies.
+
+The paradox is scale. Migration across 430 civilian agencies, 17 intelligence agencies, the military, and thousands of contractors is a decade-long programme at minimum. Federal civilian systems run PKI built on RSA-2048 and ECDSA. Critical infrastructure — power grid SCADA, financial settlement (Fedwire), GPS authentication — runs on legacy cryptography with replacement cycles measured in decades. The VAR figure reflects the total US GDP at nominal digital risk, not a realistic loss scenario — but it illustrates why the US government classifies PQC migration as a national security priority.`,
+
+  china:`China operates its own cryptographic standards through OSCCA (Office of State Commercial Cryptography Administration). The SM2 elliptic curve algorithm and SM3/SM4 symmetric standards underpin Chinese government and commercial systems. SM2 is based on elliptic curve discrete logarithm — directly vulnerable to Shor's algorithm in the same way as Western ECDSA standards.
+
+China is simultaneously the world's most aggressive investor in quantum computing research and an operator of legacy-vulnerable infrastructure. The Chinese government has mandated SM2 adoption across financial institutions and e-government services, creating a known and mapped cryptographic attack surface. State-sponsored quantum programmes — including the Jiuzhang photonic quantum computer — are well ahead of published Western timelines. The implication is that China may reach cryptographically-relevant quantum capability before its own infrastructure migration is complete.`,
+
+  uk:`The United Kingdom's National Cyber Security Centre (NCSC) has published clear PQC migration guidance and is among the most transparent Western governments on quantum timelines. The UK's cryptographic infrastructure mirrors NATO standards — RSA and ECDSA across government PKI, HTTPS, and classified networks. GCHQ and NCSC have acknowledged harvest-now-decrypt-later attacks as an active and immediate threat.
+
+UK financial infrastructure — the Bank of England, CHAPS settlement system, and City of London payment networks — runs on legacy cryptography with operational risk comparable to SWIFT. NHS digital health records and national identity infrastructure add significant personal data exposure. The UK's advantage is institutional awareness; its challenge is the same as every Western government — coordinating migration across thousands of agencies, contractors, and private sector dependencies faster than quantum timelines close.`,
+
+  eu:`The European Union's digital infrastructure spans 27 member states, each operating national PKI, e-government, and payment systems under the eIDAS framework. The European Telecommunications Standards Institute (ETSI) and ENISA have published PQC migration roadmaps, and the EU Cyber Resilience Act creates compliance pressure for connected devices. Foundational cryptography across EU systems is RSA and ECDSA — both vulnerable to Shor's algorithm.
+
+The EU's fragmented governance creates the most complex migration coordination challenge of any political entity. A successful quantum attack targeting eIDAS digital signatures could undermine the legal validity of electronic contracts, VAT filings, and cross-border digital identity across the bloc. The ECB's TARGET2 payment system and Euroclear's securities settlement infrastructure represent the highest-value cryptographic targets. EU institutions have begun PQC pilots but full migration across all member state systems is estimated to take until the mid-2030s at the earliest.`,
+
+  russia:`Russia's GOST cryptographic standards use elliptic curve cryptography (GOST R 34.10-2012) for digital signatures — an ECDSA variant fully vulnerable to Shor's algorithm. Russian state infrastructure, FSB-operated networks, and the SPFS (Russian SWIFT alternative) all rely on GOST-signed certificates. Independently, Russia operates aggressive offensive quantum research programmes at MIPT and through state defence contractors.
+
+Russia presents an unusual dual risk profile: its cryptographic infrastructure has the same quantum vulnerabilities as Western systems, but its offensive quantum investment potentially gives it earlier capability to exploit those vulnerabilities in foreign systems. Russia's financial isolation following 2022 sanctions has reduced its integration with Western payment infrastructure while also limiting access to Western semiconductor supply chains needed for quantum hardware. The domestic migration challenge is significant given the concentration of cryptographic authority in FSB and state-controlled entities.`,
+
+  /* BANKS */
+  jpmorgan:`JPMorgan Chase is the world's largest bank by assets, operating a cryptographic infrastructure spanning retail banking, investment banking, derivatives settlement, and custody services for $3.7 trillion in assets. Its public TLS infrastructure uses RSA and ECDSA, and its internal systems run on HSM-based PKI built to NIST pre-quantum standards. JPMorgan is notable for running one of the most advanced internal quantum computing research programmes of any financial institution, giving it genuine visibility into its own threat timeline.
+
+The bank has publicly disclosed awareness of harvest-now-decrypt-later attacks and is actively evaluating CRYSTALS-Kyber and CRYSTALS-Dilithium for key exchange and signatures. Its scale is simultaneously the problem and the resource: migrating millions of customer accounts, thousands of internal systems, and its entire derivatives counterparty network requires industry-wide coordination. JPMorgan chairs several financial industry PQC working groups — a signal of institutional seriousness that reduces its migration risk score relative to peers of similar size.`,
+
+  hsbc:`HSBC operates in 64 countries with particular concentration in Hong Kong and mainland China, creating a unique exposure to both Western NIST-standard cryptographic vulnerabilities and Chinese SM2 vulnerabilities simultaneously. Its cross-border correspondent banking network processes trillions in annual flows, and its cryptographic attack surface spans retail, commercial, and investment banking across radically different regulatory environments.
+
+The complexity of HSBC's multi-jurisdictional operation creates the hardest migration coordination problem of any bank in the index. A migration that covers UK systems but not Hong Kong operations — or vice versa — provides incomplete protection. HSBC must coordinate with both NCSC and PBOC guidance simultaneously, on systems that may have conflicting upgrade timelines. Its partial exposure to Chinese SM2 infrastructure also means it faces quantum vulnerability from both Chinese and Western threat actors.`,
+
+  bankofamerica:`Bank of America is the second-largest US bank, with extensive retail, commercial, and investment banking operations built on standard US PKI — RSA-2048 and ECDSA certificates managed through commercial CAs. Its Merrill Lynch wealth management and institutional custody businesses hold trillions in assets whose ownership is ultimately secured by digital signatures vulnerable to Shor's algorithm.
+
+Bank of America participates in the Financial Services Information Sharing and Analysis Center (FS-ISAC) quantum working group and has acknowledged PQC migration as a priority in regulatory filings. Its advantage is operating under a single regulatory jurisdiction (OCC/Fed) with clear NIST migration mandates. Its challenge is the legacy depth of core banking systems — Zelle integration, FedACH, and CHIPS connectivity require coordinated migration with counterparties and payment infrastructure operators beyond its direct control.`,
+
+  goldmansachs:`Goldman Sachs operates primarily in institutional and wholesale markets, with a cryptographic attack surface concentrated in high-value, lower-volume transactions — exactly the type a sophisticated quantum attacker would prioritise. Its securities custody, prime brokerage, and derivatives businesses involve digital signatures on instruments worth trillions. Marcus, its retail banking arm, adds consumer-facing PKI exposure.
+
+Goldman's institutional client base includes sovereign wealth funds, central banks, and the world's largest asset managers. A quantum compromise of Goldman's signing infrastructure — even a narrow window during a future capability emergence — could enable forgery of trade confirmations, custody transfers, or OTC derivatives novations at the scale of its balance sheet. Goldman has invested in quantum computing through its partnership with IBM Q but has been less publicly transparent than JPMorgan on its specific migration plans.`,
+
+  icbc:`Industrial and Commercial Bank of China is the world's largest bank by assets, operating entirely under Chinese regulatory jurisdiction with cryptographic standards mandated by PBOC and OSCCA. Its systems use SM2 elliptic curve signatures — directly vulnerable to Shor's algorithm despite being a distinct standard from Western ECDSA. ICBC holds over $5 trillion in assets and processes a significant share of China's domestic payment flows.
+
+ICBC's quantum risk is compounded by its integration with the Chinese government's digital yuan (e-CNY) infrastructure and cross-border payment systems including CIPS (Cross-border Interbank Payment System). A quantum compromise of ICBC's signing keys would affect not just the bank but the cryptographic integrity of China's entire domestic payment clearing network. China's national quantum programme creates an unusual situation where ICBC faces potential threats from both foreign quantum actors and from the possibility that domestic capability emerges faster than migration completes.`,
+
+  /* BIG TECH */
+  microsoft:`Microsoft is among the most advanced large technology companies on PQC migration. Azure Key Vault has begun integrating NIST PQC algorithms, the Windows CNG cryptographic library has experimental support for ML-KEM, and Microsoft Research has published extensively on lattice-based cryptography. Active Directory — the authentication backbone for hundreds of millions of corporate users worldwide — is on a documented PQC upgrade roadmap.
+
+The exposure comes from breadth. Microsoft 365, Azure, Xbox Live, LinkedIn, GitHub, and Bing collectively authenticate billions of sessions daily on RSA and ECDSA certificates. The enterprise customer base — including most of the world's governments, banks, and critical infrastructure operators — depends on Microsoft's certificate infrastructure and code-signing keys for system integrity. A quantum compromise of Microsoft's code-signing certificates would be the most consequential supply chain attack in history, enabling arbitrary malicious software to appear legitimately signed.`,
+
+  apple:`Apple's cryptographic architecture includes the Secure Enclave for device key management, end-to-end encrypted iMessage and FaceTime using Elliptic Curve Diffie-Hellman, and a global PKI for App Store code signing and Apple Pay. With 2.2 billion active devices worldwide, Apple's key infrastructure underpins the security of the largest consumer technology ecosystem on earth.
+
+Apple has partially moved: iMessage was upgraded to a post-quantum key establishment protocol (PQ3) using a hybrid CRYSTALS-Kyber + ECC approach in 2024, placing it ahead of most technology companies for messaging security. However, Apple Pay, Face ID biometric template protection, iCloud backup encryption, and App Store code signing remain on pre-quantum ECDSA and RSA. The Secure Enclave's hardware isolation slows the attack surface but doesn't eliminate the need for key rotation when quantum capability emerges. Apple's migration trajectory is among the most credible in the consumer technology sector.`,
+
+  meta:`Meta's quantum exposure is dominated by WhatsApp, which handles over 100 billion messages per day using the Signal Protocol — an ECDH/Ed25519-based system with perfect forward secrecy but no post-quantum key establishment. Facebook and Instagram authentication, advertising infrastructure, and Meta's growing financial services (Pay, digital assets) add additional attack surfaces built on standard RSA/ECDSA web PKI.
+
+Meta's scale creates a harvest-now-decrypt-later risk of unusual magnitude. Billions of private WhatsApp conversations, stored at encryption layers that will eventually be breakable, represent a surveillance treasure trove for any nation-state that achieves quantum capability. Signal (the separate app) has already deployed post-quantum key encapsulation for message encryption; WhatsApp has not yet received the same upgrade. Meta's migration urgency is high given the sensitivity of the private communications it carries — and the aggressive state-level actors motivated to decrypt them.`,
+
+  amazon:`Amazon Web Services is the world's largest cloud provider, hosting the cryptographic infrastructure of millions of businesses, governments, and organisations. AWS KMS (Key Management Service) manages encryption keys for S3, RDS, EBS, and hundreds of other services — all currently using AES-256 (quantum-resistant) for symmetric encryption but RSA-2048 or ECDSA for key wrapping and authentication. AWS Certificate Manager issues millions of TLS certificates.
+
+The systemic risk is not Amazon's own data but what it hosts: classified government workloads (AWS GovCloud, AWS Secret Region for intelligence agencies), healthcare records, financial transaction data, and authentication infrastructure for a significant fraction of the internet. AWS has published a PQC roadmap and offers experimental ML-KEM support in some services. A quantum compromise of AWS's root signing keys — however unlikely given their HSM protection — would be the single most consequential cryptographic event possible.`,
+
+  tesla:`Tesla's quantum exposure is concentrated in its vehicle PKI infrastructure — the cryptographic system that authenticates firmware updates to 6+ million cars, controls remote access via the Tesla app, and manages autonomous driving software signing. Tesla uses ECDSA-based code signing for over-the-air updates, meaning a quantum attacker who compromises Tesla's signing keys could push malicious firmware to the entire fleet.
+
+The automotive industry faces a unique migration challenge: vehicles have 15–20 year operational lifespans, meaning cars sold today will be on the road when quantum computers arrive. Tesla's over-the-air update architecture is an advantage — it can push cryptographic upgrades to existing vehicles more rapidly than competitors. However, the hardware security modules in early Model S and Model 3 vehicles may lack the computational headroom for post-quantum algorithms, potentially requiring physical dealer visits for a subset of the fleet.`,
+
+  /* FINANCE / INFRA */
+  visa:`Visa processes over 200 billion transactions annually across 100 million merchants in 200 countries. Its payment network relies on RSA for cardholder authentication, 3DES for legacy terminal communication, and TLS/ECDSA for API and merchant connectivity. The foundational cryptographic protocols underpinning Visa's network were standardised in an era when quantum computing was theoretical — and some terminal-level protocols are difficult to upgrade without hardware replacement across 100 million point-of-sale devices.
+
+EMV chip card transactions use ECDSA for card authentication — the same elliptic curve cryptography broken by Shor's algorithm. A quantum attacker who can break card authentication signatures could forge valid transaction approvals or clone chip card credentials at scale. Visa's central infrastructure is a high-value migration target; its distributed terminal network is the long tail. PCI DSS, the payment card security standard, does not yet mandate PQC — creating a gap between what Visa can control and what the global merchant ecosystem implements.`,
+
+  mastercard:`Mastercard faces an identical threat profile to Visa: RSA/ECDSA authentication across global payment rails, 3DES in legacy terminal protocols, and EMV chip card authentication using elliptic curve cryptography. With $9+ trillion in gross dollar volume annually, Mastercard's cryptographic infrastructure is among the most high-value attack targets on earth.
+
+Mastercard has been more publicly active on PQC than Visa, participating in ETSI and NIST standardisation working groups and piloting hybrid PQC key exchange in its API infrastructure. The EMV terminal migration problem is shared industry-wide: the payment card industry's hardware refresh cycle is 5–7 years minimum, meaning terminals deployed today will still be operating when quantum capability arrives. The real risk is not Mastercard's core infrastructure — which it controls — but the cryptographic boundary between Mastercard's systems and the global merchant acquiring ecosystem it cannot unilaterally upgrade.`,
+
+  fedreserve:`The Federal Reserve operates Fedwire Funds Service, which settled $1.1 quadrillion in transactions in 2023 — the backbone of US dollar interbank settlement. Fedwire uses proprietary messaging over TLS-secured connections with RSA/ECDSA certificates. A quantum compromise of Fedwire's authentication layer would represent the most catastrophic financial cryptography failure possible, enabling forged settlement instructions between US banks at the scale of the entire US financial system.
+
+The Federal Reserve is highly aware of this risk. The Fed's Technology Lab has published research on PQC migration for financial infrastructure, and CISA's known-exploited-vulnerabilities guidance increasingly references cryptographic standards. Fedwire's architecture — a centralised, government-operated system — means the Fed has more direct control over its migration timeline than any private payment operator. The challenge is counterparty coordination: all 10,000+ Fedwire participants must upgrade their client-side cryptography before the system provides end-to-end quantum resistance.`,
+
+  nasdaq:`NASDAQ's trading infrastructure handles billions of equity and derivatives transactions daily, with cryptographic authentication ensuring market data integrity and order authenticity. Market data feeds, trading APIs, and post-trade settlement all rely on TLS/ECDSA for authentication. NASDAQ also operates critical market infrastructure in 29 countries through its market technology division.
+
+The systemic risk of a NASDAQ cryptographic compromise extends beyond the exchange itself. NASDAQ's proprietary market data feeds are used by thousands of trading firms, market makers, and algorithmic traders. Forged or tampered market data authenticated with a quantum-broken key could trigger cascading trading errors, flash crashes, or coordinated market manipulation at a scale impossible with classical attacks. NASDAQ's FIX protocol integration with broker-dealer infrastructure creates a distributed migration challenge similar to payment card terminals.`,
+
+  /* TELECOM */
+  att:`AT&T operates the largest US telecommunications network, carrying voice, data, and internet traffic for 100 million+ customers and serving as a critical backbone for US government communications under FirstNet. Its network infrastructure uses BGP (Border Gateway Protocol) for routing — a protocol that relies on RPKI (Resource Public Key Infrastructure) using ECDSA for route authentication. A quantum attack on BGP authentication could enable large-scale traffic hijacking and interception.
+
+AT&T's exposure to government communications — classified and unclassified — creates national security implications beyond its commercial operations. FBI and law enforcement lawful intercept infrastructure, emergency services communications, and US military contractor connectivity all traverse AT&T's network. CISA and NSA have flagged BGP security as a priority national security concern. AT&T's migration challenge spans not just its own infrastructure but the interconnected BGP routing ecosystem, where full quantum resistance requires coordinated migration across the global internet routing table.`,
+
+  verizon:`Verizon's quantum exposure mirrors AT&T's across its wireless, wireline, and enterprise network businesses, with additional concentration in enterprise security services. Verizon Business operates managed security services for thousands of large enterprises and government agencies, making it a high-value cryptographic target: a single compromise could cascade to thousands of downstream clients.
+
+Verizon's 5G infrastructure introduces a new dimension of quantum risk. 5G authentication protocols (5G-AKA) use ECDSA for subscriber identity authentication and network slice integrity — both vulnerable to Shor's algorithm. Unlike older network generations, 5G's software-defined architecture allows faster cryptographic upgrades, but standardisation through 3GPP and coordinated rollout with device manufacturers creates a multi-year migration timeline. Verizon has participated in NIST PQC standardisation and is among the more publicly engaged US telecoms on the issue.`,
+
+  cloudflare:`Cloudflare is the most advanced large internet infrastructure company on post-quantum migration. It has deployed hybrid TLS 1.3 + CRYSTALS-Kyber key exchange (X25519Kyber768) in production for all traffic it proxies — meaning a significant fraction of global HTTPS traffic already uses PQC key establishment. Cloudflare's research team has published more on practical PQC deployment than most academic institutions, and it operates the largest real-world PQC deployment in history.
+
+Cloudflare's residual exposure is in authentication — ECDSA certificates are still used for TLS authentication even where key exchange has been upgraded to PQC. This protects against future decryption of current traffic (harvest-now-decrypt-later) but not against a quantum forgery of Cloudflare's own certificates. Cloudflare's score reflects its genuine leadership in migration — its crypto vulnerability factor is significantly lower than any comparable internet infrastructure company — but it protects infrastructure used by millions of websites that may themselves be on pre-quantum stacks.`,
+
+  /* INTELLIGENCE / INTERNATIONAL */
+  nsa:`NSA is simultaneously the world's foremost authority on post-quantum cryptography and an operator of the most sensitive cryptographic infrastructure on earth. The agency authored the Commercial National Security Algorithm Suite 2.0, mandating ML-KEM, ML-DSA, and SLH-DSA for national security systems by 2030. NSA's classified cryptographic systems — Suite A and the National Cryptographic Standards — are not publicly documented but are assumed to include quantum-resistant components given the agency's decades of awareness.
+
+NSA's public exposure is limited by design — it operates classified networks physically and cryptographically isolated from the public internet. The residual risk is in the agency's role securing the broader US national security apparatus: ensuring that the thousands of cleared contractors, military installations, and allied nations operating on US cryptographic standards complete their own migrations before Q-Day. NSA's own systems are likely better protected than almost any entity in this index; its mission risk is the gap between its own readiness and the readiness of everything it is tasked to defend.`,
+
+  interpol:`INTERPOL's I-24/7 secure communications network connects law enforcement agencies in 196 member countries, transmitting sensitive criminal intelligence, arrest warrants, and stolen document alerts. The network uses RSA/TLS for secure communications — standard pre-quantum cryptography operating in an environment where nation-state adversaries with emerging quantum capabilities have strong motivation to intercept and decrypt communications.
+
+INTERPOL's migration challenge is the most extreme coordination problem in the index: 196 member countries across vastly different levels of technical sophistication, funding, and political alignment must upgrade simultaneously for end-to-end quantum resistance. A partial migration that upgrades INTERPOL's central systems while leaving member country endpoints on legacy cryptography provides no real protection for the most sensitive communications. The organisation operates on a limited budget without the resources of a national government — creating dependence on partner nations and commercial vendors for cryptographic infrastructure upgrades.`,
+
+  who:`The World Health Organization operates global health surveillance infrastructure including disease outbreak reporting, emergency health communications, and the International Health Regulations coordination network. WHO systems use standard UN IT infrastructure — RSA/TLS web PKI managed through UN ICTS services. Personal health data on patients, sensitive epidemiological intelligence, and emergency communications between member state health ministries are all secured under pre-quantum cryptographic standards.
+
+WHO's quantum risk is more about data confidentiality and integrity than financial loss. Sensitive outbreak data harvested now and decrypted later — revealing which governments reported disease outbreaks before public disclosure — would be valuable to nation-state intelligence agencies. More acutely, a quantum attack on WHO's integrity infrastructure during a future pandemic response could enable forged health advisories or falsified epidemiological data, with potentially catastrophic public health consequences. WHO depends entirely on voluntary contributions and UN common system infrastructure, giving it limited independent capacity to drive its own cryptographic migration.`,
 
   ledger:`Ledger hardware wallets provide strong isolation between private key material and internet-connected devices. The secure element chip ensures keys never leave the device in plaintext, and physical possession is required to sign transactions. Against all classical remote attack models, Ledger represents best-practice key management for retail crypto users.
 
