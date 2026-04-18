@@ -585,6 +585,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
         <button class="fb" data-cat="Healthcare">Healthcare</button>
         <button class="fb" data-cat="Finance">Finance</button>
         <button class="fb" data-cat="L2">L2</button>
+        <button class="fb" data-cat="Energy">Energy</button>
+        <button class="fb" data-cat="Consumer">Consumer</button>
+        <button class="fb" data-cat="Automotive">Automotive</button>
+        <button class="fb" data-cat="Industrial">Industrial</button>
+        <button class="fb" data-cat="Media">Media</button>
+        <button class="fb" data-cat="Real Estate">Real Estate</button>
+        <button class="fb" data-cat="Materials">Materials</button>
       </div>
     </div>
     <div class="egrid" id="egrid"></div>
@@ -1260,6 +1267,135 @@ const DS=[
   /* ── CHIPS / SEMICONDUCTORS ─────────────────────────────────────────────── */
   {id:'qualcomm',     name:'Qualcomm',           cat:'Company',      scheme:'RSA + ECC (modem / secure enclave IP)',    cgId:null,                     pub:true,  f:{mc:52,u:58,v:72,m:72,t:65}, fbMc:150e9,  rev:'Apr 2026'},
   {id:'amd',          name:'AMD',                cat:'Company',      scheme:'RSA + ECC (CPU / GPU microcode signing)',  cgId:null,                     pub:true,  f:{mc:50,u:52,v:70,m:70,t:63}, fbMc:200e9,  rev:'Apr 2026'},
+
+  /* ── SEMICONDUCTORS / HARDWARE ──────────────────────────────────────────── */
+  {id:'tsmc',             name:'TSMC',                  cat:'Company',     scheme:'RSA + ECC (EUV lithography IP / fab auth)',  cgId:null, pub:true,  f:{mc:80,u:55,v:72,m:75,t:68}, fbMc:800e9,  rev:'Apr 2026'},
+  {id:'broadcom',         name:'Broadcom',              cat:'Company',     scheme:'RSA + ECC (networking / AI chip IP)',         cgId:null, pub:true,  f:{mc:78,u:50,v:70,m:72,t:65}, fbMc:800e9,  rev:'Apr 2026'},
+  {id:'micron',           name:'Micron',                cat:'Company',     scheme:'RSA + ECC (DRAM / NAND firmware IP)',         cgId:null, pub:true,  f:{mc:55,u:42,v:70,m:70,t:63}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'asml',             name:'ASML',                  cat:'Company',     scheme:'RSA + TLS (EUV machine firmware / IP)',       cgId:null, pub:true,  f:{mc:70,u:38,v:70,m:72,t:65}, fbMc:300e9,  rev:'Apr 2026'},
+  {id:'applied_materials',name:'Applied Materials',     cat:'Company',     scheme:'RSA + TLS (semiconductor equipment IP)',      cgId:null, pub:true,  f:{mc:58,u:35,v:68,m:70,t:63}, fbMc:150e9,  rev:'Apr 2026'},
+  {id:'lam_research',     name:'Lam Research',          cat:'Company',     scheme:'RSA + TLS (etch / deposition equipment IP)',  cgId:null, pub:true,  f:{mc:52,u:30,v:68,m:70,t:63}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'texas_instruments',name:'Texas Instruments',     cat:'Company',     scheme:'RSA + ECC (embedded MCU security)',           cgId:null, pub:true,  f:{mc:60,u:45,v:70,m:70,t:63}, fbMc:180e9,  rev:'Apr 2026'},
+  {id:'arm',              name:'Arm Holdings',          cat:'Company',     scheme:'RSA + ECC (TrustZone / CPU IP licensing)',    cgId:null, pub:true,  f:{mc:65,u:65,v:72,m:74,t:67}, fbMc:170e9,  rev:'Apr 2026'},
+  {id:'sony',             name:'Sony',                  cat:'Company',     scheme:'RSA + ECC (PlayStation DRM / content)',      cgId:null, pub:true,  f:{mc:55,u:62,v:70,m:70,t:63}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'panasonic',        name:'Panasonic',             cat:'Company',     scheme:'RSA + TLS (B2B / EV battery systems)',        cgId:null, pub:true,  f:{mc:38,u:40,v:68,m:70,t:62}, fbMc:20e9,   rev:'Apr 2026'},
+  {id:'lg_electronics',   name:'LG Electronics',        cat:'Company',     scheme:'RSA + TLS (appliances / OLED firmware)',      cgId:null, pub:true,  f:{mc:28,u:42,v:68,m:68,t:62}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'berkshire',        name:'Berkshire Hathaway',    cat:'Finance',     scheme:'RSA + TLS (multi-industry conglomerate)',     cgId:null, pub:true,  f:{mc:82,u:55,v:70,m:75,t:65}, fbMc:1000e9, rev:'Apr 2026'},
+
+  /* ── ENERGY ─────────────────────────────────────────────────────────────── */
+  {id:'saudi_aramco',     name:'Saudi Aramco',          cat:'Energy',      scheme:'RSA + TLS (national oil SCADA / pipelines)', cgId:null, pub:true,  f:{mc:82,u:45,v:80,m:87,t:72}, fbMc:1800e9, rev:'Apr 2026'},
+  {id:'exxonmobil',       name:'ExxonMobil',            cat:'Energy',      scheme:'RSA + TLS (SCADA / pipeline ICS)',            cgId:null, pub:true,  f:{mc:68,u:42,v:78,m:85,t:70}, fbMc:500e9,  rev:'Apr 2026'},
+  {id:'chevron',          name:'Chevron',               cat:'Energy',      scheme:'RSA + TLS (SCADA / OT infrastructure)',       cgId:null, pub:true,  f:{mc:62,u:38,v:78,m:84,t:68}, fbMc:270e9,  rev:'Apr 2026'},
+  {id:'shell',            name:'Shell',                 cat:'Energy',      scheme:'RSA + TLS (upstream / trading systems)',      cgId:null, pub:true,  f:{mc:65,u:40,v:78,m:84,t:68}, fbMc:200e9,  rev:'Apr 2026'},
+  {id:'bp',               name:'BP',                   cat:'Energy',      scheme:'RSA + TLS (trading / pipeline auth)',         cgId:null, pub:true,  f:{mc:58,u:38,v:78,m:83,t:68}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'totalenergies',    name:'TotalEnergies',         cat:'Energy',      scheme:'RSA + TLS (LNG / renewables systems)',        cgId:null, pub:true,  f:{mc:60,u:38,v:76,m:82,t:68}, fbMc:150e9,  rev:'Apr 2026'},
+  {id:'nextera',          name:'NextEra Energy',        cat:'Energy',      scheme:'RSA + TLS (grid management / SCADA)',         cgId:null, pub:true,  f:{mc:55,u:40,v:78,m:84,t:70}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'duke_energy',      name:'Duke Energy',           cat:'Energy',      scheme:'RSA + TLS (utility grid ICCS)',               cgId:null, pub:true,  f:{mc:52,u:38,v:78,m:84,t:70}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'southern_company', name:'Southern Company',      cat:'Energy',      scheme:'RSA + TLS (utility / nuclear plant auth)',    cgId:null, pub:true,  f:{mc:48,u:35,v:76,m:84,t:68}, fbMc:75e9,   rev:'Apr 2026'},
+
+  /* ── REAL ESTATE / REITS ────────────────────────────────────────────────── */
+  {id:'prologis',         name:'Prologis',              cat:'Real Estate', scheme:'RSA + TLS (industrial REIT systems)',         cgId:null, pub:true,  f:{mc:52,u:28,v:65,m:65,t:60}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'american_tower',   name:'American Tower',        cat:'Real Estate', scheme:'RSA + TLS (cell tower / network auth)',       cgId:null, pub:true,  f:{mc:50,u:30,v:68,m:68,t:63}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'crown_castle',     name:'Crown Castle',          cat:'Real Estate', scheme:'RSA + TLS (telecom tower infrastructure)',    cgId:null, pub:true,  f:{mc:42,u:28,v:68,m:68,t:63}, fbMc:45e9,   rev:'Apr 2026'},
+  {id:'simon_property',   name:'Simon Property Group',  cat:'Real Estate', scheme:'RSA + TLS (retail REIT / POS systems)',       cgId:null, pub:true,  f:{mc:38,u:25,v:63,m:63,t:58}, fbMc:50e9,   rev:'Apr 2026'},
+  {id:'public_storage',   name:'Public Storage',        cat:'Real Estate', scheme:'RSA + TLS (REIT management systems)',         cgId:null, pub:true,  f:{mc:35,u:22,v:63,m:63,t:58}, fbMc:50e9,   rev:'Apr 2026'},
+  {id:'equinix',          name:'Equinix',               cat:'Real Estate', scheme:'RSA + TLS (data center colocation auth)',     cgId:null, pub:true,  f:{mc:52,u:45,v:68,m:68,t:63}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'digital_realty',   name:'Digital Realty',        cat:'Real Estate', scheme:'RSA + TLS (data center REIT systems)',        cgId:null, pub:true,  f:{mc:42,u:38,v:68,m:68,t:63}, fbMc:50e9,   rev:'Apr 2026'},
+
+  /* ── CONSUMER GOODS / FOOD / BEVERAGE / RETAIL ──────────────────────────── */
+  {id:'walmart',          name:'Walmart',               cat:'Consumer',    scheme:'RSA + TLS (POS / Walmart Pay / supply chain)',cgId:null, pub:true,  f:{mc:72,u:82,v:70,m:72,t:65}, fbMc:700e9,  rev:'Apr 2026'},
+  {id:'costco',           name:'Costco',                cat:'Consumer',    scheme:'RSA + TLS (membership / POS systems)',        cgId:null, pub:true,  f:{mc:58,u:60,v:66,m:65,t:60}, fbMc:400e9,  rev:'Apr 2026'},
+  {id:'home_depot',       name:'Home Depot',            cat:'Consumer',    scheme:'RSA + TLS (POS / contractor e-commerce)',     cgId:null, pub:true,  f:{mc:55,u:55,v:66,m:65,t:60}, fbMc:380e9,  rev:'Apr 2026'},
+  {id:'target',           name:'Target',                cat:'Consumer',    scheme:'RSA + TLS (RedCard / POS / app auth)',        cgId:null, pub:true,  f:{mc:45,u:52,v:66,m:63,t:58}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'lowes',            name:"Lowe's",                cat:'Consumer',    scheme:'RSA + TLS (POS / contractor portal)',         cgId:null, pub:true,  f:{mc:48,u:48,v:64,m:62,t:57}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'bestbuy',          name:'Best Buy',              cat:'Consumer',    scheme:'RSA + TLS (retail POS / e-commerce)',         cgId:null, pub:true,  f:{mc:30,u:42,v:63,m:60,t:56}, fbMc:18e9,   rev:'Apr 2026'},
+  {id:'nestle',           name:'Nestlé',                cat:'Consumer',    scheme:'RSA + TLS (supply chain / SAP ERP)',          cgId:null, pub:true,  f:{mc:65,u:55,v:65,m:68,t:60}, fbMc:280e9,  rev:'Apr 2026'},
+  {id:'cocacola',         name:'Coca-Cola',             cat:'Consumer',    scheme:'RSA + TLS (distribution / SAP systems)',      cgId:null, pub:true,  f:{mc:62,u:58,v:64,m:65,t:58}, fbMc:290e9,  rev:'Apr 2026'},
+  {id:'pepsico',          name:'PepsiCo',               cat:'Consumer',    scheme:'RSA + TLS (SAP ERP / supply chain auth)',     cgId:null, pub:true,  f:{mc:60,u:55,v:64,m:65,t:58}, fbMc:220e9,  rev:'Apr 2026'},
+  {id:'unilever',         name:'Unilever',              cat:'Consumer',    scheme:'RSA + TLS (SAP ERP / 190-country ops)',       cgId:null, pub:true,  f:{mc:58,u:55,v:64,m:68,t:60}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'pg',               name:'Procter & Gamble',      cat:'Consumer',    scheme:'RSA + TLS (supply chain / SAP backbone)',     cgId:null, pub:true,  f:{mc:65,u:58,v:64,m:65,t:58}, fbMc:400e9,  rev:'Apr 2026'},
+  {id:'lvmh',             name:'LVMH',                  cat:'Consumer',    scheme:'RSA + TLS (luxury brand auth / retail POS)', cgId:null, pub:true,  f:{mc:65,u:50,v:63,m:65,t:58}, fbMc:350e9,  rev:'Apr 2026'},
+  {id:'nike',             name:'Nike',                  cat:'Consumer',    scheme:'RSA + TLS (Nike app / retail POS)',           cgId:null, pub:true,  f:{mc:52,u:55,v:64,m:62,t:58}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'adidas',           name:'Adidas',                cat:'Consumer',    scheme:'RSA + TLS (retail / supply chain auth)',      cgId:null, pub:true,  f:{mc:38,u:48,v:63,m:62,t:57}, fbMc:40e9,   rev:'Apr 2026'},
+  {id:'mcdonalds',        name:"McDonald's",            cat:'Consumer',    scheme:'RSA + TLS (franchise / payment POS)',         cgId:null, pub:true,  f:{mc:60,u:68,v:64,m:65,t:58}, fbMc:230e9,  rev:'Apr 2026'},
+  {id:'starbucks',        name:'Starbucks',             cat:'Consumer',    scheme:'RSA + TLS (app / loyalty + payment)',         cgId:null, pub:true,  f:{mc:50,u:62,v:64,m:62,t:58}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'chipotle',         name:'Chipotle',              cat:'Consumer',    scheme:'RSA + TLS (mobile order / POS)',              cgId:null, pub:true,  f:{mc:42,u:48,v:62,m:60,t:56}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'yum_brands',       name:'Yum Brands',            cat:'Consumer',    scheme:'RSA + TLS (KFC/Pizza Hut/Taco Bell POS)',    cgId:null, pub:true,  f:{mc:38,u:58,v:62,m:62,t:57}, fbMc:37e9,   rev:'Apr 2026'},
+  {id:'ebay',             name:'eBay',                  cat:'Company',     scheme:'RSA + TLS (marketplace / PayPal legacy)',     cgId:null, pub:true,  f:{mc:35,u:50,v:65,m:63,t:58}, fbMc:28e9,   rev:'Apr 2026'},
+  {id:'rakuten',          name:'Rakuten',               cat:'Company',     scheme:'RSA + TLS (Japan e-commerce / RakuPay)',      cgId:null, pub:true,  f:{mc:30,u:48,v:65,m:65,t:58}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'jdcom',            name:'JD.com',                cat:'Company',     scheme:'RSA + SM2 (Chinese e-commerce / logistics)', cgId:null, pub:true,  f:{mc:45,u:55,v:70,m:72,t:65}, fbMc:40e9,   rev:'Apr 2026'},
+  {id:'mercadolibre',     name:'MercadoLibre',          cat:'Company',     scheme:'RSA + TLS (MELI / fintech + marketplace)',   cgId:null, pub:true,  f:{mc:48,u:55,v:68,m:68,t:63}, fbMc:110e9,  rev:'Apr 2026'},
+
+  /* ── AUTOMOTIVE ─────────────────────────────────────────────────────────── */
+  {id:'toyota',           name:'Toyota',                cat:'Automotive',  scheme:'RSA + ECC (vehicle PKI / V2X comms)',         cgId:null, pub:true,  f:{mc:65,u:60,v:70,m:78,t:65}, fbMc:270e9,  rev:'Apr 2026'},
+  {id:'volkswagen',       name:'Volkswagen',            cat:'Automotive',  scheme:'RSA + ECC (vehicle PKI / CarWings)',          cgId:null, pub:true,  f:{mc:50,u:52,v:70,m:78,t:65}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'gm',               name:'General Motors',        cat:'Automotive',  scheme:'RSA + ECC (OnStar / vehicle PKI)',            cgId:null, pub:true,  f:{mc:48,u:52,v:70,m:76,t:65}, fbMc:50e9,   rev:'Apr 2026'},
+  {id:'ford',             name:'Ford',                  cat:'Automotive',  scheme:'RSA + ECC (FordPass / vehicle PKI)',          cgId:null, pub:true,  f:{mc:42,u:48,v:70,m:76,t:63}, fbMc:45e9,   rev:'Apr 2026'},
+  {id:'byd',              name:'BYD',                   cat:'Automotive',  scheme:'RSA + SM2 (EV / battery management PKI)',     cgId:null, pub:true,  f:{mc:55,u:50,v:72,m:78,t:67}, fbMc:100e9,  rev:'Apr 2026'},
+
+  /* ── TRAVEL / LOGISTICS / DELIVERY ─────────────────────────────────────── */
+  {id:'airbnb',           name:'Airbnb',                cat:'Company',     scheme:'RSA + TLS (identity + payment infra)',        cgId:null, pub:true,  f:{mc:45,u:58,v:66,m:63,t:60}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'booking_holdings', name:'Booking Holdings',      cat:'Company',     scheme:'RSA + TLS (travel booking / GDS payment)',   cgId:null, pub:true,  f:{mc:52,u:60,v:66,m:63,t:60}, fbMc:160e9,  rev:'Apr 2026'},
+  {id:'expedia',          name:'Expedia',               cat:'Company',     scheme:'RSA + TLS (GDS + payment auth)',              cgId:null, pub:true,  f:{mc:35,u:48,v:65,m:62,t:58}, fbMc:20e9,   rev:'Apr 2026'},
+  {id:'delta',            name:'Delta Air Lines',       cat:'Company',     scheme:'RSA + TLS (GDS / Sabre reservation auth)',   cgId:null, pub:true,  f:{mc:38,u:45,v:66,m:65,t:60}, fbMc:25e9,   rev:'Apr 2026'},
+  {id:'united_airlines',  name:'United Airlines',       cat:'Company',     scheme:'RSA + TLS (ACARS / Sabre / reservation)',    cgId:null, pub:true,  f:{mc:35,u:42,v:66,m:65,t:60}, fbMc:20e9,   rev:'Apr 2026'},
+  {id:'fedex',            name:'FedEx',                 cat:'Company',     scheme:'RSA + TLS (logistics / tracking PKI)',        cgId:null, pub:true,  f:{mc:42,u:45,v:66,m:65,t:60}, fbMc:60e9,   rev:'Apr 2026'},
+  {id:'ups',              name:'UPS',                   cat:'Company',     scheme:'RSA + TLS (logistics / tracking auth)',       cgId:null, pub:true,  f:{mc:45,u:48,v:66,m:65,t:60}, fbMc:95e9,   rev:'Apr 2026'},
+  {id:'maersk',           name:'Maersk',                cat:'Company',     scheme:'RSA + TLS (container / AIS vessel tracking)',cgId:null, pub:true,  f:{mc:42,u:35,v:68,m:70,t:63}, fbMc:25e9,   rev:'Apr 2026'},
+  {id:'doordash',         name:'DoorDash',              cat:'Company',     scheme:'RSA + TLS (delivery / payment routing)',      cgId:null, pub:true,  f:{mc:38,u:52,v:64,m:60,t:58}, fbMc:50e9,   rev:'Apr 2026'},
+  {id:'instacart',        name:'Instacart',             cat:'Company',     scheme:'RSA + TLS (grocery delivery / payment)',      cgId:null, pub:false, f:{mc:28,u:38,v:63,m:58,t:56}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'grab',             name:'Grab',                  cat:'Company',     scheme:'RSA + TLS (super app / GrabPay)',             cgId:null, pub:true,  f:{mc:35,u:52,v:65,m:63,t:60}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'sea_limited',      name:'Sea Limited',           cat:'Company',     scheme:'RSA + TLS (Shopee / SeaMoney / Garena)',     cgId:null, pub:true,  f:{mc:38,u:55,v:66,m:65,t:60}, fbMc:20e9,   rev:'Apr 2026'},
+
+  /* ── MEDIA / ENTERTAINMENT ──────────────────────────────────────────────── */
+  {id:'disney',           name:'Disney',                cat:'Media',       scheme:'RSA + TLS (Disney+ DRM / park systems)',     cgId:null, pub:true,  f:{mc:55,u:65,v:68,m:68,t:62}, fbMc:190e9,  rev:'Apr 2026'},
+  {id:'warner_bros',      name:'Warner Bros. Discovery',cat:'Media',       scheme:'RSA + TLS (streaming DRM / Max platform)',   cgId:null, pub:true,  f:{mc:32,u:50,v:67,m:65,t:60}, fbMc:20e9,   rev:'Apr 2026'},
+  {id:'comcast',          name:'Comcast / NBCUniversal',cat:'Media',       scheme:'RSA + TLS (Xfinity cable / streaming)',      cgId:null, pub:true,  f:{mc:55,u:65,v:68,m:70,t:63}, fbMc:160e9,  rev:'Apr 2026'},
+  {id:'fox_corp',         name:'Fox Corp',              cat:'Media',       scheme:'RSA + TLS (broadcast / streaming auth)',     cgId:null, pub:true,  f:{mc:28,u:48,v:65,m:62,t:58}, fbMc:18e9,   rev:'Apr 2026'},
+
+  /* ── HEALTHCARE — ADDITIONAL ────────────────────────────────────────────── */
+  {id:'jnj',              name:'Johnson & Johnson',     cat:'Healthcare',  scheme:'RSA + TLS (clinical trial / supply chain)',  cgId:null, pub:true,  f:{mc:62,u:42,v:70,m:72,t:63}, fbMc:380e9,  rev:'Apr 2026'},
+  {id:'eli_lilly',        name:'Eli Lilly',             cat:'Healthcare',  scheme:'RSA + TLS (Mounjaro clinical data / IP)',    cgId:null, pub:true,  f:{mc:65,u:40,v:70,m:72,t:63}, fbMc:700e9,  rev:'Apr 2026'},
+  {id:'novo_nordisk',     name:'Novo Nordisk',          cat:'Healthcare',  scheme:'RSA + TLS (Ozempic supply chain / EHR)',     cgId:null, pub:true,  f:{mc:62,u:40,v:70,m:72,t:63}, fbMc:400e9,  rev:'Apr 2026'},
+  {id:'abbvie',           name:'AbbVie',                cat:'Healthcare',  scheme:'RSA + TLS (Humira / drug IP security)',      cgId:null, pub:true,  f:{mc:58,u:38,v:70,m:70,t:62}, fbMc:320e9,  rev:'Apr 2026'},
+  {id:'merck',            name:'Merck',                 cat:'Healthcare',  scheme:'RSA + TLS (clinical R&D / pharma IP)',      cgId:null, pub:true,  f:{mc:55,u:38,v:70,m:70,t:62}, fbMc:230e9,  rev:'Apr 2026'},
+  {id:'roche',            name:'Roche',                 cat:'Healthcare',  scheme:'RSA + TLS (diagnostics / pharma IP)',        cgId:null, pub:true,  f:{mc:55,u:40,v:70,m:72,t:63}, fbMc:220e9,  rev:'Apr 2026'},
+  {id:'sanofi',           name:'Sanofi',                cat:'Healthcare',  scheme:'RSA + TLS (EU pharma supply chain)',         cgId:null, pub:true,  f:{mc:48,u:35,v:68,m:70,t:62}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'astrazeneca',      name:'AstraZeneca',           cat:'Healthcare',  scheme:'RSA + TLS (global clinical trial data)',     cgId:null, pub:true,  f:{mc:52,u:38,v:70,m:70,t:62}, fbMc:250e9,  rev:'Apr 2026'},
+  {id:'hca',              name:'HCA Healthcare',        cat:'Healthcare',  scheme:'RSA + TLS (hospital EHR / billing)',         cgId:null, pub:true,  f:{mc:48,u:48,v:72,m:75,t:65}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'cvs',              name:'CVS Health',            cat:'Healthcare',  scheme:'RSA + TLS (pharmacy PBM / Aetna insur.)',    cgId:null, pub:true,  f:{mc:52,u:58,v:70,m:72,t:63}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'cigna',            name:'Cigna',                 cat:'Healthcare',  scheme:'RSA + TLS (health insurance claims auth)',   cgId:null, pub:true,  f:{mc:48,u:48,v:70,m:72,t:63}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'elevance',         name:'Elevance Health',       cat:'Healthcare',  scheme:'RSA + TLS (Anthem / BCBS claims auth)',      cgId:null, pub:true,  f:{mc:50,u:52,v:70,m:72,t:63}, fbMc:95e9,   rev:'Apr 2026'},
+
+  /* ── INDUSTRIAL / AEROSPACE ─────────────────────────────────────────────── */
+  {id:'ge',               name:'GE Aerospace',          cat:'Industrial',  scheme:'RSA + TLS (jet engine telemetry / MRO)',     cgId:null, pub:true,  f:{mc:55,u:40,v:72,m:78,t:65}, fbMc:210e9,  rev:'Apr 2026'},
+  {id:'honeywell',        name:'Honeywell',             cat:'Industrial',  scheme:'RSA + TLS (process control / avionics)',     cgId:null, pub:true,  f:{mc:52,u:38,v:74,m:80,t:67}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'caterpillar',      name:'Caterpillar',           cat:'Industrial',  scheme:'RSA + TLS (Cat Connect / fleet telematics)', cgId:null, pub:true,  f:{mc:52,u:40,v:68,m:72,t:63}, fbMc:200e9,  rev:'Apr 2026'},
+  {id:'mmm',              name:'3M',                    cat:'Industrial',  scheme:'RSA + TLS (industrial systems / IP auth)',   cgId:null, pub:true,  f:{mc:40,u:38,v:66,m:70,t:62}, fbMc:65e9,   rev:'Apr 2026'},
+  {id:'siemens',          name:'Siemens',               cat:'Industrial',  scheme:'RSA + TLS (SIMATIC PLC / OT systems)',       cgId:null, pub:true,  f:{mc:60,u:42,v:74,m:82,t:68}, fbMc:150e9,  rev:'Apr 2026'},
+  {id:'abb',              name:'ABB',                   cat:'Industrial',  scheme:'RSA + TLS (ABB Ability / ICS/SCADA)',        cgId:null, pub:true,  f:{mc:52,u:38,v:74,m:82,t:68}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'schneider',        name:'Schneider Electric',    cat:'Industrial',  scheme:'RSA + TLS (EcoStruxure / SCADA)',            cgId:null, pub:true,  f:{mc:55,u:40,v:74,m:82,t:68}, fbMc:100e9,  rev:'Apr 2026'},
+
+  /* ── MATERIALS / MINING ─────────────────────────────────────────────────── */
+  {id:'rio_tinto',        name:'Rio Tinto',             cat:'Materials',   scheme:'RSA + TLS (autonomous mining / OT)',         cgId:null, pub:true,  f:{mc:55,u:35,v:66,m:72,t:62}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'bhp',              name:'BHP',                   cat:'Materials',   scheme:'RSA + TLS (autonomous mining / OT infra)',   cgId:null, pub:true,  f:{mc:58,u:35,v:66,m:72,t:62}, fbMc:140e9,  rev:'Apr 2026'},
+  {id:'vale',             name:'Vale',                  cat:'Materials',   scheme:'RSA + TLS (Brazil iron ore / logistics)',    cgId:null, pub:true,  f:{mc:45,u:30,v:65,m:70,t:60}, fbMc:50e9,   rev:'Apr 2026'},
+
+  /* ── PRIVATE EQUITY / ASSET MANAGEMENT ─────────────────────────────────── */
+  {id:'blackstone',       name:'Blackstone',            cat:'Finance',     scheme:'RSA + TLS (deal platform / LP portal)',      cgId:null, pub:true,  f:{mc:55,u:35,v:70,m:72,t:63}, fbMc:200e9,  rev:'Apr 2026'},
+  {id:'kkr',              name:'KKR',                   cat:'Finance',     scheme:'RSA + TLS (private markets / portfolio)',    cgId:null, pub:true,  f:{mc:48,u:30,v:70,m:70,t:62}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'apollo',           name:'Apollo Global',         cat:'Finance',     scheme:'RSA + TLS (credit / insurance platform)',    cgId:null, pub:true,  f:{mc:45,u:28,v:70,m:70,t:62}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'carlyle',          name:'Carlyle Group',         cat:'Finance',     scheme:'RSA + TLS (PE fund / portfolio auth)',       cgId:null, pub:true,  f:{mc:35,u:22,v:68,m:68,t:60}, fbMc:20e9,   rev:'Apr 2026'},
+  {id:'ares',             name:'Ares Management',       cat:'Finance',     scheme:'RSA + TLS (credit / real estate funds)',     cgId:null, pub:true,  f:{mc:38,u:22,v:68,m:68,t:60}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'brookfield',       name:'Brookfield',            cat:'Finance',     scheme:'RSA + TLS (infra / real assets funds)',      cgId:null, pub:true,  f:{mc:45,u:25,v:68,m:70,t:62}, fbMc:80e9,   rev:'Apr 2026'},
+
+  /* ── DATA / RATINGS / ANALYTICS ────────────────────────────────────────── */
+  {id:'spglobal',         name:'S&P Global',            cat:'Finance',     scheme:'RSA + TLS (market data / ratings API)',      cgId:null, pub:true,  f:{mc:55,u:45,v:68,m:68,t:62}, fbMc:160e9,  rev:'Apr 2026'},
+  {id:'moodys',           name:"Moody's",               cat:'Finance',     scheme:'RSA + TLS (credit ratings / analytics)',     cgId:null, pub:true,  f:{mc:48,u:38,v:68,m:68,t:62}, fbMc:80e9,   rev:'Apr 2026'},
+
+  /* ── CRYPTO — STABLECOINS ───────────────────────────────────────────────── */
+  {id:'tether',           name:'Tether (USDT)',         cat:'DeFi',        scheme:'ECDSA (Tron/Ethereum USDT contracts)',       cgId:'tether',     pub:false, f:{mc:68,u:72,v:84,m:80,t:75}, fbMc:140e9,  rev:'Apr 2026'},
+  {id:'circle',           name:'Circle (USDC)',         cat:'Finance',     scheme:'ECDSA (Ethereum/Solana USDC contracts)',     cgId:null,         pub:false, f:{mc:45,u:55,v:82,m:75,t:70}, fbMc:9e9,    rev:'Apr 2026'},
 ];
 
 const W_CHAINS=[
