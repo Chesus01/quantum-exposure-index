@@ -2766,21 +2766,28 @@ function openShareModal(e){
 function openWalletShareModal(){
   // Build a synthetic entity from the current wallet scan summary
   const all=Object.values(scanData).flatMap(r=>r.tokens||[]);
-  const totalUsd=Object.values(scanData).reduce((s,r)=>s+(r.totalUsd||0),0);
-  const totalVar=all.reduce((s,t)=>s+(t.usd||0)*(t.risk/100),0);
+  const tokenUsd=Object.values(scanData).reduce((s,r)=>s+(r.totalUsd||0),0);
+  const tokenVar=all.reduce((s,t)=>s+(t.usd||0)*(t.risk/100),0);
   const avg=all.length?Math.round(all.reduce((s,t)=>s+t.risk,0)/all.length):0;
+  // Include NFTs — same 95/100 risk, no discount
+  const allNftChains=Object.values(nftData||{});
+  const nftUsd=allNftChains.reduce((s,d)=>s+(d.totalUsd||0),0);
+  const nftVar=nftUsd*(95/100);
+  const grandUsd=tokenUsd+nftUsd;
+  const grandVar=tokenVar+nftVar;
   const addr=document.getElementById('w-addr').value.trim();
   const synth={
     name:'Wallet '+addr.slice(0,6)+'…'+addr.slice(-4),
     cat:'Wallet',
     scheme:'Multi-chain (ECDSA/Ed25519)',
     pub:false,
-    f:{mc:Math.min(99,Math.round(totalUsd/1e6)),u:70,v:avg,m:80,t:75},
-    fbMc:totalUsd
+    f:{mc:Math.min(99,Math.round(grandUsd/1e6)),u:70,v:avg,m:80,t:75},
+    fbMc:grandUsd,
+    _walletVar:grandVar  // store real var for copyModalPost
   };
   const r=calcRisk(synth);
-  // Override var display with real scanned value
-  r.var='$'+totalVar.toLocaleString('en',{maximumFractionDigits:0});
+  // Override var with real scanned value (tokens + NFTs, no 0.65 discount)
+  r.var=fmt(grandVar);
   populateModal(synth,r,selChains.size+' chains');
 }
 
@@ -2794,9 +2801,11 @@ function closeShareModal(e){
 function copyModalPost(){
   if(!modalEnt)return;
   const r=calcRisk(modalEnt);
+  // Wallet cards store the real pre-calculated var to avoid recalculating with 0.65
+  const varDisplay=modalEnt._walletVar!=null?fmt(modalEnt._walletVar):r.var;
   const xp=getXProfile();
   const credit=xp?` (via @${xp.username})`:'';
-  const txt=`${modalEnt.name} quantum exposure${credit} via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${r.var}\nCrypto: ${modalEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
+  const txt=`${modalEnt.name} quantum exposure${credit} via @QuantumExposureIndex:\n\nRisk Score: ${r.s}/100\nBand: ${r.band}\nEst. Value at Risk: ${varDisplay}\nCrypto: ${modalEnt.scheme}\n\nWhen quantum computers arrive, this is the exposure. Check yours:\nquantumexposureindex.io\n\n#QuantumRisk #Web3Security #QEI #Diamante`;
   navigator.clipboard.writeText(txt).then(()=>{
     const t=document.getElementById('modal-copy-toast');
     t.style.opacity='1';
