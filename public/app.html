@@ -597,7 +597,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
   </div>
   <div class="nav-r">
     <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
-    <button class="x-connect-btn" id="x-connect-btn" onclick="connectX()" title="Connect your X account">
+    <button class="x-connect-btn" id="x-connect-btn" onclick="connectX()" title="Connect X — one tap if already logged in">
       <svg width="12" height="12" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
       <span id="x-btn-label">Connect X</span>
     </button>
@@ -2930,7 +2930,7 @@ async function connectX(){
       scope:'tweet.read users.read',
       state,code_challenge:challenge,code_challenge_method:'S256'
     });
-    window.location.href='https://twitter.com/i/oauth2/authorize?'+p.toString();
+    window.location.href='https://x.com/i/oauth2/authorize?'+p.toString();
   }catch(e){alert('X connect unavailable right now. Make sure X_CLIENT_ID is configured in Vercel.');}
 }
 
@@ -3141,10 +3141,10 @@ setInterval(fetchPrices,60000);
   <div class="welcome-modal">
     <div class="welcome-logo">Quantum Exposure Index</div>
     <div class="welcome-title"><span style="color:#ff4040;">Are you<br>Exposed?</span></div>
-    <p class="welcome-sub">Connect your X account to personalize your report cards with your profile photo. Your cards will show your identity when you share them — building credibility with every post.</p>
+    <p class="welcome-sub">Connect your X account to personalize your report cards with your profile photo. If you're already logged into X, it's a single tap to approve &mdash; no password needed. Your cards will show your identity when you share them, building credibility with every post.</p>
     <button class="welcome-x-btn" onclick="welcomeConnectX()">
       <svg width="15" height="15" viewBox="0 0 1200 1227" fill="currentColor"><path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.163 519.284ZM569.165 687.828L521.697 619.934L144.011 79.6915H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.828Z"/></svg>
-      Connect X Account
+      Connect X — One Tap to Authorize
     </button>
     <button class="welcome-skip" onclick="dismissWelcome()">Skip for now</button>
   </div>
