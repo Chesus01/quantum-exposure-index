@@ -2547,21 +2547,30 @@ function renderWalletResults(addr){
   const allNftChains=Object.values(nftData||{});
   const nftTotalUsd=allNftChains.reduce((s,d)=>s+(d.totalUsd||0),0);
   const nftTotalItems=allNftChains.reduce((s,d)=>s+(d.totalNfts||0),0);
-  const nftTotalVar=nftTotalUsd*(82/100)*0.65;
+  // NFTs use 95/100 risk — ownership on ALL chains secured by ECDSA, equally vulnerable
+  const NFT_RISK=95;
+  const nftTotalVar=nftTotalUsd*(NFT_RISK/100)*0.65;
   if(allNftChains.length>0&&(nftTotalItems>0||Object.values(nftData||{}).some(d=>d.collections?.length>0))){
-    document.getElementById('w-nft-summary').textContent=`${nftTotalItems} NFTs · ${fmt(nftTotalUsd)} floor · ${fmt(nftTotalVar)} at risk`;
+    const unpricedCount=allNftChains.flatMap(d=>d.collections||[]).filter(c=>c.floorUsd===0).reduce((s,c)=>s+c.count,0);
+    const unpricedNote=unpricedCount>0?` · ${unpricedCount} item${unpricedCount!==1?'s':''} unpriced`:'';
+    document.getElementById('w-nft-summary').textContent=`${nftTotalItems} NFTs · ${fmt(nftTotalUsd)} floor · ${fmt(nftTotalVar)} at risk${unpricedNote}`;
     const chainColors={ethereum:'#627eea',polygon:'#8247e5',arbitrum:'#28a0f0',optimism:'#ff0420',base:'#0052ff',avalanche:'#e84142',solana:'#9945ff',abstract:'#00ff87'};
     const chainNames={ethereum:'Ethereum',polygon:'Polygon',arbitrum:'Arbitrum',optimism:'Optimism',base:'Base',avalanche:'Avalanche',solana:'Solana',abstract:'Abstract'};
     nftGrid.innerHTML=allNftChains.flatMap(d=>{
       if(!d.collections||d.collections.length===0)return[];
       const chainLabel=`<div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:${chainColors[d.chain]||'#888'};margin:10px 0 5px;display:flex;align-items:center;gap:6px;"><span style="width:7px;height:7px;border-radius:50%;background:${chainColors[d.chain]||'#888'};display:inline-block;"></span>${chainNames[d.chain]||d.chain}</div>`;
       const rows=d.collections.map(c=>{
-        const cvar=c.totalUsd*(82/100)*0.65;
+        const cvar=c.totalUsd*(NFT_RISK/100)*0.65;
         const img=c.image?`<img class="nft-img" src="${c.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="nft-img-placeholder" style="display:none;">🖼</div>`:`<div class="nft-img-placeholder">🖼</div>`;
-        return`<div class="nft-row">${img}<div><div class="nft-name">${c.name}</div><div class="nft-count">${c.count} item${c.count>1?'s':''} · floor ${c.floorUsd>0?fmt(c.floorUsd):'-'}</div></div><div class="nft-floor">${c.totalUsd>0?fmt(c.totalUsd):'-'}</div><div class="mini-band bH" style="white-space:nowrap;">High</div><div class="nft-var">${cvar>0?fmt(cvar)+' at risk':'no floor data'}</div></div>`;
+        const unpricedTag=c.floorUsd===0?`<div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--tf);margin-top:2px;">floor unknown</div>`:'';
+        return`<div class="nft-row">${img}<div><div class="nft-name">${c.name}</div><div class="nft-count">${c.count} item${c.count>1?'s':''} · floor ${c.floorUsd>0?fmt(c.floorUsd):'-'}</div>${unpricedTag}</div><div class="nft-floor">${c.totalUsd>0?fmt(c.totalUsd):'-'}</div><div class="mini-band bC" style="white-space:nowrap;">Critical</div><div class="nft-var">${cvar>0?fmt(cvar)+' at risk':'⚠ unpriced'}</div></div>`;
       }).join('');
       return[chainLabel+rows];
     }).join('')||'<div class="nft-empty">No NFTs with floor prices found.</div>';
+    // Unpriced callout banner
+    if(unpricedCount>0){
+      nftGrid.innerHTML+=`<div style="margin-top:12px;padding:10px 14px;background:rgba(255,100,50,0.06);border:1.5px solid rgba(255,100,50,0.2);border-radius:8px;font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,120,60,0.75);line-height:1.6;">⚠ ${unpricedCount} NFT${unpricedCount!==1?'s':''} have no floor price on OpenSea — ownership is still at quantum risk but cannot be valued. These are excluded from the dollar total.</div>`;
+    }
     nftSec.style.display='block';
     document.getElementById('w-nft-section').querySelector('.nft-title').textContent='NFT Holdings';
   }else{nftSec.style.display='none';}
@@ -2576,11 +2585,11 @@ function renderWalletResults(addr){
     <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(grandTotalUsd)}</div><div class="mc-s">tokens + NFTs</div></div>
     <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(grandTotalVar)}</div><div class="mc-s">quantum exposure</div></div>
     <div class="mc"><div class="mc-l">Tokens Found</div><div class="mc-v">${tokenCount}</div><div class="mc-s">across ${selChains.size} chain${selChains.size!==1?'s':''}</div></div>
-    <div class="mc"><div class="mc-l">NFTs Found</div><div class="mc-v">${nftCount}</div><div class="mc-s">${nftCount>0?'floor value tracked':'no NFT holdings'}</div></div>
+    <div class="mc"><div class="mc-l">NFTs Found</div><div class="mc-v">${nftCount}</div><div class="mc-s">${nftCount>0?'Critical · all chains exposed':'no NFT holdings'}</div></div>
     <div class="mc"><div class="mc-l">Avg Risk Score</div><div class="mc-v">${avg}/100</div><div class="mc-s">all assets</div></div>
     <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:''}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
   const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
-  if(nftTotalVar>0){const chainColors2={ethereum:'#627eea',polygon:'#8247e5',arbitrum:'#28a0f0',optimism:'#ff0420',base:'#0052ff',avalanche:'#e84142',solana:'#9945ff',abstract:'#00ff87'};allNftChains.forEach(d=>{const v=(d.totalUsd||0)*(82/100)*0.65;if(v>0)bkdata.push({name:`NFTs (${d.chain.charAt(0).toUpperCase()+d.chain.slice(1)})`,col:chainColors2[d.chain]||'#9b59b6',v});});}
+  if(nftTotalVar>0){const chainColors2={ethereum:'#627eea',polygon:'#8247e5',arbitrum:'#28a0f0',optimism:'#ff0420',base:'#0052ff',avalanche:'#e84142',solana:'#9945ff',abstract:'#00ff87'};allNftChains.forEach(d=>{const v=(d.totalUsd||0)*(NFT_RISK/100)*0.65;if(v>0)bkdata.push({name:`NFTs (${d.chain.charAt(0).toUpperCase()+d.chain.slice(1)})`,col:chainColors2[d.chain]||'#9b59b6',v});});}
   bkdata.sort((a,b)=>b.v-a.v);
   const bkmax=bkdata[0]?.v||1;
   document.getElementById('w-bk').innerHTML=bkdata.length?bkdata.map(b=>`<div class="bkrow"><div class="bkname"><div class="bkdot" style="background:${b.col}"></div>${b.name}</div><div class="bktrack"><div class="bkfill" style="width:${Math.round(b.v/bkmax*100)}%;background:${b.col}88;"></div></div><div class="bkpct">${Math.round(b.v/grandTotalVar*100)}%</div><div class="bkusd">${fmt(b.v)}</div></div>`).join(''):'<div style="font-family:DM Mono,monospace;font-size:11px;color:var(--tf);">No quantum-exposed value found.</div>';
