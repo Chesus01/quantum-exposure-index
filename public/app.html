@@ -109,6 +109,8 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
 .search-box:focus-within{border-color:rgba(0,220,130,0.6);}
 .search-box input{flex:1;background:transparent;border:none;padding:14px 16px;font-family:'Syne',sans-serif;font-size:15px;color:var(--t);outline:none;}
 .search-box input::placeholder{color:var(--tf);}
+.cmp-clear-btn{background:none;border:none;color:var(--tf);cursor:pointer;padding:0 14px 0 4px;font-size:20px;line-height:1;transition:color .15s;display:none;flex-shrink:0;font-family:'DM Mono',monospace;}
+.cmp-clear-btn:hover{color:var(--t);}
 .ai-btn{background:var(--g);border:none;padding:10px 18px;margin:6px;border-radius:7px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:#000;cursor:pointer;letter-spacing:0.06em;transition:opacity 0.15s;white-space:nowrap;}
 .ai-btn:hover{opacity:0.85;}
 .ai-btn:disabled{opacity:0.5;cursor:not-allowed;}
@@ -703,6 +705,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
           <div class="search-box" style="border-color:var(--bd2);">
             <input type="text" id="cmp-search-l" placeholder="Search entity, chain, brand…" autocomplete="off"
               oninput="filterCmpSearch('l')" onfocus="openCmpDD('l')" onblur="setTimeout(()=>closeCmpDD('l'),180)">
+            <button class="cmp-clear-btn" id="cmp-clear-l" onclick="clearCmpSide('l')" title="Clear">×</button>
           </div>
           <div class="dd" id="cmp-dd-l"></div>
         </div>
@@ -723,6 +726,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
           <div class="search-box" style="border-color:var(--bd2);">
             <input type="text" id="cmp-search-r" placeholder="Search entity, chain, brand…" autocomplete="off"
               oninput="filterCmpSearch('r')" onfocus="openCmpDD('r')" onblur="setTimeout(()=>closeCmpDD('r'),180)">
+            <button class="cmp-clear-btn" id="cmp-clear-r" onclick="clearCmpSide('r')" title="Clear">×</button>
           </div>
           <div class="dd" id="cmp-dd-r"></div>
         </div>
@@ -2175,8 +2179,18 @@ function pickCmpEnt(side,id){
   cmpState[side]=id;
   const e=DS.find(x=>x.id===id);
   document.getElementById(`cmp-search-${side}`).value=e.name;
+  document.getElementById(`cmp-clear-${side}`).style.display='flex';
   closeCmpDD(side);
   renderCmpCards();
+}
+function clearCmpSide(side){
+  cmpState[side]=null;
+  document.getElementById(`cmp-search-${side}`).value='';
+  document.getElementById(`cmp-clear-${side}`).style.display='none';
+  const PLACEHOLDER=`<div class="cmp-placeholder"><div class="cmp-placeholder-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="cmp-placeholder-lbl">Search to generate<br>report card</div></div>`;
+  document.getElementById(`cmp-card-${side}`).innerHTML=PLACEHOLDER;
+  document.getElementById('cmp-verdict-wrap').style.display='none';
+  document.getElementById(`cmp-search-${side}`).focus();
 }
 
 function buildCmpCard(e,r,isWorst,isBest){
