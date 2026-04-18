@@ -254,19 +254,25 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
 .bkusd{font-size:12px;font-weight:600;width:70px;text-align:right;}
 
 /*  COMPARE  */
-.cs-chip{padding:6px 13px;border:1.5px solid var(--bd2);border-radius:999px;font-size:12px;font-weight:500;color:var(--td);cursor:pointer;transition:all 0.15s;}
-.cs-chip:hover{border-color:var(--gb);color:var(--g);background:var(--gd);}
-.cs-chip.selected{border-color:var(--g);color:var(--g);background:var(--gd);}
-.cmp-card{background:var(--bg2);padding:1.125rem;}
-.cmp-card.winner{border:1.5px solid rgba(0,220,130,0.35);}
-.cmp-score{font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:4px;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;line-height:1;}
-.cmp-lowest{font-family:'DM Mono',monospace;font-size:9px;color:var(--g);padding:3px 8px;border:2px solid var(--gb);border-radius:3px;display:inline-block;margin-top:8px;}
-.cf-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.cmp-arena{display:grid;grid-template-columns:1fr 44px 1fr;gap:0;align-items:start;margin-top:2rem;}
+.cmp-side{display:flex;flex-direction:column;gap:0;}
+.cmp-vs{display:flex;align-items:flex-start;justify-content:center;padding-top:13px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;color:var(--tf);user-select:none;}
+.cmp-report{border:2px solid var(--bd2);border-radius:14px;padding:1.5rem;margin-top:1rem;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s,background .3s;}
+.cmp-report.worst{border-color:rgba(255,68,68,0.55);background:rgba(255,68,68,0.04);box-shadow:0 0 40px rgba(255,68,68,0.1),0 0 80px rgba(255,68,68,0.04);}
+.cmp-report.best{border-color:rgba(0,220,130,0.3);box-shadow:0 0 24px rgba(0,220,130,0.07);}
+.cmp-report-grid{position:absolute;inset:0;background-image:linear-gradient(var(--cmp-grid,rgba(255,255,255,0.015))1px,transparent 1px),linear-gradient(90deg,var(--cmp-grid,rgba(255,255,255,0.015))1px,transparent 1px);background-size:24px 24px;pointer-events:none;}
+.cmp-worst-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#ff4444;border:1.5px solid rgba(255,68,68,0.4);border-radius:4px;padding:3px 9px;display:inline-flex;align-items:center;gap:5px;margin-bottom:1rem;}
+.cmp-best-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--g);border:1.5px solid var(--gb);border-radius:4px;padding:3px 9px;display:inline-flex;align-items:center;gap:5px;margin-bottom:1rem;}
+.cmp-big-score{font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums;font-size:3.5rem;font-weight:800;line-height:1;letter-spacing:-0.03em;margin-bottom:8px;}
+.cf-row{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
 .cf-lbl{font-size:10px;color:var(--tf);width:90px;flex-shrink:0;}
 .cf-bar{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;}
 .cf-fill{height:100%;border-radius:999px;}
 .cf-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--td);width:24px;text-align:right;}
-.verdict-box{background:var(--gd);border:2px solid var(--gb);border-radius:8px;padding:1rem 1.25rem;margin-top:1.5rem;}
+.cmp-placeholder{border:2px dashed var(--bd2);border-radius:14px;padding:2.5rem 1.5rem;margin-top:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;min-height:260px;}
+.cmp-placeholder-icon{width:36px;height:36px;border:1.5px solid var(--bd2);border-radius:8px;display:flex;align-items:center;justify-content:center;opacity:.45;}
+.cmp-placeholder-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;color:var(--tf);text-transform:uppercase;}
+.verdict-box{background:var(--gd);border:2px solid var(--gb);border-radius:8px;padding:1rem 1.25rem;margin-top:1.75rem;}
 .verdict-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--g);margin-bottom:6px;}
 .verdict-text{font-size:13px;color:var(--td);line-height:1.7;}
 /* Detail section wrappers */
@@ -355,9 +361,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
 .copy-toast{font-family:'DM Mono',monospace;font-size:11px;color:var(--g);opacity:0;transition:opacity 0.3s;margin-left:8px;}
 
 /* === GLOBAL: All numbers use DM Mono tabular-nums === */
-.ec-score,.gs-v,.mc-v,.ddi-score,.d-score-big,.cmp-score,.rc-sv,.rc-vv,
+.ec-score,.gs-v,.mc-v,.ddi-score,.d-score-big,.cmp-big-score,.rc-sv,.rc-vv,
 .vba,.vb-amt,.tbal,.tusd,.trs,.bkusd,.bkpct,.cf-val,.rcfv,
-.cmp-lowest,.ti-price,.ti-chg,.ec-var,.ec-mcap,.cbaddr,.cbtotal,
+.ti-price,.ti-chg,.ec-var,.ec-mcap,.cbaddr,.cbtotal,
 .w-totalvar,.tvar,.gs-s,.mc-s,.cbtotal,.vbr,.wvar-val {
   font-family: 'DM Mono', monospace !important;
   font-variant-numeric: tabular-nums;
@@ -478,10 +484,11 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
   .bktrack{width:70px;}
   .bkpct{width:28px;}
   .bkusd{width:56px;font-size:11px;}
-  /* Compare chips: horizontal scroll */
-  #cmp-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
-  #cmp-chips::-webkit-scrollbar{display:none;}
-  .cs-chip{flex-shrink:0;}
+  /* Compare: stack vertically on mobile */
+  .cmp-arena{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
+  .cmp-vs{padding-top:0;padding-bottom:0;flex-direction:row;gap:8px;}
+  .cmp-vs::before,.cmp-vs::after{content:'';flex:1;height:1px;background:var(--bd);}
+  .cmp-big-score{font-size:2.8rem;}
   /* Share / modal */
   .share-modal{padding:1.25rem 0.875rem;max-width:100%;}
   .share-modal-actions{gap:6px;}
@@ -685,14 +692,51 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
 
 <!-- COMPARE TAB -->
 <div class="view" id="tab-compare">
-  <div style="max-width:1000px;margin:0 auto;">
+  <div style="max-width:1100px;margin:0 auto;">
     <div class="eyebrow">Side-by-Side Analysis</div>
-    <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:1.5rem;">Compare Quantum Exposure</h2>
-    <div class="sl" style="margin-bottom:10px;">Select 24 entities</div>
-    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;" id="cmp-chips"></div>
-    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);margin-bottom:1.5rem;" id="cmp-count">0 selected</div>
-    <div id="cmp-results" style="display:none;">
-      <div class="egrid" id="cmp-grid" style="margin-bottom:1.5rem;"></div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:0.4rem;">Compare Quantum Exposure</h2>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--tf);margin-bottom:0;">Search any two entities to generate their report cards side-by-side.</div>
+    <div class="cmp-arena">
+      <!-- LEFT -->
+      <div class="cmp-side">
+        <div style="position:relative;margin-top:2rem;">
+          <div class="search-box" style="border-color:var(--bd2);">
+            <input type="text" id="cmp-search-l" placeholder="Search entity, chain, brand…" autocomplete="off"
+              oninput="filterCmpSearch('l')" onfocus="openCmpDD('l')" onblur="setTimeout(()=>closeCmpDD('l'),180)">
+          </div>
+          <div class="dd" id="cmp-dd-l"></div>
+        </div>
+        <div id="cmp-card-l">
+          <div class="cmp-placeholder">
+            <div class="cmp-placeholder-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+            <div class="cmp-placeholder-lbl">Search to generate<br>report card</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VS divider -->
+      <div class="cmp-vs" style="padding-top:75px;">VS</div>
+
+      <!-- RIGHT -->
+      <div class="cmp-side">
+        <div style="position:relative;margin-top:2rem;">
+          <div class="search-box" style="border-color:var(--bd2);">
+            <input type="text" id="cmp-search-r" placeholder="Search entity, chain, brand…" autocomplete="off"
+              oninput="filterCmpSearch('r')" onfocus="openCmpDD('r')" onblur="setTimeout(()=>closeCmpDD('r'),180)">
+          </div>
+          <div class="dd" id="cmp-dd-r"></div>
+        </div>
+        <div id="cmp-card-r">
+          <div class="cmp-placeholder">
+            <div class="cmp-placeholder-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+            <div class="cmp-placeholder-lbl">Search to generate<br>report card</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verdict (shown when both selected) -->
+    <div id="cmp-verdict-wrap" style="display:none;">
       <div class="verdict-box"><div class="verdict-lbl">QEI Verdict</div><div class="verdict-text" id="cmp-verdict"></div></div>
     </div>
   </div>
@@ -1149,7 +1193,7 @@ function showTab(t){
   document.getElementById('tab-'+t).classList.add('active');
   const tabs=['home','wallet','compare','share','doomclock','methodology'];
   document.querySelectorAll('.ntab')[tabs.indexOf(t)].classList.add('active');
-  if(t==='compare')renderCmpChips();
+  if(t==='compare'){/* search bars are ready — no init needed */}
   if(t==='doomclock')initDoomClock();
 }
 
@@ -2104,43 +2148,109 @@ function renderWalletResults(addr){
 
 function resetWallet(){document.getElementById('w-results').style.display='none';document.getElementById('w-addr').value='';scanData={};nftData=null;}
 
-/*  COMPARE  */
-function renderCmpChips(){
-  document.getElementById('cmp-chips').innerHTML=DS.map(e=>`<div class="cs-chip${cmpSel.includes(e.id)?' selected':''}" onclick="toggleCmp('${e.id}')">${e.name}</div>`).join('');
-  updateCmpCount();
+/*  COMPARE — dual search  */
+const cmpState={l:null,r:null};
+
+function filterCmpSearch(side){
+  const q=document.getElementById(`cmp-search-${side}`).value.trim().toLowerCase();
+  const dd=document.getElementById(`cmp-dd-${side}`);
+  const matches=DS.filter(e=>e.name.toLowerCase().includes(q)||e.cat.toLowerCase().includes(q)||(e.id&&e.id.includes(q))).slice(0,10);
+  if(!matches.length){dd.classList.remove('open');return;}
+  dd.innerHTML=matches.map(e=>{const rs=calcRisk(e);return`<div class="ddi" onmousedown="pickCmpEnt('${side}','${e.id}')"><div><div class="ddi-name">${e.name}</div><div class="ddi-cat">${e.cat}</div></div><div class="ddi-score" style="color:${bcolor(rs.band)}">${rs.s}</div></div>`;}).join('');
+  dd.classList.add('open');
 }
-function toggleCmp(id){
-  if(cmpSel.includes(id)){cmpSel=cmpSel.filter(x=>x!==id);}
-  else if(cmpSel.length<4){cmpSel.push(id);}
-  else{alert('Max 4 entities.');return;}
-  renderCmpChips();
-  if(cmpSel.length>=2)renderCmpResults();
-  else document.getElementById('cmp-results').style.display='none';
+function openCmpDD(side){
+  const q=document.getElementById(`cmp-search-${side}`).value.trim();
+  if(!q){
+    const dd=document.getElementById(`cmp-dd-${side}`);
+    // show top 8 quick suggestions on focus-with-empty
+    const top=DS.slice(0,8);
+    dd.innerHTML=top.map(e=>{const rs=calcRisk(e);return`<div class="ddi" onmousedown="pickCmpEnt('${side}','${e.id}')"><div><div class="ddi-name">${e.name}</div><div class="ddi-cat">${e.cat}</div></div><div class="ddi-score" style="color:${bcolor(rs.band)}">${rs.s}</div></div>`;}).join('');
+    dd.classList.add('open');
+  } else filterCmpSearch(side);
 }
-function updateCmpCount(){const n=cmpSel.length;document.getElementById('cmp-count').textContent=n===0?'0 selected  pick at least 2':n===1?'1 selected  pick 1 more':`${n} selected`;}
-function renderCmpResults(){
-  const ents=cmpSel.map(id=>DS.find(e=>e.id===id));
-  const scores=ents.map(e=>({e,r:calcRisk(e)}));
-  const lowest=scores.reduce((a,b)=>a.r.s<b.r.s?a:b);
-  const highest=scores.reduce((a,b)=>a.r.s>b.r.s?a:b);
-  const g=document.getElementById('cmp-grid');
-  g.style.gridTemplateColumns=`repeat(${ents.length},1fr)`;
-  g.innerHTML=scores.map(({e,r})=>`<div class="cmp-card${e.id===lowest.e.id?' winner':''}">
-    ${e.id===lowest.e.id?'<div class="cmp-lowest">Lowest Risk</div>':''}
-    <div style="font-size:14px;font-weight:700;margin-bottom:2px;">${e.name}</div>
-    <div style="font-family:DM Mono,monospace;font-size:9px;color:var(--tf);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">${e.cat}</div>
-    <div class="cmp-score" style="color:${bcolor(r.band)}">${r.s}</div>
-    <div class="mini-band ${r.cls}">${r.band}</div>
-    <div style="font-size:12px;color:var(--td);margin:8px 0;">At risk: <span style="font-weight:600;color:${bcolor(r.band)}">${r.var}</span></div>
-    <div>${[['Mkt/Cap',e.f.mc],['Users',e.f.u],['Vuln',e.f.v],['Migration',e.f.m],['Time',e.f.t]].map(([l,v])=>`<div class="cf-row"><div class="cf-lbl">${l}</div><div class="cf-bar"><div class="cf-fill" style="width:${v}%;background:${bcolor(r.band)}88;"></div></div><div class="cf-val">${v}</div></div>`).join('')}</div>
-  </div>`).join('');
-  const diff=highest.r.s-lowest.r.s;
-  const verdict=lowest.e.diam
-    ?`Diamante stands structurally apart from all compared entities  as the only quantum-native L1, it carries a risk score of ${lowest.r.s}/100 versus ${highest.e.name}'s ${highest.r.s}/100. This ${diff}-point gap represents the difference between needing to migrate cryptographic infrastructure and already being built for the post-quantum era.`
-    :`Among the ${scores.length} entities compared, ${lowest.e.name} carries the lowest quantum exposure at ${lowest.r.s}/100, while ${highest.e.name} faces the highest risk at ${highest.r.s}/100  a ${diff}-point spread.`;
-  document.getElementById('cmp-verdict').textContent=verdict;
-  document.getElementById('cmp-results').style.display='block';
+function closeCmpDD(side){document.getElementById(`cmp-dd-${side}`).classList.remove('open');}
+
+function pickCmpEnt(side,id){
+  cmpState[side]=id;
+  const e=DS.find(x=>x.id===id);
+  document.getElementById(`cmp-search-${side}`).value=e.name;
+  closeCmpDD(side);
+  renderCmpCards();
 }
+
+function buildCmpCard(e,r,isWorst,isBest){
+  const accent=isWorst?'#ff4444':bcolor(r.band);
+  const gridCol=isWorst?'rgba(255,68,68,0.03)':'rgba(255,255,255,0.015)';
+  const badge=isWorst
+    ?`<div class="cmp-worst-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Highest Risk</div>`
+    :isBest?`<div class="cmp-best-badge"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Lower Exposure</div>`
+    :'';
+  const scheme=e.scheme||'';
+  return`<div class="cmp-report${isWorst?' worst':isBest?' best':''}" style="--cmp-grid:${gridCol};">
+    <div class="cmp-report-grid"></div>
+    <div style="position:relative;">
+      ${badge}
+      <div style="margin-bottom:0.75rem;">
+        <div style="font-size:1.1rem;font-weight:800;letter-spacing:-0.015em;margin-bottom:3px;color:${isWorst?accent:'var(--t)'};">${e.name}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--tf);">${e.cat}</div>
+      </div>
+      <div class="cmp-big-score" style="color:${accent};">${r.s}<span style="font-size:1.2rem;opacity:.45;">/100</span></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem;">
+        <span class="mini-band ${r.cls}" style="${isWorst?`background:rgba(255,68,68,0.15);color:${accent};border:none;`:''}">${r.band}</span>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:${accent};font-variant-numeric:tabular-nums;">${r.var} at risk</span>
+      </div>
+      <div style="margin-bottom:${scheme?'1.1rem':'0'};">
+        ${[['Mkt Cap',e.f.mc],['Users',e.f.u],['Vulnerability',e.f.v],['Migration',e.f.m],['Timeline',e.f.t]].map(([l,v])=>`<div class="cf-row"><div class="cf-lbl" style="${isWorst?`color:rgba(255,100,100,0.5)`:''}">${l}</div><div class="cf-bar"><div class="cf-fill" style="width:${v}%;background:${accent}${isWorst?'99':'77'};"></div></div><div class="cf-val" style="${isWorst?`color:${accent};`:''}">${v}</div></div>`).join('')}
+      </div>
+      ${scheme?`<div style="font-family:'DM Mono',monospace;font-size:10px;line-height:1.55;color:${isWorst?'rgba(255,100,100,0.55)':'var(--tf)'};border-top:1px solid ${isWorst?'rgba(255,68,68,0.15)':'var(--bd)'};padding-top:0.875rem;">${scheme}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderCmpCards(){
+  const lE=cmpState.l?DS.find(e=>e.id===cmpState.l):null;
+  const rE=cmpState.r?DS.find(e=>e.id===cmpState.r):null;
+  const lR=lE?calcRisk(lE):null;
+  const rR=rE?calcRisk(rE):null;
+
+  const PLACEHOLDER=`<div class="cmp-placeholder"><div class="cmp-placeholder-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="cmp-placeholder-lbl">Search to generate<br>report card</div></div>`;
+
+  let lWorst=false,rWorst=false,lBest=false,rBest=false;
+  if(lR&&rR){
+    if(lR.s>rR.s){lWorst=true;rBest=true;}
+    else if(rR.s>lR.s){rWorst=true;lBest=true;}
+    // equal: no badges
+  }
+
+  document.getElementById('cmp-card-l').innerHTML=lE?buildCmpCard(lE,lR,lWorst,lBest):PLACEHOLDER;
+  document.getElementById('cmp-card-r').innerHTML=rE?buildCmpCard(rE,rR,rWorst,rBest):PLACEHOLDER;
+
+  const vWrap=document.getElementById('cmp-verdict-wrap');
+  if(lE&&rE){
+    const worst=lWorst?{e:lE,r:lR}:rWorst?{e:rE,r:rR}:{e:lE,r:lR};
+    const better=lBest?{e:lE,r:lR}:rBest?{e:rE,r:rR}:{e:rE,r:rR};
+    const diff=Math.abs(lR.s-rR.s);
+    let verdict;
+    if(lE.diam||rE.diam){
+      const diam=lE.diam?{e:lE,r:lR}:{e:rE,r:rR};
+      const other=lE.diam?{e:rE,r:rR}:{e:lE,r:lR};
+      verdict=`Diamante stands structurally apart — as the only quantum-native L1, it carries a risk score of ${diam.r.s}/100 versus ${other.e.name}'s ${other.r.s}/100. This ${diff}-point gap represents the difference between needing to migrate cryptographic infrastructure and already operating in the post-quantum era.`;
+    } else if(diff===0){
+      verdict=`${lE.name} and ${rE.name} share an identical quantum exposure score of ${lR.s}/100, placing both in the ${lR.band} band. Neither has meaningfully differentiated its cryptographic posture — both face similar migration timelines and value-at-risk profiles.`;
+    } else {
+      verdict=`${worst.e.name} carries the higher quantum exposure at ${worst.r.s}/100 versus ${better.e.name}'s ${better.r.s}/100 — a ${diff}-point gap. At current valuations, ${worst.e.name} has ${worst.r.var} at risk compared to ${better.r.var} for ${better.e.name}. Both remain dependent on classical cryptography vulnerable to Shor's algorithm; the difference lies in migration complexity and user-base exposure.`;
+    }
+    document.getElementById('cmp-verdict').textContent=verdict;
+    vWrap.style.display='block';
+  } else {
+    vWrap.style.display='none';
+  }
+}
+// legacy stubs kept for any residual call-sites
+function renderCmpChips(){}
+function toggleCmp(){}
+function updateCmpCount(){}
 
 /*  SHARE SEARCH  */
 function renderShareChips(){}  // no-op kept for call sites
