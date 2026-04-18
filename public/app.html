@@ -579,6 +579,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:1rem c
         <button class="fb" data-cat="Wallet">Wallet</button>
         <button class="fb" data-cat="DeFi">DeFi</button>
         <button class="fb" data-cat="Protocol">Protocol</button>
+        <button class="fb" data-cat="Cybersecurity">Cybersecurity</button>
+        <button class="fb" data-cat="Defense">Defense</button>
+        <button class="fb" data-cat="Telecom">Telecom</button>
+        <button class="fb" data-cat="Healthcare">Healthcare</button>
+        <button class="fb" data-cat="Finance">Finance</button>
+        <button class="fb" data-cat="L2">L2</button>
       </div>
     </div>
     <div class="egrid" id="egrid"></div>
@@ -1101,6 +1107,159 @@ const DS=[
   /* MORE GOVERNMENTS */
   {id:'canada',     name:'Canada',           cat:'Government',scheme:'RSA/ECDSA (CCCS guidance)',  pub:true,            f:{mc:62,u:78,v:72,m:55,t:48}, fbMc:2.2e12, rev:'Apr 2026'},
   {id:'australia',  name:'Australia',        cat:'Government',scheme:'RSA/ECDSA (ASD guidance)',   pub:true,            f:{mc:58,u:72,v:72,m:55,t:48}, fbMc:1.7e12, rev:'Apr 2026'},
+
+  /* ── BLOCKCHAINS — EXTENDED ──────────────────────────────────────────────── */
+  {id:'litecoin',     name:'Litecoin',          cat:'Blockchain',   scheme:'ECDSA secp256k1 (Bitcoin-fork)',           cgId:'litecoin',               pub:true,  f:{mc:50,u:52,v:87,m:70,t:72}, fbMc:6e9,    rev:'Apr 2026'},
+  {id:'bitcoin_cash', name:'Bitcoin Cash',       cat:'Blockchain',   scheme:'ECDSA secp256k1 (Bitcoin-fork)',           cgId:'bitcoin-cash',           pub:true,  f:{mc:48,u:45,v:87,m:70,t:72}, fbMc:8e9,    rev:'Apr 2026'},
+  {id:'dogecoin',     name:'Dogecoin',           cat:'Blockchain',   scheme:'ECDSA secp256k1 (Litecoin-fork)',          cgId:'dogecoin',               pub:true,  f:{mc:55,u:60,v:87,m:65,t:68}, fbMc:22e9,   rev:'Apr 2026'},
+  {id:'monero',       name:'Monero',             cat:'Blockchain',   scheme:'Ring sigs + Ed25519 + Pedersen commits',   cgId:'monero',                 pub:false, f:{mc:35,u:40,v:78,m:88,t:70}, fbMc:3e9,    rev:'Apr 2026'},
+  {id:'zcash',        name:'Zcash',              cat:'Blockchain',   scheme:'Sapling/BLS12-381 + ECDSA (t-addrs)',      cgId:'zcash',                  pub:true,  f:{mc:28,u:32,v:72,m:82,t:65}, fbMc:0.4e9,  rev:'Apr 2026'},
+  {id:'cosmos',       name:'Cosmos',             cat:'Blockchain',   scheme:'secp256k1 + Ed25519 (Tendermint BFT)',     cgId:'cosmos',                 pub:true,  f:{mc:48,u:50,v:82,m:80,t:72}, fbMc:5e9,    rev:'Apr 2026'},
+  {id:'hedera',       name:'Hedera',             cat:'Blockchain',   scheme:'ECDSA + Ed25519 (hashgraph)',              cgId:'hedera-hashgraph',       pub:false, f:{mc:50,u:52,v:80,m:74,t:70}, fbMc:9e9,    rev:'Apr 2026'},
+  {id:'stellar',      name:'Stellar',            cat:'Blockchain',   scheme:'Ed25519 (Stellar Consensus Protocol)',     cgId:'stellar',                pub:false, f:{mc:42,u:46,v:82,m:70,t:70}, fbMc:4e9,    rev:'Apr 2026'},
+  {id:'algorand',     name:'Algorand',           cat:'Blockchain',   scheme:'Ed25519 + VRF consensus',                  cgId:'algorand',               pub:false, f:{mc:35,u:38,v:79,m:68,t:68}, fbMc:1.5e9,  rev:'Apr 2026'},
+  {id:'tezos',        name:'Tezos',              cat:'Blockchain',   scheme:'Ed25519 / secp256k1 / P-256 (3 types)',    cgId:'tezos',                  pub:true,  f:{mc:32,u:35,v:80,m:75,t:67}, fbMc:0.9e9,  rev:'Apr 2026'},
+  {id:'filecoin',     name:'Filecoin',           cat:'Blockchain',   scheme:'BLS12-381 + secp256k1 wallets',            cgId:'filecoin',               pub:true,  f:{mc:40,u:35,v:75,m:80,t:68}, fbMc:2e9,    rev:'Apr 2026'},
+  {id:'icp',          name:'Internet Computer',  cat:'Blockchain',   scheme:'BLS threshold + Chain Key ECDSA',          cgId:'internet-computer',      pub:false, f:{mc:45,u:40,v:72,m:80,t:68}, fbMc:5e9,    rev:'Apr 2026'},
+  {id:'aptos',        name:'Aptos',              cat:'Blockchain',   scheme:'Ed25519 + BLS12-381 validators',           cgId:'aptos',                  pub:true,  f:{mc:42,u:36,v:80,m:70,t:70}, fbMc:3e9,    rev:'Apr 2026'},
+  {id:'sei',          name:'Sei',                cat:'Blockchain',   scheme:'secp256k1 (Cosmos SDK)',                   cgId:'sei-network',            pub:true,  f:{mc:32,u:30,v:81,m:70,t:68}, fbMc:1.5e9,  rev:'Apr 2026'},
+  {id:'injective',    name:'Injective',          cat:'Blockchain',   scheme:'secp256k1 (Cosmos SDK)',                   cgId:'injective-protocol',     pub:false, f:{mc:35,u:32,v:81,m:72,t:68}, fbMc:2e9,    rev:'Apr 2026'},
+  {id:'starknet',     name:'StarkNet',           cat:'L2',           scheme:'STARK proofs + ECDSA accounts',            cgId:'starknet',               pub:true,  f:{mc:35,u:32,v:62,m:72,t:65}, fbMc:1e9,    rev:'Apr 2026'},
+  {id:'zksync',       name:'zkSync',             cat:'L2',           scheme:'PLONK ZK proofs + ECDSA',                  cgId:'zksync',                 pub:false, f:{mc:32,u:28,v:63,m:70,t:65}, fbMc:0.8e9,  rev:'Apr 2026'},
+  {id:'scroll',       name:'Scroll',             cat:'L2',           scheme:'KZG commitments + ECDSA',                  cgId:'scroll-token',           pub:true,  f:{mc:25,u:22,v:65,m:70,t:63}, fbMc:0.4e9,  rev:'Apr 2026'},
+  {id:'fantom',       name:'Fantom / Sonic',     cat:'Blockchain',   scheme:'ECDSA secp256k1 (Lachesis aBFT)',          cgId:'fantom',                 pub:true,  f:{mc:38,u:40,v:84,m:72,t:68}, fbMc:2e9,    rev:'Apr 2026'},
+  {id:'mantle',       name:'Mantle',             cat:'L2',           scheme:'EigenDA + ECDSA (optimistic rollup)',      cgId:'mantle',                 pub:true,  f:{mc:32,u:25,v:66,m:70,t:63}, fbMc:1e9,    rev:'Apr 2026'},
+
+  /* ── DEFI — EXTENDED ────────────────────────────────────────────────────── */
+  {id:'synthetix',    name:'Synthetix',          cat:'DeFi',         scheme:'ECDSA via Ethereum / Optimism',            cgId:'synthetix-network-token',pub:false, f:{mc:30,u:25,v:84,m:75,t:68}, fbMc:0.5e9,  dlId:'synthetix',    rev:'Apr 2026'},
+  {id:'balancer',     name:'Balancer',           cat:'DeFi',         scheme:'ECDSA via Ethereum',                       cgId:'balancer',               pub:false, f:{mc:22,u:22,v:84,m:74,t:67}, fbMc:0.3e9,  dlId:'balancer',     rev:'Apr 2026'},
+  {id:'yearn',        name:'Yearn Finance',      cat:'DeFi',         scheme:'ECDSA via Ethereum',                       cgId:'yearn-finance',          pub:false, f:{mc:25,u:22,v:84,m:76,t:67}, fbMc:0.3e9,  dlId:'yearn-finance',rev:'Apr 2026'},
+  {id:'frax',         name:'Frax Finance',       cat:'DeFi',         scheme:'ECDSA via Ethereum (algo stablecoin)',     cgId:'frax',                   pub:false, f:{mc:30,u:25,v:84,m:76,t:68}, fbMc:0.4e9,  dlId:'frax-finance', rev:'Apr 2026'},
+  {id:'gmx',          name:'GMX',                cat:'DeFi',         scheme:'ECDSA via Arbitrum / Avalanche',           cgId:'gmx',                    pub:false, f:{mc:32,u:30,v:83,m:74,t:68}, fbMc:0.5e9,  dlId:'gmx',          rev:'Apr 2026'},
+  {id:'hyperliquid',  name:'Hyperliquid',        cat:'DeFi',         scheme:'ECDSA (custom L1)',                        cgId:'hyperliquid',            pub:false, f:{mc:50,u:42,v:82,m:78,t:70}, fbMc:4e9,    dlId:'hyperliquid',  rev:'Apr 2026'},
+  {id:'jupiter',      name:'Jupiter',            cat:'DeFi',         scheme:'Ed25519 via Solana',                       cgId:'jup',                    pub:false, f:{mc:38,u:40,v:82,m:72,t:70}, fbMc:1.5e9,  dlId:'jupiter',      rev:'Apr 2026'},
+  {id:'sushi',        name:'SushiSwap',          cat:'DeFi',         scheme:'ECDSA multi-chain (15+ networks)',         cgId:'sushi',                  pub:false, f:{mc:20,u:22,v:84,m:74,t:66}, fbMc:0.2e9,  dlId:'sushi',        rev:'Apr 2026'},
+  {id:'pancakeswap',  name:'PancakeSwap',        cat:'DeFi',         scheme:'ECDSA via BNB Chain',                      cgId:'pancakeswap-token',      pub:false, f:{mc:32,u:45,v:83,m:73,t:68}, fbMc:0.8e9,  dlId:'pancakeswap',  rev:'Apr 2026'},
+  {id:'oneinch',      name:'1inch',              cat:'DeFi',         scheme:'ECDSA multi-chain aggregator',             cgId:'1inch',                  pub:false, f:{mc:22,u:25,v:83,m:72,t:66}, fbMc:0.2e9,  dlId:'1inch-network',rev:'Apr 2026'},
+  {id:'pendle',       name:'Pendle',             cat:'DeFi',         scheme:'ECDSA via Ethereum / Arbitrum',            cgId:'pendle',                 pub:false, f:{mc:30,u:25,v:83,m:74,t:68}, fbMc:0.5e9,  dlId:'pendle',       rev:'Apr 2026'},
+  {id:'velodrome',    name:'Velodrome',          cat:'DeFi',         scheme:'ECDSA via Optimism (ve model)',            cgId:'velodrome-finance',      pub:false, f:{mc:20,u:20,v:83,m:72,t:65}, fbMc:0.2e9,  dlId:'velodrome',    rev:'Apr 2026'},
+
+  /* ── EXCHANGES — EXTENDED ───────────────────────────────────────────────── */
+  {id:'kucoin',       name:'KuCoin',             cat:'Exchange',     scheme:'Custodial ECDSA + RSA API keys',           cgId:null,                     pub:false, f:{mc:48,u:55,v:84,m:75,t:72}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'gateio',       name:'Gate.io',            cat:'Exchange',     scheme:'Custodial ECDSA + RSA API keys',           cgId:null,                     pub:false, f:{mc:42,u:48,v:83,m:74,t:70}, fbMc:7e9,    rev:'Apr 2026'},
+  {id:'htx',          name:'HTX (Huobi)',         cat:'Exchange',     scheme:'Custodial ECDSA + HSM cold storage',       cgId:null,                     pub:false, f:{mc:45,u:50,v:83,m:75,t:70}, fbMc:8e9,    rev:'Apr 2026'},
+  {id:'bitfinex',     name:'Bitfinex',           cat:'Exchange',     scheme:'ECDSA MPC custody',                        cgId:null,                     pub:false, f:{mc:40,u:35,v:84,m:76,t:70}, fbMc:12e9,   rev:'Apr 2026'},
+  {id:'bitstamp',     name:'Bitstamp',           cat:'Exchange',     scheme:'ECDSA + RSA-2048 API keys',                cgId:null,                     pub:false, f:{mc:35,u:32,v:82,m:72,t:68}, fbMc:4e9,    rev:'Apr 2026'},
+  {id:'crypto_com',   name:'Crypto.com',         cat:'Exchange',     scheme:'ECDSA MPC + Ledger Enterprise custody',    cgId:null,                     pub:false, f:{mc:50,u:62,v:83,m:76,t:72}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'upbit',        name:'Upbit',              cat:'Exchange',     scheme:'Custodial ECDSA (Korean GPKI)',             cgId:null,                     pub:true,  f:{mc:42,u:45,v:82,m:72,t:70}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'robinhood',    name:'Robinhood Crypto',   cat:'Exchange',     scheme:'Custodial ECDSA + RSA PKI',                cgId:null,                     pub:true,  f:{mc:45,u:55,v:80,m:72,t:70}, fbMc:20e9,   rev:'Apr 2026'},
+
+  /* ── FINANCE / ASSET MANAGEMENT ─────────────────────────────────────────── */
+  {id:'vanguard',     name:'Vanguard',           cat:'Finance',      scheme:'RSA / TLS (fund transfer systems)',        cgId:null,                     pub:false, f:{mc:80,u:68,v:78,m:82,t:72}, fbMc:0,      rev:'Apr 2026'},
+  {id:'statestreet',  name:'State Street',       cat:'Finance',      scheme:'RSA + SWIFT PKI (custody systems)',        cgId:null,                     pub:true,  f:{mc:68,u:52,v:80,m:82,t:72}, fbMc:28e9,   rev:'Apr 2026'},
+  {id:'bnym',         name:'BNY Mellon',         cat:'Bank',         scheme:'RSA + SWIFT PKI (tri-party repo)',         cgId:null,                     pub:true,  f:{mc:65,u:50,v:80,m:82,t:72}, fbMc:50e9,   rev:'Apr 2026'},
+  {id:'ubs',          name:'UBS',                cat:'Bank',         scheme:'RSA-2048 + ECC (Credit Suisse integrated)',cgId:null,                     pub:true,  f:{mc:62,u:50,v:80,m:84,t:72}, fbMc:100e9,  rev:'Apr 2026'},
+  {id:'bnpparibas',   name:'BNP Paribas',        cat:'Bank',         scheme:'RSA + ECC (65-country cross-border ops)', cgId:null,                     pub:true,  f:{mc:60,u:50,v:80,m:83,t:72}, fbMc:75e9,   rev:'Apr 2026'},
+  {id:'santander',    name:'Santander',          cat:'Bank',         scheme:'RSA + TLS (160M+ customers globally)',     cgId:null,                     pub:true,  f:{mc:55,u:58,v:78,m:80,t:70}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'societegenerale',name:'Société Générale', cat:'Bank',         scheme:'RSA-2048 + ECC + SG Forge blockchain',    cgId:null,                     pub:true,  f:{mc:50,u:42,v:80,m:82,t:70}, fbMc:25e9,   rev:'Apr 2026'},
+  {id:'mufg',         name:'MUFG',               cat:'Bank',         scheme:'RSA + JBA domestic PKI standards',         cgId:null,                     pub:true,  f:{mc:60,u:52,v:78,m:84,t:70}, fbMc:120e9,  rev:'Apr 2026'},
+  {id:'nomura',       name:'Nomura',             cat:'Finance',      scheme:'RSA + ECC (FSA-regulated securities)',     cgId:null,                     pub:true,  f:{mc:40,u:32,v:78,m:80,t:68}, fbMc:12e9,   rev:'Apr 2026'},
+  {id:'ing',          name:'ING Group',          cat:'Bank',         scheme:'RSA-2048 + TLS (ZKP research underway)',   cgId:null,                     pub:true,  f:{mc:50,u:48,v:78,m:80,t:70}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'schwab',       name:'Charles Schwab',     cat:'Finance',      scheme:'RSA + TLS (TD Ameritrade integration)',    cgId:null,                     pub:true,  f:{mc:60,u:62,v:78,m:80,t:70}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'troweprice',   name:'T. Rowe Price',      cat:'Finance',      scheme:'RSA + TLS (DC retirement custody)',        cgId:null,                     pub:true,  f:{mc:48,u:40,v:76,m:78,t:68}, fbMc:21e9,   rev:'Apr 2026'},
+  {id:'standard_chartered',name:'Standard Chartered',cat:'Bank',     scheme:'RSA + TLS (emerging markets banking)',    cgId:null,                     pub:true,  f:{mc:45,u:42,v:78,m:80,t:68}, fbMc:24e9,   rev:'Apr 2026'},
+  {id:'nubank',       name:'Nubank',             cat:'Bank',         scheme:'RSA + TLS (cloud-native neobank)',         cgId:null,                     pub:true,  f:{mc:42,u:55,v:74,m:70,t:65}, fbMc:70e9,   rev:'Apr 2026'},
+
+  /* ── BIG TECH — EXTENDED ────────────────────────────────────────────────── */
+  {id:'netflix',      name:'Netflix',            cat:'Company',      scheme:'TLS 1.3 + RSA (Widevine DRM)',             cgId:null,                     pub:true,  f:{mc:50,u:65,v:70,m:68,t:65}, fbMc:380e9,  rev:'Apr 2026'},
+  {id:'uber',         name:'Uber',               cat:'Company',      scheme:'TLS 1.3 + RSA (Stripe/Braintree rails)',   cgId:null,                     pub:true,  f:{mc:42,u:60,v:68,m:65,t:63}, fbMc:170e9,  rev:'Apr 2026'},
+  {id:'salesforce',   name:'Salesforce',         cat:'Company',      scheme:'RSA-2048 + TLS (CRM cloud)',               cgId:null,                     pub:true,  f:{mc:52,u:55,v:72,m:72,t:67}, fbMc:280e9,  rev:'Apr 2026'},
+  {id:'sap',          name:'SAP',                cat:'Company',      scheme:'RSA + RFC/ABAP (ERP supply chain)',        cgId:null,                     pub:true,  f:{mc:58,u:52,v:75,m:80,t:70}, fbMc:240e9,  rev:'Apr 2026'},
+  {id:'shopify',      name:'Shopify',            cat:'Company',      scheme:'TLS 1.3 + RSA (checkout / payments)',      cgId:null,                     pub:true,  f:{mc:45,u:58,v:70,m:68,t:65}, fbMc:130e9,  rev:'Apr 2026'},
+  {id:'alibaba',      name:'Alibaba',            cat:'Company',      scheme:'RSA + SM2 (CNSA 2.0 mandate)',             cgId:null,                     pub:true,  f:{mc:68,u:78,v:78,m:82,t:72}, fbMc:250e9,  rev:'Apr 2026'},
+  {id:'tencent',      name:'Tencent',            cat:'Company',      scheme:'RSA + SM2 + WeChat Pay',                   cgId:null,                     pub:true,  f:{mc:70,u:80,v:78,m:82,t:72}, fbMc:400e9,  rev:'Apr 2026'},
+  {id:'spotify',      name:'Spotify',            cat:'Company',      scheme:'TLS 1.3 + RSA (DRM / licensing)',          cgId:null,                     pub:true,  f:{mc:38,u:60,v:68,m:62,t:62}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'servicenow',   name:'ServiceNow',         cat:'Company',      scheme:'RSA + TLS (enterprise ITSM platform)',     cgId:null,                     pub:true,  f:{mc:48,u:40,v:72,m:70,t:65}, fbMc:200e9,  rev:'Apr 2026'},
+  {id:'baidu',        name:'Baidu',              cat:'Company',      scheme:'RSA + SM2 (CNSA 2.0 required)',            cgId:null,                     pub:true,  f:{mc:42,u:62,v:76,m:80,t:68}, fbMc:35e9,   rev:'Apr 2026'},
+  {id:'pdd',          name:'Temu / PDD',         cat:'Company',      scheme:'RSA + SM2 (Chinese e-commerce)',           cgId:null,                     pub:true,  f:{mc:58,u:70,v:76,m:80,t:68}, fbMc:180e9,  rev:'Apr 2026'},
+
+  /* ── CYBERSECURITY ──────────────────────────────────────────────────────── */
+  {id:'fortinet',     name:'Fortinet',           cat:'Cybersecurity',scheme:'RSA + ECC in FortiOS (IKEv2/IPsec)',       cgId:null,                     pub:true,  f:{mc:45,u:48,v:70,m:72,t:67}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'checkpoint',   name:'Check Point',        cat:'Cybersecurity',scheme:'RSA + ECC (VPN classical DH)',             cgId:null,                     pub:true,  f:{mc:40,u:42,v:70,m:72,t:67}, fbMc:22e9,   rev:'Apr 2026'},
+  {id:'sentinelone',  name:'SentinelOne',        cat:'Cybersecurity',scheme:'TLS + RSA/ECDSA (cloud-native EDR)',       cgId:null,                     pub:true,  f:{mc:32,u:35,v:68,m:68,t:63}, fbMc:18e9,   rev:'Apr 2026'},
+  {id:'okta',         name:'Okta',               cat:'Cybersecurity',scheme:'RSA + ECDSA (SAML / OIDC tokens)',        cgId:null,                     pub:true,  f:{mc:35,u:50,v:74,m:74,t:68}, fbMc:14e9,   rev:'Apr 2026'},
+  {id:'zscaler',      name:'Zscaler',            cat:'Cybersecurity',scheme:'TLS 1.3 + ECDSA (Zero Trust proxy)',       cgId:null,                     pub:true,  f:{mc:35,u:42,v:70,m:70,t:65}, fbMc:22e9,   rev:'Apr 2026'},
+  {id:'cyberark',     name:'CyberArk',           cat:'Cybersecurity',scheme:'RSA + AES-256 (PAM vault key wrapping)',   cgId:null,                     pub:true,  f:{mc:32,u:35,v:72,m:74,t:67}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'darktrace',    name:'Darktrace',          cat:'Cybersecurity',scheme:'TLS + RSA (AI threat detection)',          cgId:null,                     pub:true,  f:{mc:22,u:25,v:68,m:66,t:63}, fbMc:4e9,    rev:'Apr 2026'},
+  {id:'qualys',       name:'Qualys',             cat:'Cybersecurity',scheme:'RSA + TLS (cloud security scanning)',      cgId:null,                     pub:true,  f:{mc:25,u:28,v:68,m:68,t:63}, fbMc:5e9,    rev:'Apr 2026'},
+
+  /* ── GOVERNMENTS — EXTENDED ─────────────────────────────────────────────── */
+  {id:'germany',      name:'Germany',            cat:'Government',   scheme:'RSA/ECC (BSI-approved, XMSS pilots)',      pub:true,                      f:{mc:74,u:68,v:76,m:80,t:70}, fbMc:4500e9, rev:'Apr 2026'},
+  {id:'france',       name:'France',             cat:'Government',   scheme:'RSA/ECC (ANSSI PQ roadmap 2022)',          pub:true,                      f:{mc:70,u:62,v:76,m:80,t:70}, fbMc:3100e9, rev:'Apr 2026'},
+  {id:'japan_gov',    name:'Japan',              cat:'Government',   scheme:'RSA / CRYPTREC domestic standards',        pub:true,                      f:{mc:72,u:68,v:75,m:84,t:68}, fbMc:4200e9, rev:'Apr 2026'},
+  {id:'south_korea',  name:'South Korea',        cat:'Government',   scheme:'RSA / GPKI (30M+ national ID certs)',      pub:true,                      f:{mc:60,u:55,v:75,m:80,t:70}, fbMc:1700e9, rev:'Apr 2026'},
+  {id:'india',        name:'India',              cat:'Government',   scheme:'RSA-2048 / CCA + Aadhaar (1.4B IDs)',      pub:true,                      f:{mc:68,u:78,v:74,m:86,t:68}, fbMc:3700e9, rev:'Apr 2026'},
+  {id:'israel',       name:'Israel',             cat:'Government',   scheme:'RSA + ECC (Unit 8200 PQ research)',        pub:true,                      f:{mc:45,u:35,v:77,m:80,t:72}, fbMc:500e9,  rev:'Apr 2026'},
+  {id:'uae',          name:'UAE',                cat:'Government',   scheme:'RSA + ECC (UAESA / TRA PKI)',              pub:true,                      f:{mc:48,u:38,v:75,m:80,t:70}, fbMc:500e9,  rev:'Apr 2026'},
+  {id:'brazil',       name:'Brazil',             cat:'Government',   scheme:'RSA / ICP-Brasil (20M+ certs/year)',       pub:true,                      f:{mc:58,u:68,v:74,m:84,t:68}, fbMc:2200e9, rev:'Apr 2026'},
+  {id:'singapore',    name:'Singapore',          cat:'Government',   scheme:'RSA + ECC (CSA PQ readiness roadmap)',     pub:true,                      f:{mc:44,u:38,v:75,m:76,t:70}, fbMc:500e9,  rev:'Apr 2026'},
+  {id:'nato',         name:'NATO',               cat:'Government',   scheme:'RSA + NSA Suite B (32-nation alliance)',   pub:false,                     f:{mc:76,u:62,v:82,m:88,t:75}, fbMc:0,      rev:'Apr 2026'},
+  {id:'pentagon',     name:'Pentagon / DoD',     cat:'Government',   scheme:'RSA + NSA Suite B (CNSA 2.0 mandate)',     pub:false,                     f:{mc:78,u:58,v:82,m:86,t:76}, fbMc:0,      rev:'Apr 2026'},
+
+  /* ── DEFENSE ────────────────────────────────────────────────────────────── */
+  {id:'lockheed',     name:'Lockheed Martin',    cat:'Defense',      scheme:'RSA + NSA Suite B (F-35 / Link 16)',       cgId:null,                     pub:true,  f:{mc:54,u:35,v:82,m:85,t:73}, fbMc:120e9,  rev:'Apr 2026'},
+  {id:'raytheon',     name:'RTX / Raytheon',     cat:'Defense',      scheme:'RSA + NSA Suite B (missile guidance)',     cgId:null,                     pub:true,  f:{mc:50,u:32,v:80,m:84,t:72}, fbMc:140e9,  rev:'Apr 2026'},
+  {id:'northrop',     name:'Northrop Grumman',   cat:'Defense',      scheme:'RSA + NSA Type 1 (B-21 / Space Force)',   cgId:null,                     pub:true,  f:{mc:48,u:30,v:82,m:86,t:73}, fbMc:75e9,   rev:'Apr 2026'},
+  {id:'palantir',     name:'Palantir',           cat:'Defense',      scheme:'RSA + TLS (Gotham / Foundry APIs)',        cgId:null,                     pub:true,  f:{mc:44,u:38,v:76,m:74,t:70}, fbMc:55e9,   rev:'Apr 2026'},
+  {id:'boeing',       name:'Boeing',             cat:'Defense',      scheme:'RSA + ECC + ACARS legacy aviation',       cgId:null,                     pub:true,  f:{mc:50,u:35,v:78,m:82,t:70}, fbMc:105e9,  rev:'Apr 2026'},
+  {id:'bae_systems',  name:'BAE Systems',        cat:'Defense',      scheme:'RSA + NSA/GCHQ approved (UK-US joint)',   cgId:null,                     pub:true,  f:{mc:40,u:28,v:80,m:84,t:70}, fbMc:35e9,   rev:'Apr 2026'},
+  {id:'leidos',       name:'Leidos',             cat:'Defense',      scheme:'RSA + NSA-certified modules (DoD IT)',     cgId:null,                     pub:true,  f:{mc:35,u:25,v:80,m:84,t:70}, fbMc:20e9,   rev:'Apr 2026'},
+
+  /* ── QUANTUM COMPUTING COMPANIES ────────────────────────────────────────── */
+  {id:'ionq',         name:'IonQ',               cat:'Tech',         scheme:'Classical TLS (quantum IP = harvest target)',cgId:null,                  pub:true,  f:{mc:12,u:6, v:65,m:55,t:60}, fbMc:4e9,    rev:'Apr 2026'},
+  {id:'rigetti',      name:'Rigetti Computing',  cat:'Tech',         scheme:'Classical TLS (SC qubit IP exposed)',       cgId:null,                   pub:true,  f:{mc:8, u:4, v:65,m:55,t:58}, fbMc:0.5e9,  rev:'Apr 2026'},
+  {id:'dwave',        name:'D-Wave',             cat:'Tech',         scheme:'Classical TLS (Leap cloud API)',            cgId:null,                   pub:true,  f:{mc:10,u:5, v:65,m:55,t:58}, fbMc:0.8e9,  rev:'Apr 2026'},
+  {id:'quantinuum',   name:'Quantinuum',         cat:'Tech',         scheme:'Classical TLS + QRNG (Nexus API)',          cgId:null,                   pub:false, f:{mc:15,u:8, v:63,m:55,t:60}, fbMc:5e9,    rev:'Apr 2026'},
+  {id:'quera',        name:'QuEra Computing',    cat:'Tech',         scheme:'Classical TLS (neutral-atom qubit IP)',     cgId:null,                   pub:false, f:{mc:6, u:3, v:63,m:55,t:58}, fbMc:0.3e9,  rev:'Apr 2026'},
+
+  /* ── TELECOMS — EXTENDED ────────────────────────────────────────────────── */
+  {id:'tmobile',      name:'T-Mobile',           cat:'Telecom',      scheme:'TLS + ECDSA (5G NR SUPI/SUCI)',            cgId:null,                     pub:true,  f:{mc:55,u:70,v:76,m:78,t:70}, fbMc:260e9,  rev:'Apr 2026'},
+  {id:'vodafone',     name:'Vodafone',           cat:'Telecom',      scheme:'RSA + ECC (3GPP + SS7 legacy)',            cgId:null,                     pub:true,  f:{mc:50,u:65,v:76,m:80,t:70}, fbMc:30e9,   rev:'Apr 2026'},
+  {id:'deutsche_telekom',name:'Deutsche Telekom',cat:'Telecom',      scheme:'RSA + ECC (BSI collaboration)',            cgId:null,                     pub:true,  f:{mc:50,u:60,v:76,m:78,t:70}, fbMc:90e9,   rev:'Apr 2026'},
+  {id:'ntt',          name:'NTT Group',          cat:'Telecom',      scheme:'RSA + CRYPTREC (undersea cable operator)', cgId:null,                     pub:true,  f:{mc:52,u:62,v:74,m:80,t:68}, fbMc:80e9,   rev:'Apr 2026'},
+  {id:'softbank',     name:'SoftBank',           cat:'Telecom',      scheme:'RSA + 3GPP (ARM chip IP exposure)',        cgId:null,                     pub:true,  f:{mc:48,u:52,v:74,m:78,t:68}, fbMc:60e9,   rev:'Apr 2026'},
+  {id:'china_mobile', name:'China Mobile',       cat:'Telecom',      scheme:'SM2 + RSA (MIIT mandate, 970M+ subs)',     cgId:null,                     pub:true,  f:{mc:62,u:80,v:76,m:82,t:70}, fbMc:200e9,  rev:'Apr 2026'},
+  {id:'btgroup',      name:'BT Group',           cat:'Telecom',      scheme:'RSA + ECC (BT Quantum-Secure pilots)',     cgId:null,                     pub:true,  f:{mc:40,u:52,v:74,m:78,t:68}, fbMc:25e9,   rev:'Apr 2026'},
+
+  /* ── HEALTHCARE ─────────────────────────────────────────────────────────── */
+  {id:'unitedhealth', name:'UnitedHealth Group', cat:'Healthcare',   scheme:'RSA + TLS + HL7 FHIR (50M+ members)',     cgId:null,                     pub:true,  f:{mc:58,u:60,v:76,m:80,t:70}, fbMc:450e9,  rev:'Apr 2026'},
+  {id:'pfizer',       name:'Pfizer',             cat:'Healthcare',   scheme:'RSA + ECC (clinical trial / drug IP)',     cgId:null,                     pub:true,  f:{mc:50,u:38,v:72,m:74,t:65}, fbMc:165e9,  rev:'Apr 2026'},
+  {id:'epic_systems', name:'Epic Systems',       cat:'Healthcare',   scheme:'RSA + TLS (280M+ patient EHRs)',           cgId:null,                     pub:false, f:{mc:35,u:50,v:74,m:78,t:67}, fbMc:35e9,   rev:'Apr 2026'},
+  {id:'mckesson',     name:'McKesson',           cat:'Healthcare',   scheme:'RSA + TLS (drug supply chain auth)',       cgId:null,                     pub:true,  f:{mc:40,u:35,v:72,m:74,t:65}, fbMc:75e9,   rev:'Apr 2026'},
+
+  /* ── SOCIAL / MEDIA ─────────────────────────────────────────────────────── */
+  {id:'tiktok',       name:'TikTok',             cat:'Company',      scheme:'TLS 1.3 + RSA (ByteDance dual-jurisdiction)',cgId:null,                  pub:false, f:{mc:58,u:80,v:72,m:74,t:68}, fbMc:300e9,  rev:'Apr 2026'},
+  {id:'discord',      name:'Discord',            cat:'Company',      scheme:'TLS 1.3 + RSA/ECDSA (500M+ users)',        cgId:null,                   pub:false, f:{mc:32,u:55,v:70,m:68,t:65}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'reddit',       name:'Reddit',             cat:'Company',      scheme:'TLS 1.3 + RSA (100M+ daily active users)', cgId:null,                   pub:true,  f:{mc:22,u:50,v:68,m:65,t:62}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'linkedin',     name:'LinkedIn',           cat:'Company',      scheme:'TLS + RSA (Microsoft PKI, 1B+ members)',   cgId:null,                   pub:false, f:{mc:45,u:65,v:70,m:70,t:65}, fbMc:27e9,   rev:'Apr 2026'},
+  {id:'snap',         name:'Snap',               cat:'Company',      scheme:'TLS 1.3 + RSA (ephemeral messaging)',      cgId:null,                   pub:true,  f:{mc:22,u:45,v:68,m:65,t:62}, fbMc:20e9,   rev:'Apr 2026'},
+
+  /* ── FINTECH ────────────────────────────────────────────────────────────── */
+  {id:'adyen',        name:'Adyen',              cat:'Finance',      scheme:'TLS + RSA/ECDSA (PCI-DSS HSM hierarchy)',  cgId:null,                     pub:true,  f:{mc:40,u:42,v:76,m:74,t:68}, fbMc:40e9,   rev:'Apr 2026'},
+  {id:'klarna',       name:'Klarna',             cat:'Finance',      scheme:'TLS 1.3 + RSA (BNPL / EU DORA)',           cgId:null,                     pub:false, f:{mc:32,u:45,v:72,m:70,t:65}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'wise',         name:'Wise',               cat:'Finance',      scheme:'TLS + RSA-2048 (FX / bank API auth)',      cgId:null,                     pub:true,  f:{mc:25,u:38,v:72,m:68,t:63}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'affirm',       name:'Affirm',             cat:'Finance',      scheme:'TLS + RSA (BNPL loan origination)',        cgId:null,                     pub:true,  f:{mc:25,u:35,v:72,m:68,t:63}, fbMc:10e9,   rev:'Apr 2026'},
+  {id:'plaid',        name:'Plaid',              cat:'Finance',      scheme:'RSA + TLS (bank API aggregation)',          cgId:null,                     pub:false, f:{mc:28,u:40,v:72,m:70,t:63}, fbMc:13e9,   rev:'Apr 2026'},
+
+  /* ── CLOUD / INFRA ──────────────────────────────────────────────────────── */
+  {id:'akamai',       name:'Akamai',             cat:'Company',      scheme:'TLS + RSA/ECDSA (CDN edge certificates)',  cgId:null,                     pub:true,  f:{mc:38,u:68,v:68,m:68,t:63}, fbMc:15e9,   rev:'Apr 2026'},
+  {id:'fastly',       name:'Fastly',             cat:'Company',      scheme:'TLS 1.3 + ECDSA (CDN / WAF)',              cgId:null,                     pub:true,  f:{mc:15,u:38,v:66,m:65,t:62}, fbMc:3e9,    rev:'Apr 2026'},
+  {id:'databricks',   name:'Databricks',         cat:'Tech',         scheme:'RSA + TLS (data lakehouse APIs)',           cgId:null,                     pub:false, f:{mc:40,u:35,v:70,m:68,t:63}, fbMc:43e9,   rev:'Apr 2026'},
+  {id:'snowflake',    name:'Snowflake',          cat:'Tech',         scheme:'RSA + TLS (cloud data warehouse)',          cgId:null,                     pub:true,  f:{mc:42,u:40,v:70,m:68,t:63}, fbMc:55e9,   rev:'Apr 2026'},
+
+  /* ── CHIPS / SEMICONDUCTORS ─────────────────────────────────────────────── */
+  {id:'qualcomm',     name:'Qualcomm',           cat:'Company',      scheme:'RSA + ECC (modem / secure enclave IP)',    cgId:null,                     pub:true,  f:{mc:52,u:58,v:72,m:72,t:65}, fbMc:150e9,  rev:'Apr 2026'},
+  {id:'amd',          name:'AMD',                cat:'Company',      scheme:'RSA + ECC (CPU / GPU microcode signing)',  cgId:null,                     pub:true,  f:{mc:50,u:52,v:70,m:70,t:63}, fbMc:200e9,  rev:'Apr 2026'},
 ];
 
 const W_CHAINS=[
