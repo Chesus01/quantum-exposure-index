@@ -2528,7 +2528,7 @@ function renderWalletResults(addr){
   const top=all.slice().sort((a,b)=>b.risk-a.risk)[0];
   document.getElementById('w-addr-lbl').textContent=short(addr)+' &middot; '+selChains.size+' chain(s)';
   document.getElementById('w-totalvar').textContent=fmt(totalVar);
-  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(totalUsd)}<br>Assets found: ${all.length}<br>Avg risk score: ${avg}/100`;
+  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(totalUsd)}<br><strong>${all.length} token${all.length!==1?'s':''}</strong> &middot; scanning NFTs&hellip;<br>Avg risk score: ${avg}/100`;
   document.getElementById('w-sum').innerHTML=`
     <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(totalUsd)}</div><div class="mc-s">on-chain</div></div>
     <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(totalVar)}</div><div class="mc-s">quantum exposure</div></div>
@@ -2571,7 +2571,7 @@ function renderWalletResults(addr){
   document.getElementById('w-totalvar').textContent=fmt(grandTotalVar);
   const tokenCount=all.length;
   const nftCount=nftTotalItems;
-  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(grandTotalUsd)}<br>${tokenCount} token${tokenCount!==1?'s':''} &middot; ${nftCount} NFT${nftCount!==1?'s':''}<br>Avg risk score: ${avg}/100`;
+  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(grandTotalUsd)}<br><strong>${tokenCount} token${tokenCount!==1?'s':''}</strong> &middot; <strong>${nftCount} NFT${nftCount!==1?'s':''}</strong><br>Avg risk score: ${avg}/100`;
   document.getElementById('w-sum').innerHTML=`
     <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(grandTotalUsd)}</div><div class="mc-s">tokens + NFTs</div></div>
     <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(grandTotalVar)}</div><div class="mc-s">quantum exposure</div></div>
