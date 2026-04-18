@@ -2539,7 +2539,7 @@ function renderWalletResults(addr){
     const ct=res.tokens.reduce((s,t)=>s+t.usd,0);
     if(res.qnote)return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">Quantum-Native</div></div></div><div class="cbtotal" style="color:var(--g)">Risk: 4/100</div></div><div class="chain-msg">${res.qnote}</div></div>`;
     const rows=res.tokens.length>0?res.tokens.sort((a,b)=>b.usd-a.usd).map(t=>`<div class="tok-row"><div class="tsym">${t.sym}</div><div class="tname">${t.name}</div><div class="tbal">${fbal(t.raw,t.dec)}</div><div class="tusd" style="color:${t.usd>0?'var(--t)':'var(--tf)'}">${t.usd>0?fmt(t.usd):''}</div><div class="trisk"><div class="trs" style="color:${bcolor(t.band)}">${t.risk}</div><div class="tband ${bcls(t.band)}">${t.band}</div></div><div class="tvar">${t.usd>0?fmt(t.usd*(t.risk/100)*0.65):''}</div></div>`).join(''):`<div class="chain-msg" style="color:${res.error?'rgba(255,100,100,0.6)':'var(--tf)'}">${res.error||'No assets found on '+c.name+'.'}</div>`;
-    return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} &middot; ${res.tokens.length} asset(s)</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
+    return`<div class="chain-block"><div class="cb-hdr"><div class="cbhl"><div class="cbdot" style="background:${c.col}"></div><div><div class="cbname">${c.name}</div><div class="cbaddr">${short(addr)}</div></div></div><div class="cbtotal">${ct>0?fmt(ct):'$0'} &middot; ${res.tokens.length} token${res.tokens.length!==1?'s':''}</div></div>${res.tokens.length>0?`<div class="tok-hdr"><span>TOKEN</span><span>NAME</span><span style="text-align:right">BALANCE</span><span style="text-align:right">USD</span><span style="text-align:right">RISK</span><span style="text-align:right">AT RISK</span></div>`:''}<div style="overflow-x:auto;"><div style="min-width:480px;">${rows}</div></div>${res.error?`<div class="chain-msg" style="color:rgba(255,100,100,0.6);">${res.error}</div>`:''}</div>`;
   }).join('');
   // NFT section
   const nftSec=document.getElementById('w-nft-section');
@@ -2569,10 +2569,14 @@ function renderWalletResults(addr){
   const grandTotalUsd=totalUsd+nftTotalUsd;
   const grandTotalVar=totalVar+nftTotalVar;
   document.getElementById('w-totalvar').textContent=fmt(grandTotalVar);
-  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(grandTotalUsd)}<br>Assets found: ${all.length}${nftData?.totalNfts?` + ${nftData.totalNfts} NFTs`:''}<br>Avg risk score: ${avg}/100`;
+  const tokenCount=all.length;
+  const nftCount=nftTotalItems;
+  document.getElementById('w-vbr').innerHTML=`Portfolio value: ${fmt(grandTotalUsd)}<br>${tokenCount} token${tokenCount!==1?'s':''} &middot; ${nftCount} NFT${nftCount!==1?'s':''}<br>Avg risk score: ${avg}/100`;
   document.getElementById('w-sum').innerHTML=`
     <div class="mc"><div class="mc-l">Portfolio Value</div><div class="mc-v">${fmt(grandTotalUsd)}</div><div class="mc-s">tokens + NFTs</div></div>
     <div class="mc"><div class="mc-l">Value at Risk</div><div class="mc-v" style="color:var(--g)">${fmt(grandTotalVar)}</div><div class="mc-s">quantum exposure</div></div>
+    <div class="mc"><div class="mc-l">Tokens Found</div><div class="mc-v">${tokenCount}</div><div class="mc-s">across ${selChains.size} chain${selChains.size!==1?'s':''}</div></div>
+    <div class="mc"><div class="mc-l">NFTs Found</div><div class="mc-v">${nftCount}</div><div class="mc-s">${nftCount>0?'floor value tracked':'no NFT holdings'}</div></div>
     <div class="mc"><div class="mc-l">Avg Risk Score</div><div class="mc-v">${avg}/100</div><div class="mc-s">all assets</div></div>
     <div class="mc"><div class="mc-l">Highest Risk</div><div class="mc-v" style="color:${top?bcolor(top.band):'var(--td)'};font-size:.95rem;">${top?top.sym:''}</div><div class="mc-s">${top?top.band:'none'}</div></div>`;
   const bkdata=Object.values(scanData).map(res=>{const v=res.tokens.reduce((s,t)=>s+(t.usd||0)*(t.risk/100)*0.65,0);return{name:res.chain.name,col:res.chain.col,v};}).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
