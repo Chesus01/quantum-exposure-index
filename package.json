@@ -1,17 +1,15 @@
 {
-  "name": "quantum-exposure-index",
-  "version": "1.0.0",
+  "name": "blend-watch",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "description": "Tracks open Blur Blend loans and which ones are underwater, per collection.",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "index": "node indexer/index.mjs",
+    "sample": "node indexer/sample.mjs",
+    "serve": "npx --yes serve public -l 4173"
   },
   "dependencies": {
-    "@opensea/sdk": "^10.1.0",
-    "ethers": "^6.16.0",
-    "next": "14.2.3",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "ethers": "6.13.4"
   }
 }

@@ -1,0 +1,36 @@
+name: Refresh Blend loan data
+
+# Runs the indexer and commits fresh data. Vercel redeploys automatically on each push.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blend-watch
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci || npm install
+      - name: Run indexer
+        env:
+          RPC_URL: ${{ secrets.RPC_URL }}
+          OPENSEA_API_KEY: ${{ secrets.OPENSEA_API_KEY }}
+        run: npm run index
+      - name: Commit refreshed data
+        run: |
+          git config user.name "blend-watch-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/state.json public/data/loans.json
+          git diff --cached --quiet || git commit -m "data: refresh Blend loans"
+          git push
